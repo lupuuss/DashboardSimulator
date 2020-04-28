@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+mainClassName = 'p.lodz.dashboardsimulator.Main'
+
+group 'p.lodz.dashboardsimulator'
+version '1.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'io.reactivex.rxjava2:rxjava:2.2.19'
+    compile 'io.reactivex:rxjavafx:2.0.2'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
