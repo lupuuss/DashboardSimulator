@@ -98,6 +98,7 @@ public class EngineSimulator implements Engine {
     @Override
     public final void stop() {
         stopWorking.set(true);
+        engineState = null;
     }
 
     @Override
