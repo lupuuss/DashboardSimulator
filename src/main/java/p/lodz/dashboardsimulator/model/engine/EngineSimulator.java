@@ -1,18 +1,17 @@
 package p.lodz.dashboardsimulator.model.engine;
 
 import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observables.ConnectableObservable;
 import io.reactivex.schedulers.Schedulers;
 
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Simulates the behaviour of car engine.
  */
 public class EngineSimulator implements Engine {
-
-    private AtomicBoolean stopWorking = new AtomicBoolean(false);
 
     private final long noAcceleration = Double.doubleToLongBits(-1.0);
     private final long brakeAcceleration = Double.doubleToLongBits(-10.0);
@@ -28,7 +27,8 @@ public class EngineSimulator implements Engine {
 
     private final long betweenTicks;
 
-    private Observable<EngineState> engineState;
+    private ConnectableObservable<EngineState> engineState;
+    private Disposable sub;
 
     public EngineSimulator(double acceleration, double maximumSpeed, long betweenTicks) {
         this.accelerationConst = acceleration;
@@ -66,8 +66,10 @@ public class EngineSimulator implements Engine {
                         return Observable.empty();
                     }
                 })
-                .takeWhile((state) -> stopWorking.get())
-                .subscribeOn(Schedulers.computation());
+                .subscribeOn(Schedulers.computation())
+                .publish();
+
+        sub = engineState.connect();
     }
 
     private void determineAcceleration() {
@@ -97,8 +99,7 @@ public class EngineSimulator implements Engine {
 
     @Override
     public final void stop() {
-        stopWorking.set(true);
-        engineState = null;
+        sub.dispose();
     }
 
     @Override
