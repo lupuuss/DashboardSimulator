@@ -36,38 +36,29 @@ public class EngineSimulator implements Engine {
         this.betweenTicks = betweenTicks;
     }
 
-
     @Override
     public final void launch() {
 
-        engineState = Observable.interval(betweenTicks, TimeUnit.MILLISECONDS).flatMap(timer -> {
+        engineState = Observable
+                .interval(betweenTicks, TimeUnit.MILLISECONDS)
+                .map(timer -> {
 
-            System.out.println("Engine ThreadL:" + Thread.currentThread().getName());
+                    double tmpSpeed = Double.longBitsToDouble(currentSpeed.get());
 
-            double speedBeforeChange = Double.longBitsToDouble(currentSpeed.get());
-            double tmpSpeed = speedBeforeChange;
+                    tmpSpeed += Double.longBitsToDouble(currentAcceleration.get());
 
-            tmpSpeed += Double.longBitsToDouble(currentAcceleration.get());
+                    if (tmpSpeed > maximumSpeed) {
+                        currentSpeed.set(Double.doubleToLongBits(maximumSpeed));
+                    } else if (tmpSpeed < 0.0){
+                        currentSpeed.set(Double.doubleToLongBits(0.0));
+                    } else {
+                        currentSpeed.set(Double.doubleToLongBits(tmpSpeed));
+                    }
 
-            if (tmpSpeed > maximumSpeed) {
-                currentSpeed.set(Double.doubleToLongBits(maximumSpeed));
-            } else if (tmpSpeed < 0.0){
-                currentSpeed.set(Double.doubleToLongBits(0.0));
-            } else {
-                currentSpeed.set(Double.doubleToLongBits(tmpSpeed));
-            }
+                    return new EngineState(Double.longBitsToDouble(currentSpeed.get()), betweenTicks);
 
-            double speedAfterChange = Double.longBitsToDouble(currentSpeed.get());
-
-
-            if (speedBeforeChange != speedAfterChange) {
-
-                return Observable.just(new EngineState(speedAfterChange, betweenTicks));
-            } else  {
-                return Observable.empty();
-            }
-
-        }).observeOn(Schedulers.newThread());
+                })
+                .observeOn(Schedulers.newThread());
 
     }
 
