@@ -12,6 +12,6 @@ public class BasicStatisticsMonitor extends StatisticsMonitor {
 
     @Override
     protected void onEngineStateChange(EngineState engineState) {
-        System.out.println("Monitor Thread: " + Thread.currentThread().getName());
+
     }
 }
