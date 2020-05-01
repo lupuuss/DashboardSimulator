@@ -14,4 +14,5 @@ public interface LightsController {
 
     Observable<Boolean> getLeftTurnState();
     Observable<Boolean> getRightTurnState();
+    Observable<LightsMode> getMainLightMode();
 }
