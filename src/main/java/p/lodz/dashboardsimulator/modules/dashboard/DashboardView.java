@@ -1,7 +1,7 @@
 package p.lodz.dashboardsimulator.modules.dashboard;
 
 import p.lodz.dashboardsimulator.base.View;
-import p.lodz.dashboardsimulator.model.monitor.EngineStats;
+import p.lodz.dashboardsimulator.model.monitor.EngineStatistics;
 
 public interface DashboardView extends View {
 
@@ -9,5 +9,5 @@ public interface DashboardView extends View {
 
     void updateTotalMileage(double mileage);
 
-    void updateEngineStats(EngineStats engineStats);
+    void updateEngineStats(EngineStatistics engineStatistics);
 }

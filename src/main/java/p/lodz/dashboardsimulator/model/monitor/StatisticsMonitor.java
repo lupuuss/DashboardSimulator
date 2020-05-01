@@ -4,5 +4,5 @@ import io.reactivex.Observable;
 
 public abstract class StatisticsMonitor extends EngineMonitor {
 
-    public abstract Observable<EngineStats> getCurrentStats();
+    public abstract Observable<EngineStatistics> getCurrentStats();
 }

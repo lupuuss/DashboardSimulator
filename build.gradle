@@ -14,6 +14,20 @@ repositories {
     mavenCentral()
 }
 
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'p.lodz.dashboardsimulator.Main'
+        )
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+
 dependencies {
     compile 'io.reactivex.rxjava2:rxjava:2.2.19'
     compile 'io.reactivex:rxjavafx:2.0.2'

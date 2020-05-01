@@ -6,7 +6,7 @@ import p.lodz.dashboardsimulator.model.engine.Engine;
 import p.lodz.dashboardsimulator.model.engine.EngineState;
 import p.lodz.dashboardsimulator.model.light.LightsController;
 import p.lodz.dashboardsimulator.model.monitor.StatisticsMonitor;
-import p.lodz.dashboardsimulator.model.monitor.EngineStats;
+import p.lodz.dashboardsimulator.model.monitor.EngineStatistics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,11 +35,11 @@ public class DashboardPresenter extends Presenter<DashboardView> {
 
         Disposable engineSub = engine.getEngineState()
                 .observeOn(currentScheduler)
-                .subscribe(this::onNewEngineState);
+                .subscribe(this::updateStateOnView);
 
         Disposable monitorSub = engineMonitor.getCurrentStats()
                 .observeOn(currentScheduler)
-                .subscribe(this::onNewEngineStats);
+                .subscribe(this::updateStatisticsOnView);
 
         subscriptions.add(engineSub);
         subscriptions.add(monitorSub);
@@ -47,11 +47,11 @@ public class DashboardPresenter extends Presenter<DashboardView> {
         engine.setAcceleration(true);
     }
 
-    private void onNewEngineStats(EngineStats engineStats) {
+    private void updateStatisticsOnView(EngineStatistics engineStats) {
         view.updateEngineStats(engineStats);
     }
 
-    private void onNewEngineState(EngineState engineState) {
+    private void updateStateOnView(EngineState engineState) {
         view.updateSpeed(engineState.getSpeed());
     }
 
