@@ -4,23 +4,23 @@ import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observables.ConnectableObservable;
 import io.reactivex.schedulers.Schedulers;
+import p.lodz.dashboardsimulator.utils.AtomicDouble;
 
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Simulates the behaviour of car engine.
  */
 public class EngineSimulator implements Engine {
 
-    private final long noAcceleration = Double.doubleToLongBits(-1.0);
-    private final long brakeAcceleration = Double.doubleToLongBits(-10.0);
+    private final double noAcceleration = -1.0;
+    private final double brakeAcceleration = -10.0;
 
     private final double accelerationConst;
     private final double maximumSpeed;
 
-    private AtomicLong currentAcceleration = new AtomicLong(Double.doubleToLongBits(noAcceleration));
-    private AtomicLong currentSpeed = new AtomicLong(Double.doubleToLongBits(0.0));
+    private AtomicDouble currentAcceleration = new AtomicDouble(noAcceleration);
+    private AtomicDouble currentSpeed = new AtomicDouble(0.0);
 
     private boolean acceleration = false;
     private boolean brake = false;
@@ -43,19 +43,17 @@ public class EngineSimulator implements Engine {
                 .interval(betweenTicks, TimeUnit.MILLISECONDS)
                 .map(timer -> {
 
-                    double tmpSpeed = Double.longBitsToDouble(currentSpeed.get());
+                    double tmpSpeed = currentSpeed.get();
 
-                    tmpSpeed += Double.longBitsToDouble(currentAcceleration.get());
+                    tmpSpeed += currentAcceleration.get();
 
                     if (tmpSpeed > maximumSpeed) {
-                        currentSpeed.set(Double.doubleToLongBits(maximumSpeed));
-                    } else if (tmpSpeed < 0.0){
-                        currentSpeed.set(Double.doubleToLongBits(0.0));
+                        currentSpeed.set(maximumSpeed);
                     } else {
-                        currentSpeed.set(Double.doubleToLongBits(tmpSpeed));
-                    }
+                        currentSpeed.set(Math.max(tmpSpeed, 0.0));
+                    };
 
-                    return new EngineState(Double.longBitsToDouble(currentSpeed.get()), betweenTicks);
+                    return new EngineState(currentSpeed.get(), betweenTicks);
                 })
                 .subscribeOn(Schedulers.computation())
                 .publish();
@@ -70,7 +68,7 @@ public class EngineSimulator implements Engine {
         } else if (acceleration) {
             double accelerationValue = accelerationConst * betweenTicks / 1000;
 
-            currentAcceleration.set(Double.doubleToLongBits(accelerationValue));
+            currentAcceleration.set(accelerationValue);
         } else {
             currentAcceleration.set(noAcceleration);
         }
