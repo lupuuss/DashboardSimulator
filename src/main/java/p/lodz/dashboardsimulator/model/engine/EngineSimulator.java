@@ -41,10 +41,9 @@ public class EngineSimulator implements Engine {
 
         engineState = Observable
                 .interval(betweenTicks, TimeUnit.MILLISECONDS)
-                .flatMap(timer -> {
+                .map(timer -> {
 
-                    double speedBeforeChange = Double.longBitsToDouble(currentSpeed.get());
-                    double tmpSpeed = speedBeforeChange;
+                    double tmpSpeed = Double.longBitsToDouble(currentSpeed.get());
 
                     tmpSpeed += Double.longBitsToDouble(currentAcceleration.get());
 
@@ -56,15 +55,7 @@ public class EngineSimulator implements Engine {
                         currentSpeed.set(Double.doubleToLongBits(tmpSpeed));
                     }
 
-                    double speedAfterChange = Double.longBitsToDouble(currentSpeed.get());
-
-
-                    if (speedBeforeChange != speedAfterChange) {
-
-                        return Observable.just(new EngineState(speedAfterChange, betweenTicks));
-                    } else {
-                        return Observable.empty();
-                    }
+                    return new EngineState(Double.longBitsToDouble(currentSpeed.get()), betweenTicks);
                 })
                 .subscribeOn(Schedulers.computation())
                 .publish();
