@@ -34,11 +34,11 @@ public class DashboardPresenter extends Presenter<DashboardView> {
         engineMonitor.watch(engine);
 
         Disposable engineSub = engine.getEngineState()
-                .subscribeOn(currentScheduler)
+                .observeOn(currentScheduler)
                 .subscribe(this::onNewEngineState);
 
         Disposable monitorSub = engineMonitor.getCurrentStats()
-                .subscribeOn(currentScheduler)
+                .observeOn(currentScheduler)
                 .subscribe(this::onNewEngineStats);
 
         subscriptions.add(engineSub);

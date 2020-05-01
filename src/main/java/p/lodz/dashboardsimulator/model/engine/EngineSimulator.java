@@ -1,18 +1,17 @@
 package p.lodz.dashboardsimulator.model.engine;
 
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicLong;
-
 import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observables.ConnectableObservable;
 import io.reactivex.schedulers.Schedulers;
+
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Simulates the behaviour of car engine.
  */
 public class EngineSimulator implements Engine {
-
-    private AtomicBoolean stopWorking = new AtomicBoolean(false);
 
     private final long noAcceleration = Double.doubleToLongBits(-1.0);
     private final long brakeAcceleration = Double.doubleToLongBits(-10.0);
@@ -28,7 +27,8 @@ public class EngineSimulator implements Engine {
 
     private final long betweenTicks;
 
-    private Observable<EngineState> engineState;
+    private ConnectableObservable<EngineState> engineState;
+    private Disposable sub;
 
     public EngineSimulator(double acceleration, double maximumSpeed, long betweenTicks) {
         this.accelerationConst = acceleration;
@@ -41,9 +41,10 @@ public class EngineSimulator implements Engine {
 
         engineState = Observable
                 .interval(betweenTicks, TimeUnit.MILLISECONDS)
-                .map(timer -> {
+                .flatMap(timer -> {
 
-                    double tmpSpeed = Double.longBitsToDouble(currentSpeed.get());
+                    double speedBeforeChange = Double.longBitsToDouble(currentSpeed.get());
+                    double tmpSpeed = speedBeforeChange;
 
                     tmpSpeed += Double.longBitsToDouble(currentAcceleration.get());
 
@@ -55,14 +56,24 @@ public class EngineSimulator implements Engine {
                         currentSpeed.set(Double.doubleToLongBits(tmpSpeed));
                     }
 
-                    return new EngineState(Double.longBitsToDouble(currentSpeed.get()), betweenTicks);
+                    double speedAfterChange = Double.longBitsToDouble(currentSpeed.get());
 
+
+                    if (speedBeforeChange != speedAfterChange) {
+
+                        return Observable.just(new EngineState(speedAfterChange, betweenTicks));
+                    } else {
+                        return Observable.empty();
+                    }
                 })
-                .observeOn(Schedulers.newThread());
+                .subscribeOn(Schedulers.computation())
+                .publish();
 
+        sub = engineState.connect();
     }
 
     private void determineAcceleration() {
+
         if (brake) {
             currentAcceleration.set(brakeAcceleration);
         } else if (acceleration) {
@@ -88,7 +99,7 @@ public class EngineSimulator implements Engine {
 
     @Override
     public final void stop() {
-        stopWorking.set(true);
+        sub.dispose();
     }
 
     @Override
