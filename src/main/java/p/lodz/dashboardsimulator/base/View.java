@@ -2,7 +2,20 @@ package p.lodz.dashboardsimulator.base;
 
 import io.reactivex.Scheduler;
 
-public interface View {
+public abstract class View<T extends Presenter<?>> {
 
-    Scheduler getViewScheduler();
+    protected T presenter;
+
+
+    public void attach(T presenter) {
+        this.presenter = presenter;
+    }
+
+    public void detach() {
+        presenter = null;
+    }
+
+    public abstract void close();
+
+    public abstract Scheduler getViewScheduler();
 }

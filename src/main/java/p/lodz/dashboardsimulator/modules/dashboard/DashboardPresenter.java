@@ -43,8 +43,14 @@ public class DashboardPresenter extends Presenter<DashboardView> {
 
         subscriptions.add(engineSub);
         subscriptions.add(monitorSub);
+    }
 
-        engine.setAcceleration(true);
+    public void setEngineAcceleration(boolean isOn) {
+        engine.setAcceleration(isOn);
+    }
+
+    public void setEngineBrake(boolean isOn) {
+        engine.setBrake(isOn);
     }
 
     private void updateStatisticsOnView(EngineStatistics engineStats) {
@@ -61,5 +67,9 @@ public class DashboardPresenter extends Presenter<DashboardView> {
 
         engine.stop();
         subscriptions.forEach(Disposable::dispose);
+    }
+
+    public void closeView() {
+        view.close();
     }
 }
