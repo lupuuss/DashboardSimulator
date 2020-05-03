@@ -5,6 +5,8 @@ import p.lodz.dashboardsimulator.base.Presenter;
 import p.lodz.dashboardsimulator.model.engine.Engine;
 import p.lodz.dashboardsimulator.model.engine.EngineState;
 import p.lodz.dashboardsimulator.model.light.LightsController;
+import p.lodz.dashboardsimulator.model.monitor.Mileage;
+import p.lodz.dashboardsimulator.model.monitor.MileageMonitor;
 import p.lodz.dashboardsimulator.model.monitor.StatisticsMonitor;
 import p.lodz.dashboardsimulator.model.monitor.EngineStatistics;
 
@@ -16,13 +18,20 @@ public class DashboardPresenter extends Presenter<DashboardView> {
     private Engine engine;
     private StatisticsMonitor engineMonitor;
     private LightsController lightsController;
+    private MileageMonitor mileageMonitor;
 
     private List<Disposable> subscriptions = new ArrayList<>();
 
-    public DashboardPresenter(Engine engine, StatisticsMonitor engineMonitor, LightsController lightsController) {
+    public DashboardPresenter(
+            Engine engine,
+            StatisticsMonitor engineMonitor,
+            LightsController lightsController,
+            MileageMonitor mileageMonitor
+    ) {
         this.engine = engine;
         this.engineMonitor = engineMonitor;
         this.lightsController = lightsController;
+        this.mileageMonitor = mileageMonitor;
     }
 
     @Override
@@ -32,17 +41,27 @@ public class DashboardPresenter extends Presenter<DashboardView> {
         engine.launch();
 
         engineMonitor.watch(engine);
+        mileageMonitor.watch(engine);
 
         Disposable engineSub = engine.getEngineState()
                 .observeOn(currentScheduler)
                 .subscribe(this::updateStateOnView);
 
-        Disposable monitorSub = engineMonitor.getCurrentStats()
+        Disposable statisticsSub = engineMonitor.getCurrentStats()
                 .observeOn(currentScheduler)
                 .subscribe(this::updateStatisticsOnView);
 
+        Disposable mileageSub = mileageMonitor.getMileage()
+                .observeOn(currentScheduler)
+                .subscribe(this::updateMileageOnView);
+
         subscriptions.add(engineSub);
-        subscriptions.add(monitorSub);
+        subscriptions.add(statisticsSub);
+        subscriptions.add(mileageSub);
+    }
+
+    private void updateMileageOnView(Mileage mileage) {
+        view.updateMileage(mileage);
     }
 
     public void setEngineAcceleration(boolean isOn) {

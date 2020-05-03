@@ -18,6 +18,8 @@ public class AtomicDouble {
     }
 
     public double addAndGet(double add) {
-        return this.value.updateAndGet(i -> Double.doubleToLongBits(Double.longBitsToDouble(i) + add));
+        return Double.longBitsToDouble(
+                this.value.updateAndGet(i -> Double.doubleToLongBits(Double.longBitsToDouble(i) + add))
+        );
     }
 }

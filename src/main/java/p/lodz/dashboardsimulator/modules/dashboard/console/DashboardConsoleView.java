@@ -5,13 +5,14 @@ import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import p.lodz.dashboardsimulator.model.monitor.EngineStatistics;
+import p.lodz.dashboardsimulator.model.monitor.Mileage;
 import p.lodz.dashboardsimulator.modules.dashboard.DashboardPresenter;
 import p.lodz.dashboardsimulator.modules.dashboard.DashboardView;
 
 public class DashboardConsoleView extends DashboardView {
 
     private double speed;
-    private double mileage;
+    private Mileage mileage;
     private EngineStatistics stats;
 
     private Observable<String> commands;
@@ -50,7 +51,7 @@ public class DashboardConsoleView extends DashboardView {
     }
 
     @Override
-    public synchronized void updateTotalMileage(double mileage) {
+    public synchronized void updateMileage(Mileage mileage) {
         this.mileage = mileage;
         printStatus();
     }
