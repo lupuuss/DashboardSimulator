@@ -5,6 +5,7 @@ import p.lodz.dashboardsimulator.base.Presenter;
 import p.lodz.dashboardsimulator.model.engine.Engine;
 import p.lodz.dashboardsimulator.model.engine.EngineState;
 import p.lodz.dashboardsimulator.model.light.LightsController;
+import p.lodz.dashboardsimulator.model.light.LightsMode;
 import p.lodz.dashboardsimulator.model.monitor.Mileage;
 import p.lodz.dashboardsimulator.model.monitor.MileageMonitor;
 import p.lodz.dashboardsimulator.model.monitor.StatisticsMonitor;
@@ -16,6 +17,7 @@ import java.util.List;
 public class DashboardPresenter extends Presenter<DashboardView> {
 
     private Engine engine;
+
     private StatisticsMonitor engineMonitor;
     private LightsController lightsController;
     private MileageMonitor mileageMonitor;
@@ -60,6 +62,14 @@ public class DashboardPresenter extends Presenter<DashboardView> {
         subscriptions.add(mileageSub);
     }
 
+    private void updateStatisticsOnView(EngineStatistics engineStats) {
+        view.updateEngineStats(engineStats);
+    }
+
+    private void updateStateOnView(EngineState engineState) {
+        view.updateSpeed(engineState.getSpeed());
+    }
+
     private void updateMileageOnView(Mileage mileage) {
         view.updateMileage(mileage);
     }
@@ -72,12 +82,36 @@ public class DashboardPresenter extends Presenter<DashboardView> {
         engine.setBrake(isOn);
     }
 
-    private void updateStatisticsOnView(EngineStatistics engineStats) {
-        view.updateEngineStats(engineStats);
+    public void resetMileage(int n) {
+        mileageMonitor.resetMileage(n);
     }
 
-    private void updateStateOnView(EngineState engineState) {
-        view.updateSpeed(engineState.getSpeed());
+    public void changeLightMode(LightsMode mode) {
+        lightsController.setMainLightMode(mode);
+    }
+
+    public void triggerLeftTurnSignal() {
+        lightsController.triggerLeftTurnSignal();
+    }
+
+    public void triggerRightTurnSignal() {
+        lightsController.triggerRightTurnSignal();
+    }
+
+    public void setFogBackLight(boolean areOn) {
+        lightsController.setFogBackLights(areOn);
+    }
+
+    public void setFogFrontLight(boolean areOn) {
+        lightsController.setFogFrontLights(areOn);
+    }
+
+    public void activateCruiseControl(double speed) {
+        // TODO
+    }
+
+    public void deactivateCruiseControl() {
+        // TODO
     }
 
     @Override
