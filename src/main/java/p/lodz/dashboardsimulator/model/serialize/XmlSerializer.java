@@ -67,8 +67,6 @@ public class XmlSerializer implements Serializer {
 
             throw new SerializationException(e);
 
-        } finally {
-            System.out.println("File check done!");
         }
     }
 

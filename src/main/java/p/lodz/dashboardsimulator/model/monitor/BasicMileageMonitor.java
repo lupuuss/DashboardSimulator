@@ -57,6 +57,7 @@ public class BasicMileageMonitor extends MileageMonitor {
         super.watch(engine);
     }
 
+    @Override
     public void closeAndSave() {
 
         List<Double> resettable = resettableMileage
@@ -67,6 +68,7 @@ public class BasicMileageMonitor extends MileageMonitor {
         try {
             serializer.serialize(serializationKey, new Mileage(totalMileage.get(), resettable));
         } catch (SerializationException e) {
+            System.out.println("Mileage couldn't be saved!");
             e.printStackTrace();
         }
     }
@@ -79,9 +81,8 @@ public class BasicMileageMonitor extends MileageMonitor {
     @Override
     public Observable<Mileage> getMileage() {
         return engineState.map(state -> {
-            double dist = (state.getSpeed() / (60 * 60 * 1000)) * state.getBetweenTicks();
 
-            System.out.println(totalMileage.get());
+            double dist = (state.getSpeed() / (60 * 60 * 1000)) * state.getBetweenTicks();
 
             double total = totalMileage.addAndGet(dist);
             List<Double> resettable = resettableMileage

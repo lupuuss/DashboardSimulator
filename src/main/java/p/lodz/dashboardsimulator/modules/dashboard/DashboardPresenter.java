@@ -85,6 +85,7 @@ public class DashboardPresenter extends Presenter<DashboardView> {
         super.detach();
 
         engine.stop();
+        mileageMonitor.closeAndSave();
         subscriptions.forEach(Disposable::dispose);
     }
 

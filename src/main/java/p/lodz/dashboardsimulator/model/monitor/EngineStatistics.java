@@ -1,6 +1,10 @@
 package p.lodz.dashboardsimulator.model.monitor;
 
+import p.lodz.dashboardsimulator.utils.Utils;
+
 public class EngineStatistics {
+
+    private final int roundToDecimal = 3;
 
     private double avgSpeed;
     private double maxSpeed;
@@ -39,11 +43,11 @@ public class EngineStatistics {
     @Override
     public String toString() {
         return "EngineStatistics{" +
-                "avgSpeed=" + avgSpeed +
-                ", maxSpeed=" + maxSpeed +
-                ", travelTime=" + travelTime +
-                ", distance=" + distance +
-                ", avgFuelConsumption=" + avgFuelConsumption +
+                "avg=" + Utils.round(avgSpeed, roundToDecimal) +
+                ", max=" + Utils.round(maxSpeed, roundToDecimal) +
+                ", time=" + travelTime +
+                ", dist=" + Utils.round(distance, roundToDecimal) +
+                ", avgFuel=" + Utils.round(avgFuelConsumption,roundToDecimal) +
                 '}';
     }
 }
