@@ -1,4 +1,4 @@
-package p.lodz.dashboardsimulator.model.monitor;
+package p.lodz.dashboardsimulator.model.monitor.odometer;
 
 import io.reactivex.Observable;
 import p.lodz.dashboardsimulator.model.engine.Engine;
@@ -11,7 +11,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class BasicMileageMonitor extends MileageMonitor {
+/**
+ * Basic implementation of Odometer. It monitors every “tick” of an engine and calculates traveled distance.
+ */
+public class BasicOdometer extends Odometer {
 
     private AtomicDouble totalMileage;
     private List<AtomicDouble> resettableMileage;
@@ -21,11 +24,19 @@ public class BasicMileageMonitor extends MileageMonitor {
 
     private final String serializationKey = "backup";
 
-    public BasicMileageMonitor(Serializer serializer, int resettableCount) {
+    /**
+     * @param serializer Implementation of serializer that is required to persist mileage data.
+     * @param resettableCount Amount of resettable mileages.
+     */
+    public BasicOdometer(Serializer serializer, int resettableCount) {
         this.serializer = serializer;
         this.resettableCount = resettableCount;
     }
 
+    /**
+     * Loads persisted mileage data.
+     * @param engine Instance of {@link Engine} that will be monitored.
+     */
     @Override
     public void watch(Engine engine) {
 
@@ -57,6 +68,9 @@ public class BasicMileageMonitor extends MileageMonitor {
         super.watch(engine);
     }
 
+    /**
+     * As its mentioned in {@link Odometer#closeAndSave()}, it persists produced data.
+     */
     @Override
     public void closeAndSave() {
 
@@ -73,11 +87,19 @@ public class BasicMileageMonitor extends MileageMonitor {
         }
     }
 
+    /**
+     * Returns amount of resettable mileages.
+     * @return Amount of resettable mileages.
+     */
     @Override
     public int getResettableCount() {
         return resettableMileage.size();
     }
 
+    /**
+     * Returns observable mileage.
+     * @return Instance of {@link Observable} that allows to watch {@link Mileage}
+     */
     @Override
     public Observable<Mileage> getMileage() {
         return engineState.map(state -> {
@@ -94,6 +116,10 @@ public class BasicMileageMonitor extends MileageMonitor {
         });
     }
 
+    /**
+     * Resets chosen mileage.
+     * @param n Index of resettable odometer that we want to reset.
+     */
     @Override
     public void resetMileage(int n) {
         resettableMileage.get(n).set(0.0);

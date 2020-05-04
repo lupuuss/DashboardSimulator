@@ -4,8 +4,8 @@ import io.reactivex.Observable;
 import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import p.lodz.dashboardsimulator.model.monitor.EngineStatistics;
-import p.lodz.dashboardsimulator.model.monitor.Mileage;
+import p.lodz.dashboardsimulator.model.monitor.statistics.TravelStatistics;
+import p.lodz.dashboardsimulator.model.monitor.odometer.Mileage;
 import p.lodz.dashboardsimulator.modules.dashboard.DashboardPresenter;
 import p.lodz.dashboardsimulator.modules.dashboard.DashboardView;
 
@@ -13,7 +13,7 @@ public class DashboardConsoleView extends DashboardView {
 
     private double speed;
     private Mileage mileage;
-    private EngineStatistics stats;
+    private TravelStatistics stats;
 
     private Observable<String> commands;
     private Disposable commandsSubscription;
@@ -57,8 +57,8 @@ public class DashboardConsoleView extends DashboardView {
     }
 
     @Override
-    public synchronized void updateEngineStats(EngineStatistics engineStatistics) {
-        this.stats = engineStatistics;
+    public synchronized void updateEngineStats(TravelStatistics travelStatistics) {
+        this.stats = travelStatistics;
         printStatus();
     }
 

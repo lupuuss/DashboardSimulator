@@ -10,13 +10,20 @@ import p.lodz.dashboardsimulator.model.serialize.exceptions.XmlSerializerInitExc
 import java.io.*;
 import java.nio.file.NotDirectoryException;
 
+/**
+ * Implementation of {@link Serializer} that uses XStream to persist the data.
+ */
 public class XmlSerializer implements Serializer {
 
     private File rootDir;
     private XStream xStream = new XStream(new DomDriver());
 
+    /**
+     * @param rootDir Directory where all serialized objects will be palced.
+     */
     public XmlSerializer(String rootDir) {
         this.rootDir = new File(rootDir);
+
         try {
             assertRootDir();
         } catch (FileNotFoundException | NotDirectoryException e) {
@@ -70,6 +77,12 @@ public class XmlSerializer implements Serializer {
         }
     }
 
+    /**
+     * Serialize given object using XStream.
+     * @param key Unique key that identifies object (more about uniqueness in interface description).
+     * @param object Object to serialization.
+     * @throws SerializationException if IOException or XStreamException occurs during xStream.toXMl
+     */
     @Override
     public void serialize(String key, Object object) throws SerializationException {
 
@@ -86,6 +99,14 @@ public class XmlSerializer implements Serializer {
 
     }
 
+    /**
+     * Deserialize objet with given key using XStream.
+     * @param key Unique key that identifies the object (more about uniqueness in interface description).
+     * @param classObject Class of serialized object.
+     * @param <T> Describes type of deserialized object. It will be inferred from class param.
+     * @return Deserialized object.
+     * @throws DeserializationException if IOException or XStreamException occurs during xStream.fromXML
+     */
     @Override
     public <T> T deserialize(String key, Class<T> classObject) throws DeserializationException {
 

@@ -8,30 +8,30 @@ import io.reactivex.Observable;
 public interface Engine {
 
     /**
-     * Should start the engine and perform all the initialization of the engine.
+     * Starts the engine and perform all the initialization of the engine.
      */
     void launch();
 
     /**
-     * Should change state of the engine acceleration (on/off).
-     * @param isOn determines if engine should speed up or not.
+     * Changes state of the engine acceleration (on/off).
+     * @param isOn Determines if engine should speed up or not.
      */
     void setAcceleration(boolean isOn);
 
     /**
-     * Should change state of the engine brakes (on/off).
-     * @param isOn determines if engine brakes are on/off.
+     * Changes state of the engine brakes (on/off).
+     * @param isOn Determines if engine brakes are on or off.
      */
     void setBrake(boolean isOn);
 
     /**
-     * Should stop the engine and perform all clean up.
+     * Stops the engine and performs all clean up.
      */
     void stop();
 
     /**
-     * Should return observable object that allows to observe engine state.
-     * @return Observable engine state.
+     * Returns an observable object that allows to watch engine state.
+     * @return {@link Observable} with {@link EngineState}.
      */
     Observable<EngineState> getEngineState();
 }

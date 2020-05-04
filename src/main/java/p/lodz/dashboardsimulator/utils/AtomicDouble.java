@@ -3,6 +3,7 @@ package p.lodz.dashboardsimulator.utils;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class AtomicDouble {
+
     private AtomicLong value;
 
     public AtomicDouble(double initialValue) {

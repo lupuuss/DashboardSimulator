@@ -30,12 +30,21 @@ public class EngineSimulator implements Engine {
     private ConnectableObservable<EngineState> engineState;
     private Disposable sub;
 
+    /**
+     *
+     * @param acceleration Determines a constant engine accceleration.
+     * @param maximumSpeed Sets maximum speed that is allowed for this engine.
+     * @param betweenTicks Determines how often engine should propagate its state.
+     */
     public EngineSimulator(double acceleration, double maximumSpeed, long betweenTicks) {
         this.accelerationConst = acceleration;
         this.maximumSpeed = maximumSpeed;
         this.betweenTicks = betweenTicks;
     }
 
+    /**
+     * Creates observable and starts to publishing engine state. Engine is considerd “turned on”.
+     */
     @Override
     public final void launch() {
 
@@ -51,7 +60,7 @@ public class EngineSimulator implements Engine {
                         currentSpeed.set(maximumSpeed);
                     } else {
                         currentSpeed.set(Math.max(tmpSpeed, 0.0));
-                    };
+                    }
 
                     return new EngineState(currentSpeed.get(), betweenTicks);
                 })
@@ -74,23 +83,38 @@ public class EngineSimulator implements Engine {
         }
     }
 
+    /**
+     * If true engine speeds up according to its acceleration constant. Otherwise, the speed drops to 0 with constant -1 km/s^2.
+     * @param isOn Determines if engine should speed up or not.
+     */
     @Override
     public final void setAcceleration(boolean isOn) {
         this.acceleration = isOn;
         determineAcceleration();
     }
 
+    /**
+     * If true engine ignores acceleration state (on/off) and its speed drops to 0 with constant -10 km/s^2
+     * @param isOn Determines if engine brakes are on/off.
+     */
     @Override
     public final void setBrake(boolean isOn) {
         this.brake = isOn;
         determineAcceleration();
     }
 
+    /**
+     * Internal observable stops publishing and engine is considered “turned off”.
+     */
     @Override
     public final void stop() {
         sub.dispose();
     }
 
+    /**
+     * Returns observable engine state.
+     * @return {@link Observable} object that allows to watch {@link EngineState}.
+     */
     @Override
     public Observable<EngineState> getEngineState() {
         return engineState;

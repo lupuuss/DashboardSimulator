@@ -1,10 +1,14 @@
-package p.lodz.dashboardsimulator.model.monitor;
+package p.lodz.dashboardsimulator.model.monitor.statistics;
 
 import io.reactivex.Observable;
 import p.lodz.dashboardsimulator.utils.AtomicDouble;
 
 import java.util.concurrent.atomic.AtomicLong;
 
+/**
+ * Basic implementation of {@link StatisticsMonitor} that provides statistics
+ * updated every {@link p.lodz.dashboardsimulator.model.engine.Engine} update.
+ */
 public class BasicStatisticsMonitor extends StatisticsMonitor {
 
     private AtomicLong travelTime = new AtomicLong(0);
@@ -15,8 +19,12 @@ public class BasicStatisticsMonitor extends StatisticsMonitor {
 
     private AtomicDouble distance = new AtomicDouble(0.0);
 
+    /**
+     * Returns observable travel statistics.
+     * @return Instance of {@link Observable} that provides update on every engine update {@link TravelStatistics}.
+     */
     @Override
-    public Observable<EngineStatistics> getCurrentStats() {
+    public Observable<TravelStatistics> getCurrentStats() {
         return engineState
                 .map(state -> {
 
@@ -36,7 +44,7 @@ public class BasicStatisticsMonitor extends StatisticsMonitor {
                         maxSpeed.set(state.getSpeed());
                     }
 
-                    return new EngineStatistics(
+                    return new TravelStatistics(
                             avgSpeed.get(),
                             maxSpeed.get(),
                             travelTime.get(),
