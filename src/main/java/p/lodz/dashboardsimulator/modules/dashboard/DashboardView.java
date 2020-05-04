@@ -27,4 +27,34 @@ public abstract class DashboardView extends View<DashboardPresenter> {
      * @param travelStatistics instance of {@link TravelStatistics}.
      */
     public abstract void updateEngineStats(TravelStatistics travelStatistics);
+
+    /**
+     * Shows the state of left turn singal.
+     * @param isOn Determines if left turn signal is on/off.
+     */
+    public abstract void setLeftTurnSignalLight(boolean isOn);
+
+    /**
+     * Shows the state of right turn singal.
+     * @param isOn Determines if left turn signal is on/off.
+     */
+    public abstract void setRightTurnSignalLight(boolean isOn);
+
+    /**
+     * Shows the main lights mode that is currently set.
+     * @param isOn Determines current lights mode.
+     */
+    public abstract void setMainLightsMode(boolean isOn);
+
+    /**
+     * Shows the state of back fog light.
+     * @param isOn Determines if back fog light is on/off.
+     */
+    public abstract void setBackFogLightState(boolean isOn);
+
+    /**
+     * Shows the state of front fog light.
+     * @param isOn Determines if back fog light is on/off.
+     */
+    public abstract void setFrontFogLightState(boolean isOn);
 }

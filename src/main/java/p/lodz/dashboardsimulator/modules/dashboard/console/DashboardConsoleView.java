@@ -62,6 +62,31 @@ public class DashboardConsoleView extends DashboardView {
         printStatus();
     }
 
+    @Override
+    public void setLeftTurnSignalLight(boolean isOn) {
+
+    }
+
+    @Override
+    public void setRightTurnSignalLight(boolean isOn) {
+
+    }
+
+    @Override
+    public void setMainLightsMode(boolean isOn) {
+
+    }
+
+    @Override
+    public void setBackFogLightState(boolean isOn) {
+
+    }
+
+    @Override
+    public void setFrontFogLightState(boolean isOn) {
+
+    }
+
     private void printStatus() {
 
         System.out.print("\rSpeed: " + speed + " | Mileage: " + mileage + " | " + stats);
