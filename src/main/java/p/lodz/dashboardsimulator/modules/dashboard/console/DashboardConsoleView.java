@@ -4,12 +4,14 @@ import io.reactivex.Observable;
 import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import p.lodz.dashboardsimulator.base.Injector;
 import p.lodz.dashboardsimulator.model.monitor.statistics.TravelStatistics;
 import p.lodz.dashboardsimulator.model.monitor.odometer.Mileage;
+import p.lodz.dashboardsimulator.modules.dashboard.DashboardInjector;
 import p.lodz.dashboardsimulator.modules.dashboard.DashboardPresenter;
 import p.lodz.dashboardsimulator.modules.dashboard.DashboardView;
 
-public class DashboardConsoleView extends DashboardView {
+public class DashboardConsoleView implements DashboardView {
 
     private double speed;
     private Mileage mileage;
@@ -18,13 +20,25 @@ public class DashboardConsoleView extends DashboardView {
     private Observable<String> commands;
     private Disposable commandsSubscription;
 
+    private DashboardPresenter presenter;
+
     public DashboardConsoleView(Observable<String> commands) {
         this.commands = commands;
     }
 
     @Override
-    public void attach(DashboardPresenter presenter) {
-        super.attach(presenter);
+    public void start(Injector injector) {
+
+        DashboardInjector dashboardInjector = (DashboardInjector) injector;
+
+        presenter = new DashboardPresenter(
+                dashboardInjector.getEngine(),
+                dashboardInjector.getStatisticsMonitor(),
+                dashboardInjector.getLightsController(),
+                dashboardInjector.getOdometer()
+        );
+
+        presenter.attach(this);
 
         commandsSubscription = commands.subscribe(this::notifyPresenter);
     }
@@ -95,6 +109,7 @@ public class DashboardConsoleView extends DashboardView {
     @Override
     public void close() {
         commandsSubscription.dispose();
+        presenter.detach();
     }
 
     @Override

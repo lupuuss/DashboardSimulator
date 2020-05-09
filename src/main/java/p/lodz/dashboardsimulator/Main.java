@@ -5,15 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import p.lodz.dashboardsimulator.model.engine.Engine;
-import p.lodz.dashboardsimulator.model.engine.EngineSimulator;
-import p.lodz.dashboardsimulator.model.monitor.odometer.BasicOdometer;
-import p.lodz.dashboardsimulator.model.monitor.odometer.Odometer;
-import p.lodz.dashboardsimulator.model.monitor.statistics.BasicStatisticsMonitor;
-import p.lodz.dashboardsimulator.model.monitor.statistics.StatisticsMonitor;
-import p.lodz.dashboardsimulator.model.serialize.Serializer;
-import p.lodz.dashboardsimulator.model.serialize.XmlSerializer;
-import p.lodz.dashboardsimulator.modules.dashboard.DashboardPresenter;
+import p.lodz.dashboardsimulator.base.GlobalInjector;
+import p.lodz.dashboardsimulator.modules.dashboard.DashboardInjector;
 import p.lodz.dashboardsimulator.modules.dashboard.DashboardView;
 import p.lodz.dashboardsimulator.modules.dashboard.console.ConsoleCommandsReader;
 import p.lodz.dashboardsimulator.modules.dashboard.console.DashboardConsoleView;
@@ -36,29 +29,28 @@ public class Main extends Application {
 
     private static void launchCli(String[] args) {
 
-        Engine engine = new EngineSimulator(20, 300, 200);
-        StatisticsMonitor statisticsMonitor = new BasicStatisticsMonitor();
-
-        Serializer serializer = new XmlSerializer(".\\serializable\\");
-
-        Odometer odometer = new BasicOdometer(serializer, 2);
-
-        DashboardPresenter presenter = new DashboardPresenter(engine, statisticsMonitor, null, odometer);
         ConsoleCommandsReader reader = new ConsoleCommandsReader();
-
         DashboardView view = new DashboardConsoleView(reader.read());
 
-        view.attach(presenter);
-        presenter.attach(view);
+        GlobalInjector globalInjector = new GlobalInjector();
+        DashboardInjector dashboardInjector = new DashboardInjector();
+
+        globalInjector.init(null);
+        dashboardInjector.init(globalInjector);
+
+        view.start(dashboardInjector);
 
         reader.await();
-
-        presenter.detach();
-        view.detach();
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
+        GlobalInjector globalInjector = new GlobalInjector();
+        DashboardInjector dashboardInjector = new DashboardInjector();
+
+        globalInjector.init(null);
+        dashboardInjector.init(globalInjector);
 
         Parent root;
         root = FXMLLoader.load(getClass().getResource("/dashboard.fxml"));

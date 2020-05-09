@@ -10,7 +10,8 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<HBox disable="true" prefHeight="400.0" prefWidth="1280.0" style="-fx-background-color: #231F20;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<HBox disable="true" prefHeight="400.0" prefWidth="1280.0" style="-fx-background-color: #231F20;"
+      xmlns="http://javafx.com/javafx/11.0.1">
    <VBox prefHeight="400.0" prefWidth="182.0">
       <Circle radius="90.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
          <VBox.margin>
