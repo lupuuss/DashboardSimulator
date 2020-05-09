@@ -67,6 +67,8 @@ public class DashboardPresenter extends Presenter<DashboardView> {
         subscriptions.add(engineSub);
         subscriptions.add(statisticsSub);
         subscriptions.add(mileageSub);
+
+        engine.setAcceleration(true);
     }
 
     private void updateStatisticsOnView(TravelStatistics engineStats) {
@@ -117,7 +119,7 @@ public class DashboardPresenter extends Presenter<DashboardView> {
      * Notifies presenter about user intent to switch left turn signal state.
      */
     public void triggerLeftTurnSignal() {
-        lightsController.triggerLeftTurnSignal();
+        view.setLeftTurnSignalLight(true);
     }
 
     /**

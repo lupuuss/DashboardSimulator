@@ -10,24 +10,24 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<HBox disable="true" prefHeight="400.0" prefWidth="1280.0" style="-fx-background-color: #231F20;"
-      xmlns="http://javafx.com/javafx/11.0.1">
+<?import eu.hansolo.medusa.Gauge?>
+<HBox prefHeight="400.0" prefWidth="1280.0" style="-fx-background-color: #231F20;"
+      xmlns="http://javafx.com/javafx/11.0.1"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="p.lodz.dashboardsimulator.modules.dashboard.DashboardGuiView">
    <VBox prefHeight="400.0" prefWidth="182.0">
-      <Circle radius="90.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
-         <VBox.margin>
-            <Insets left="15.0" top="15.0" />
-         </VBox.margin>
-      </Circle>
+
+      <Gauge fx:id="tachometer" backgroundPaint="black" maxValue="300"/>
+
       <HBox prefHeight="100.0" prefWidth="200.0">
          <VBox.margin>
             <Insets left="15.0" top="50.0"/>
          </VBox.margin>
-         <StackPane prefHeight="100.0" prefWidth="180.0">
+         <StackPane prefHeight="100.0" prefWidth="180.0" onMouseClicked="#onClickLeftTurn">
             <ImageView fitHeight="95.0" fitWidth="95.0" pickOnBounds="true" preserveRatio="true">
-               <Image url="@./imgs/side_off.png"/>
+               <Image url="@./imgs/side_off.png" />
             </ImageView>
-            <ImageView id="turn-left" fitHeight="95.0" fitWidth="95.0" pickOnBounds="true" preserveRatio="true"
-                       visible="false">
+            <ImageView fx:id="turnLeft" fitHeight="95.0" fitWidth="95.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <Image url="@./imgs/side_on.png"/>
             </ImageView>
          </StackPane>
@@ -36,18 +36,18 @@
                        preserveRatio="true">
                <Image url="@./imgs/side_off.png"/>
             </ImageView>
-            <ImageView id="turn-right" fitHeight="95.0" fitWidth="95.0" nodeOrientation="RIGHT_TO_LEFT"
+            <ImageView fx:id="turnRight" fitHeight="95.0" fitWidth="95.0" nodeOrientation="RIGHT_TO_LEFT"
                        pickOnBounds="true" preserveRatio="true" visible="false">
                <Image url="@./imgs/side_on.png"/>
             </ImageView>
          </StackPane>
       </HBox>
    </VBox>
-   <Circle radius="150.0" >
+   <Gauge fx:id="speedometer" backgroundPaint="black" maxValue="300">
       <HBox.margin>
          <Insets left="20.0" top="50.0" />
       </HBox.margin>
-   </Circle>
+   </Gauge>
    <VBox prefHeight="400.0" prefWidth="273.0">
       <opaqueInsets>
          <Insets left="15.0" />
@@ -67,7 +67,7 @@
                   </StackPane.margin>
                   <Image url="@./imgs/position_off.png" />
                </ImageView>
-               <ImageView id="position-left" fitHeight="90.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <ImageView fx:id="positionLeft" fitHeight="90.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" visible="false">
                   <StackPane.margin>
                      <Insets bottom="10.0" right="15.0" top="15.0" />
                   </StackPane.margin>
@@ -75,7 +75,7 @@
                </ImageView>
             </StackPane>
             <StackPane prefHeight="150.0" prefWidth="200.0">
-               <ImageView id="fog-left" fitHeight="90.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
+               <ImageView fx:id="fogLeft" fitHeight="90.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                   <StackPane.margin>
                      <Insets bottom="10.0" right="15.0" />
                   </StackPane.margin>
@@ -89,7 +89,7 @@
                </ImageView>
             </StackPane>
             <StackPane prefHeight="150.0" prefWidth="200.0">
-               <ImageView id="lowbeam-light" fitHeight="90.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
+               <ImageView fx:id="lowbeamLight" fitHeight="90.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                   <StackPane.margin>
                      <Insets bottom="10.0" right="15.0" />
                   </StackPane.margin>
@@ -111,7 +111,7 @@
                   </StackPane.margin>
                   <Image url="@./imgs/position_off.png" />
                </ImageView>
-               <ImageView id="position-right" fitHeight="90.0" fitWidth="140.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true" visible="false">
+               <ImageView fx:id="positionRight" fitHeight="90.0" fitWidth="140.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true" visible="false">
                   <StackPane.margin>
                      <Insets bottom="10.0" top="15.0" />
                   </StackPane.margin>
@@ -125,7 +125,7 @@
                   </StackPane.margin>
                   <Image url="@./imgs/fog_off.png" />
                </ImageView>
-               <ImageView id="fog-right" fitHeight="90.0" fitWidth="140.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true" visible="false">
+               <ImageView fx:id="fogRight" fitHeight="90.0" fitWidth="140.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true" visible="false">
                   <StackPane.margin>
                      <Insets bottom="10.0" />
                   </StackPane.margin>
@@ -139,7 +139,7 @@
                   </StackPane.margin>
                   <Image url="@./imgs/road_off.png" />
                </ImageView>
-               <ImageView id="road-light" fitHeight="90.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <ImageView fx:id="roadLight" fitHeight="90.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" visible="false">
                   <StackPane.margin>
                      <Insets bottom="10.0" />
                   </StackPane.margin>
@@ -162,12 +162,12 @@
             </Label>
          </VBox>
          <VBox prefHeight="200.0" prefWidth="100.0">
-            <Label id="odometer" style="-fx-text-fill: #f0f8ff;" text="0">
+            <Label fx:id="odometer" style="-fx-text-fill: #f0f8ff;" text="0">
                <font>
                   <Font size="23.0" />
                </font>
             </Label>
-            <Label id="daily-odometer" style="-fx-text-fill: #f0f8ff;" text="0">
+            <Label fx:id="dailyOdometer" style="-fx-text-fill: #f0f8ff;" text="0">
                <font>
                   <Font size="23.0" />
                </font>
@@ -203,27 +203,27 @@
       </Label>
    </VBox>
    <VBox prefHeight="400.0" prefWidth="148.0">
-      <Label id="max-speed" style="-fx-label-padding: 15; -fx-text-fill: #f0f8ff;" text="0">
+      <Label fx:id="maxSpeed" style="-fx-label-padding: 15; -fx-text-fill: #f0f8ff;" text="0">
          <font>
             <Font size="23.0" />
          </font>
       </Label>
-      <Label id="avg-speed" style="-fx-label-padding: 15; -fx-text-fill: #f0f8ff;" text="0">
+      <Label fx:id="avgSpeed" style="-fx-label-padding: 15; -fx-text-fill: #f0f8ff;" text="0">
          <font>
             <Font size="23.0" />
          </font>
       </Label>
-      <Label id="travel-time" style="-fx-label-padding: 15; -fx-text-fill: #f0f8ff;" text="0">
+      <Label fx:id="travelTime" style="-fx-label-padding: 15; -fx-text-fill: #f0f8ff;" text="0">
          <font>
             <Font size="23.0" />
          </font>
       </Label>
-      <Label id="distance-passed" style="-fx-label-padding: 15; -fx-text-fill: #f0f8ff;" text="0">
+      <Label fx:id="distancePassed" style="-fx-label-padding: 15; -fx-text-fill: #f0f8ff;" text="0">
          <font>
             <Font size="23.0" />
          </font>
       </Label>
-      <Label id="avg-consumption" style="-fx-label-padding: 15; -fx-text-fill: #f0f8ff;" text="0">
+      <Label fx:id="avgConsumption" style="-fx-label-padding: 15; -fx-text-fill: #f0f8ff;" text="0">
          <font>
             <Font size="23.0" />
          </font>

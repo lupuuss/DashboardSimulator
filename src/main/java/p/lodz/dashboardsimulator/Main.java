@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import p.lodz.dashboardsimulator.base.GlobalInjector;
+import p.lodz.dashboardsimulator.modules.dashboard.DashboardGuiView;
 import p.lodz.dashboardsimulator.modules.dashboard.DashboardInjector;
 import p.lodz.dashboardsimulator.modules.dashboard.DashboardView;
 import p.lodz.dashboardsimulator.modules.dashboard.console.ConsoleCommandsReader;
@@ -52,11 +53,18 @@ public class Main extends Application {
         globalInjector.init(null);
         dashboardInjector.init(globalInjector);
 
-        Parent root;
-        root = FXMLLoader.load(getClass().getResource("/dashboard.fxml"));
+        FXMLLoader fxml = new FXMLLoader(getClass().getResource("/dashboard.fxml"));
+        Parent root = fxml.load();
+
+        DashboardGuiView view = fxml.getController();
+
+        view.start(dashboardInjector);
+
         primaryStage.setTitle("Car Dashboard");
         primaryStage.setScene(new Scene(root, 1280, 400));
+
         primaryStage.show();
 
+        primaryStage.setOnCloseRequest(event -> view.notifyPresenterCloseEvent());
     }
 }
