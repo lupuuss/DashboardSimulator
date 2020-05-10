@@ -11,13 +11,14 @@
 <?import javafx.scene.text.Font?>
 
 <?import eu.hansolo.medusa.Gauge?>
+<?import javafx.scene.control.Button?>
 <HBox prefHeight="400.0" prefWidth="1280.0" style="-fx-background-color: #231F20;"
       xmlns="http://javafx.com/javafx/11.0.1"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="p.lodz.dashboardsimulator.modules.dashboard.DashboardGuiView">
    <VBox prefHeight="400.0" prefWidth="182.0">
 
-      <Gauge fx:id="tachometer" backgroundPaint="black" maxValue="300"/>
+      <Gauge fx:id="tachometer" backgroundPaint="black" maxValue="6000"/>
 
       <HBox prefHeight="100.0" prefWidth="200.0">
          <VBox.margin>
@@ -149,27 +150,41 @@
          </VBox>
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0">
-         <VBox prefHeight="99.0" prefWidth="174.0">
-            <Label style="-fx-text-fill: #f0f8ff;" text="Odometer">
+         <VBox>
+            <Button text="R" style="-fx-background-color: #000" fx:id="resetOdometerOne"/>
+            <Button text="R" style="-fx-background-color: #000" fx:id="resetOdometerTwo"/>
+         </VBox>
+         <VBox prefHeight="99.0" prefWidth="200.0">
+            <Label style="-fx-text-fill: #f0f8ff;" text="Dailty odometer one">
                <font>
-                  <Font size="23.0" />
+                  <Font size="19.0" />
                </font>
             </Label>
-            <Label style="-fx-text-fill: #f0f8ff;" text="Dailty odometer">
+            <Label style="-fx-text-fill: #f0f8ff;" text="Dailty odometer two">
                <font>
-                  <Font size="23.0" />
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Label style="-fx-text-fill: #f0f8ff;" text="Odometer">
+               <font>
+                  <Font size="19.0" />
                </font>
             </Label>
          </VBox>
-         <VBox prefHeight="200.0" prefWidth="100.0">
-            <Label fx:id="odometer" style="-fx-text-fill: #f0f8ff;" text="0">
+         <VBox prefHeight="150.0" prefWidth="100.0">
+            <Label fx:id="dailyOdometerOne" style="-fx-text-fill: #f0f8ff;" text="0">
                <font>
-                  <Font size="23.0" />
+                  <Font size="19.0" />
                </font>
             </Label>
-            <Label fx:id="dailyOdometer" style="-fx-text-fill: #f0f8ff;" text="0">
+            <Label fx:id="dailyOdometerTwo" style="-fx-text-fill: #f0f8ff;" text="0">
                <font>
-                  <Font size="23.0" />
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Label fx:id="odometer" style="-fx-text-fill: #f0f8ff;" text="0">
+               <font>
+                  <Font size="19.0" />
                </font>
             </Label>
          </VBox>

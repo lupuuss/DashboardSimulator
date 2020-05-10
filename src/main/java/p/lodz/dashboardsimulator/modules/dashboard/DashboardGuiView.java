@@ -25,7 +25,8 @@ public class DashboardGuiView implements DashboardView {
     @FXML private ImageView fogRight;
     @FXML private ImageView roadLight;
     @FXML private Label odometer;
-    @FXML private Label dailyOdometer;
+    @FXML private Label dailyOdometerOne;
+    @FXML private Label dailyOdometerTwo;
     @FXML private Label maxSpeed;
     @FXML private Label avgSpeed;
     @FXML private Label travelTime;
@@ -70,17 +71,29 @@ public class DashboardGuiView implements DashboardView {
 
     @Override
     public void updateMileage(Mileage mileage) {
-        odometer.setText(mileage.getTotalMileage() + " km");
+
+        double odometerValue =  Math.ceil(mileage.getTotalMileage() * 100)/100;
+        double dailyOdometerOneValue =  Math.ceil(mileage.getResettableMileages().get(0) * 100)/100;
+        double dailyOdometerTwoValue =  Math.ceil(mileage.getResettableMileages().get(1) * 100)/100;
+        odometer.setText(odometerValue + " km");
+        dailyOdometerOne.setText(dailyOdometerOneValue + " km");
+        dailyOdometerTwo.setText(dailyOdometerTwoValue + " km");
     }
 
     @Override
     public void updateEngineStats(TravelStatistics travelStatistics) {
 
-        maxSpeed.setText(travelStatistics.getMaxSpeed() + " km/h");
+        int currentMaxSpeed = (int)Math.ceil(travelStatistics.getMaxSpeed());
+        int currentAvgSpeed = (int)Math.ceil(travelStatistics.getAvgSpeed());
+
+        double currentDistancePassed = Math.ceil(travelStatistics.getDistance()*100)/100 ;
+        double currentAvgFuelConsumption = Math.ceil(travelStatistics.getAvgFuelConsumption()*10)/10;
+
+        maxSpeed.setText(currentMaxSpeed + " km/h");
+        avgSpeed.setText(currentAvgSpeed + "km/h");
         travelTime.setText(travelStatistics.getTravelTime() + " ms");
-        avgSpeed.setText(travelStatistics.getAvgSpeed() + "km/h");
-        distancePassed.setText(travelStatistics.getDistance() + " km");
-        avgConsumption.setText(travelStatistics.getAvgFuelConsumption() + " l/km");
+        distancePassed.setText(currentDistancePassed+ " km");
+        avgConsumption.setText(currentAvgFuelConsumption+ " l/km");
     }
 
     @Override
