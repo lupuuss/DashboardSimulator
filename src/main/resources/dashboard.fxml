@@ -28,7 +28,7 @@
             <ImageView fitHeight="95.0" fitWidth="95.0" pickOnBounds="true" preserveRatio="true">
                <Image url="@./imgs/side_off.png" />
             </ImageView>
-            <ImageView fx:id="turnLeft" fitHeight="95.0" fitWidth="95.0" pickOnBounds="true" preserveRatio="true" visible="false">
+            <ImageView fx:id="turnLeftLight" fitHeight="95.0" fitWidth="95.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <Image url="@./imgs/side_on.png"/>
             </ImageView>
          </StackPane>
@@ -37,7 +37,7 @@
                        preserveRatio="true">
                <Image url="@./imgs/side_off.png"/>
             </ImageView>
-            <ImageView fx:id="turnRight" fitHeight="95.0" fitWidth="95.0" nodeOrientation="RIGHT_TO_LEFT"
+            <ImageView fx:id="turnRightLight" fitHeight="95.0" fitWidth="95.0" nodeOrientation="RIGHT_TO_LEFT"
                        pickOnBounds="true" preserveRatio="true" visible="false">
                <Image url="@./imgs/side_on.png"/>
             </ImageView>
@@ -68,7 +68,7 @@
                   </StackPane.margin>
                   <Image url="@./imgs/position_off.png" />
                </ImageView>
-               <ImageView fx:id="positionLeft" fitHeight="90.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <ImageView fx:id="positionLeftLight" fitHeight="90.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" visible="false">
                   <StackPane.margin>
                      <Insets bottom="10.0" right="15.0" top="15.0" />
                   </StackPane.margin>
@@ -76,7 +76,7 @@
                </ImageView>
             </StackPane>
             <StackPane prefHeight="150.0" prefWidth="200.0">
-               <ImageView fx:id="fogLeft" fitHeight="90.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
+               <ImageView fx:id="fogLeftLight" fitHeight="90.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                   <StackPane.margin>
                      <Insets bottom="10.0" right="15.0" />
                   </StackPane.margin>
@@ -90,7 +90,7 @@
                </ImageView>
             </StackPane>
             <StackPane prefHeight="150.0" prefWidth="200.0">
-               <ImageView fx:id="lowbeamLight" fitHeight="90.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
+               <ImageView fx:id="lowBeamLight" fitHeight="90.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                   <StackPane.margin>
                      <Insets bottom="10.0" right="15.0" />
                   </StackPane.margin>
@@ -112,7 +112,7 @@
                   </StackPane.margin>
                   <Image url="@./imgs/position_off.png" />
                </ImageView>
-               <ImageView fx:id="positionRight" fitHeight="90.0" fitWidth="140.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true" visible="false">
+               <ImageView fx:id="positionRightLight" fitHeight="90.0" fitWidth="140.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true" visible="false">
                   <StackPane.margin>
                      <Insets bottom="10.0" top="15.0" />
                   </StackPane.margin>
@@ -126,7 +126,7 @@
                   </StackPane.margin>
                   <Image url="@./imgs/fog_off.png" />
                </ImageView>
-               <ImageView fx:id="fogRight" fitHeight="90.0" fitWidth="140.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true" visible="false">
+               <ImageView fx:id="fogRightLight" fitHeight="90.0" fitWidth="140.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true" visible="false">
                   <StackPane.margin>
                      <Insets bottom="10.0" />
                   </StackPane.margin>

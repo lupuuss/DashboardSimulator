@@ -3,7 +3,6 @@ package p.lodz.dashboardsimulator.modules.dashboard;
 import eu.hansolo.medusa.Gauge;
 import io.reactivex.Scheduler;
 import io.reactivex.rxjavafx.schedulers.JavaFxScheduler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -16,13 +15,13 @@ public class DashboardGuiView implements DashboardView {
 
     @FXML private Gauge speedometer;
     @FXML private Gauge tachometer;
-    @FXML private ImageView turnLeft;
-    @FXML private ImageView turnRight;
-    @FXML private ImageView positionLeft;
-    @FXML private ImageView fogLeft;
-    @FXML private ImageView lowbeamLight;
-    @FXML private ImageView positionRight;
-    @FXML private ImageView fogRight;
+    @FXML private ImageView turnLeftLight;
+    @FXML private ImageView turnRightLight;
+    @FXML private ImageView positionLeftLight;
+    @FXML private ImageView fogLeftLight;
+    @FXML private ImageView fogRightLight;
+    @FXML private ImageView lowBeamLight;
+    @FXML private ImageView positionRightLight;
     @FXML private ImageView roadLight;
     @FXML private Label odometer;
     @FXML private Label dailyOdometerOne;
@@ -88,38 +87,32 @@ public class DashboardGuiView implements DashboardView {
 
         double currentDistancePassed = Math.ceil(travelStatistics.getDistance()*100)/100 ;
         double currentAvgFuelConsumption = Math.ceil(travelStatistics.getAvgFuelConsumption()*10)/10;
+        int hours = (int)travelStatistics.getTravelTime()/1000/60/60;
+        int minutes = (int)travelStatistics.getTravelTime()/1000/60%60;
 
         maxSpeed.setText(currentMaxSpeed + " km/h");
         avgSpeed.setText(currentAvgSpeed + "km/h");
-        travelTime.setText(travelStatistics.getTravelTime() + " ms");
+        travelTime.setText(hours+ ":" + minutes +" h");
         distancePassed.setText(currentDistancePassed+ " km");
         avgConsumption.setText(currentAvgFuelConsumption+ " l/km");
     }
 
     @Override
     public void setLeftTurnSignalLight(boolean isOn) {
-        turnLeft.setVisible(isOn);
+        turnLeftLight.setVisible(isOn);
     }
 
     @Override
-    public void setRightTurnSignalLight(boolean isOn) {
-
-    }
+    public void setRightTurnSignalLight(boolean isOn) { turnRightLight.setVisible(isOn); }
 
     @Override
-    public void setMainLightsMode(boolean isOn) {
-
-    }
+    public void setMainLightsMode(boolean isOn) { }
 
     @Override
-    public void setBackFogLightState(boolean isOn) {
-
-    }
+    public void setBackFogLightState(boolean isOn) {fogRightLight.setVisible(isOn); }
 
     @Override
-    public void setFrontFogLightState(boolean isOn) {
-
-    }
+    public void setFrontFogLightState(boolean isOn) { fogLeftLight.setVisible(isOn); }
 
     @Override
     public Scheduler getViewScheduler() {
