@@ -1,6 +1,7 @@
 package p.lodz.dashboardsimulator.modules.dashboard;
 
 import p.lodz.dashboardsimulator.base.View;
+import p.lodz.dashboardsimulator.model.light.LightsMode;
 import p.lodz.dashboardsimulator.model.monitor.statistics.TravelStatistics;
 import p.lodz.dashboardsimulator.model.monitor.odometer.Mileage;
 
@@ -26,7 +27,6 @@ public interface DashboardView extends View<DashboardPresenter> {
      * Updates current engine statistics.
      * @param travelStatistics instance of {@link TravelStatistics}.
      */
-
     void updateEngineStats(TravelStatistics travelStatistics);
 
     /**
@@ -42,10 +42,22 @@ public interface DashboardView extends View<DashboardPresenter> {
     void setRightTurnSignalLight(boolean isOn);
 
     /**
-     * Shows the main lights mode that is currently set.
-     * @param isOn Determines current lights mode.
+     * Shows the state of parking lights.
+     * @param isOn Determines if left turn signal is on/off.
      */
-    void setMainLightsMode(boolean isOn);
+    void setParkingLight(boolean isOn);
+
+    /**
+     * Shows the state of low beam lights.
+     * @param isOn Determines if left turn signal is on/off.
+     */
+    void setLowBeamLight(boolean isOn);
+
+    /**
+     * Shows the state of high beam lights.
+     * @param isOn Determines if left turn signal is on/off.
+     */
+    void setHighBeamLight(boolean isOn);
 
     /**
      * Shows the state of back fog light.

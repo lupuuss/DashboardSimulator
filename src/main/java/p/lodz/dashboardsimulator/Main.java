@@ -58,10 +58,11 @@ public class Main extends Application {
 
         DashboardGuiView view = fxml.getController();
 
-        view.start(dashboardInjector);
-
         primaryStage.setTitle("Car Dashboard");
         primaryStage.setScene(new Scene(root, 1280, 400));
+
+        view.attachScene(primaryStage.getScene());
+        view.start(dashboardInjector);
 
         primaryStage.show();
 

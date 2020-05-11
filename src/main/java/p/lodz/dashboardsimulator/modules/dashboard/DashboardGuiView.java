@@ -4,10 +4,14 @@ import eu.hansolo.medusa.Gauge;
 import io.reactivex.Scheduler;
 import io.reactivex.rxjavafx.schedulers.JavaFxScheduler;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import p.lodz.dashboardsimulator.base.Injector;
+import p.lodz.dashboardsimulator.model.light.LightsMode;
 import p.lodz.dashboardsimulator.model.monitor.odometer.Mileage;
 import p.lodz.dashboardsimulator.model.monitor.statistics.TravelStatistics;
 
@@ -17,12 +21,12 @@ public class DashboardGuiView implements DashboardView {
     @FXML private Gauge tachometer;
     @FXML private ImageView turnLeftLight;
     @FXML private ImageView turnRightLight;
-    @FXML private ImageView positionLeftLight;
-    @FXML private ImageView fogLeftLight;
-    @FXML private ImageView fogRightLight;
+    @FXML private ImageView parkingLeftLight;
+    @FXML private ImageView fogFrontLight;
+    @FXML private ImageView fogBackLight;
     @FXML private ImageView lowBeamLight;
     @FXML private ImageView positionRightLight;
-    @FXML private ImageView roadLight;
+    @FXML private ImageView highBeamLight;
     @FXML private Label odometer;
     @FXML private Label dailyOdometerOne;
     @FXML private Label dailyOdometerTwo;
@@ -33,6 +37,62 @@ public class DashboardGuiView implements DashboardView {
     @FXML private Label avgConsumption;
 
     DashboardPresenter presenter;
+
+    private Scene scene;
+
+    public void attachScene(Scene scene) {
+        this.scene = scene;
+    }
+
+    @FXML
+    private void notifyPresenterLeftTurn(MouseEvent mouseEvent) {
+        presenter.triggerLeftTurnSignal();
+    }
+
+    @FXML
+    private void notifyPresenterRightTurn(MouseEvent mouseEvent) {
+        presenter.triggerRightTurnSignal();
+    }
+
+    @FXML
+    private void notifyPresenterOdometerOneReset(MouseEvent event) {
+        presenter.resetMileage(0);
+    }
+
+    @FXML
+    private void notifyPresenterOdometerTwoReset(MouseEvent event) {
+        presenter.resetMileage(1);
+    }
+
+    @FXML
+    private void notifyPresenterFrontFogToggle(MouseEvent mouseEvent) {
+
+        presenter.toggleFogFrontLight();
+    }
+
+    @FXML
+    private void notifyPresenterBackFogToggle(MouseEvent mouseEvent) {
+        presenter.toggleFogBackLight();
+    }
+
+    @FXML
+    private void notifyPresenterPositionClick(MouseEvent mouseEvent) {
+        presenter.changeLightMode(LightsMode.PARKING);
+    }
+
+    @FXML
+    private void notifyPresenterLowBeamClick(MouseEvent mouseEvent) {
+        presenter.changeLightMode(LightsMode.LOW_BEAM);
+    }
+
+    @FXML
+    private void notifyPresenterHighBeamClick(MouseEvent mouseEvent) {
+        presenter.changeLightMode(LightsMode.HIGH_BEAM);
+    }
+
+    public void notifyPresenterCloseEvent() {
+        presenter.closeView();
+    }
 
     @Override
     public void start(Injector injector) {
@@ -48,19 +108,45 @@ public class DashboardGuiView implements DashboardView {
 
         presenter.attach(this);
 
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> delegatePressedKeys(event.getCode()));
+
+        scene.addEventFilter(KeyEvent.KEY_RELEASED, event -> delegateReleasedKeys(event.getCode()));
+
+    }
+
+    private void delegateReleasedKeys(KeyCode code) {
+
+        switch (code) {
+            case UP:
+                presenter.setEngineAcceleration(false);
+                break;
+            case DOWN:
+                presenter.setEngineBrake(false);
+                break;
+        }
+    }
+
+    private void delegatePressedKeys(KeyCode code) {
+
+        switch (code) {
+            case UP:
+                presenter.setEngineAcceleration(true);
+                break;
+            case DOWN:
+                presenter.setEngineBrake(true);
+                break;
+            case LEFT:
+                presenter.triggerLeftTurnSignal();
+                break;
+            case RIGHT:
+                presenter.triggerRightTurnSignal();
+                break;
+        }
     }
 
     @Override
     public void close() {
         presenter.detach();
-    }
-
-    public void notifyPresenterCloseEvent() {
-        presenter.closeView();
-    }
-
-    public void onClickLeftTurn(MouseEvent mouseEvent) {
-        presenter.triggerLeftTurnSignal();
     }
 
     @Override
@@ -103,16 +189,35 @@ public class DashboardGuiView implements DashboardView {
     }
 
     @Override
-    public void setRightTurnSignalLight(boolean isOn) { turnRightLight.setVisible(isOn); }
+    public void setRightTurnSignalLight(boolean isOn) {
+        turnRightLight.setVisible(isOn);
+    }
 
     @Override
-    public void setMainLightsMode(boolean isOn) { }
+    public void setBackFogLightState(boolean isOn) {
+        fogBackLight.setVisible(isOn);
+    }
 
     @Override
-    public void setBackFogLightState(boolean isOn) {fogRightLight.setVisible(isOn); }
+    public void setFrontFogLightState(boolean isOn) {
+        fogFrontLight.setVisible(isOn);
+    }
 
     @Override
-    public void setFrontFogLightState(boolean isOn) { fogLeftLight.setVisible(isOn); }
+    public void setParkingLight(boolean isOn) {
+        parkingLeftLight.setVisible(isOn);
+        positionRightLight.setVisible(isOn);
+    }
+
+    @Override
+    public void setLowBeamLight(boolean isOn) {
+        lowBeamLight.setVisible(isOn);
+    }
+
+    @Override
+    public void setHighBeamLight(boolean isOn) {
+        highBeamLight.setVisible(isOn);
+    }
 
     @Override
     public Scheduler getViewScheduler() {

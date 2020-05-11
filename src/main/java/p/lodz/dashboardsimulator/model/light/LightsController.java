@@ -66,4 +66,10 @@ public interface LightsController {
      * @return Instance of {@link Observable} that allows to watch the state of fog front lights.
      */
     Observable<Boolean> getFogFrontLightsState();
+
+    boolean isFogFrontLightOn();
+
+    boolean isFogBackLightOn();
+
+    LightsMode getCurrentLightsMode();
 }

@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
 <?import eu.hansolo.medusa.Gauge?>
@@ -24,7 +23,7 @@
          <VBox.margin>
             <Insets left="15.0" top="50.0"/>
          </VBox.margin>
-         <StackPane prefHeight="100.0" prefWidth="180.0" onMouseClicked="#onClickLeftTurn">
+         <StackPane prefHeight="100.0" prefWidth="180.0" onMouseClicked="#notifyPresenterLeftTurn">
             <ImageView fitHeight="95.0" fitWidth="95.0" pickOnBounds="true" preserveRatio="true">
                <Image url="@./imgs/side_off.png" />
             </ImageView>
@@ -32,7 +31,7 @@
                <Image url="@./imgs/side_on.png"/>
             </ImageView>
          </StackPane>
-         <StackPane prefHeight="100.0" prefWidth="180.0">
+         <StackPane prefHeight="100.0" prefWidth="180.0" onMouseClicked="#notifyPresenterRightTurn">
             <ImageView fitHeight="95.0" fitWidth="95.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true"
                        preserveRatio="true">
                <Image url="@./imgs/side_off.png"/>
@@ -58,7 +57,7 @@
             <opaqueInsets>
                <Insets />
             </opaqueInsets>
-            <StackPane prefHeight="150.0" prefWidth="200.0">
+            <StackPane prefHeight="150.0" prefWidth="200.0" onMouseClicked="#notifyPresenterPositionClick">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -66,93 +65,93 @@
                   <StackPane.margin>
                      <Insets bottom="10.0" right="15.0" top="15.0" />
                   </StackPane.margin>
-                  <Image url="@./imgs/position_off.png" />
+                  <Image url="@imgs/parking_off.png" />
                </ImageView>
-               <ImageView fx:id="positionLeftLight" fitHeight="90.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <ImageView fx:id="parkingLeftLight" fitHeight="90.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" visible="false">
                   <StackPane.margin>
                      <Insets bottom="10.0" right="15.0" top="15.0" />
                   </StackPane.margin>
-                  <Image url="@./imgs/position_on.png" />
+                  <Image url="@imgs/parking_on.png" />
                </ImageView>
             </StackPane>
-            <StackPane prefHeight="150.0" prefWidth="200.0">
-               <ImageView fx:id="fogLeftLight" fitHeight="90.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
+            <StackPane prefHeight="150.0" prefWidth="200.0" onMouseClicked="#notifyPresenterFrontFogToggle">
+               <ImageView fitHeight="90.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                   <StackPane.margin>
                      <Insets bottom="10.0" right="15.0" />
                   </StackPane.margin>
                   <Image url="@./imgs/fog_off.png" />
                </ImageView>
-               <ImageView fitHeight="90.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <ImageView fx:id="fogFrontLight" fitHeight="90.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" visible="false">
                   <StackPane.margin>
                      <Insets bottom="10.0" right="15.0" />
                   </StackPane.margin>
                   <Image url="@./imgs/fog_on.png" />
                </ImageView>
             </StackPane>
-            <StackPane prefHeight="150.0" prefWidth="200.0">
-               <ImageView fx:id="lowBeamLight" fitHeight="90.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
+            <StackPane prefHeight="150.0" prefWidth="200.0" onMouseClicked="#notifyPresenterLowBeamClick">
+               <ImageView fitHeight="90.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                   <StackPane.margin>
                      <Insets bottom="10.0" right="15.0" />
                   </StackPane.margin>
-                  <Image url="@./imgs/lowbeam_off.png" />
+                  <Image url="@imgs/low_beam_off.png" />
                </ImageView>
-               <ImageView fitHeight="90.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <ImageView fx:id="lowBeamLight" fitHeight="90.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" visible="false">
                   <StackPane.margin>
                      <Insets bottom="10.0" right="15.0" />
                   </StackPane.margin>
-                  <Image url="@./imgs/lowbeam_on.png" />
+                  <Image url="@imgs/low_beam_on.png" />
                </ImageView>
             </StackPane>
          </VBox>
          <VBox prefHeight="322.0" prefWidth="412.0">
-            <StackPane prefHeight="150.0" prefWidth="200.0">
+            <StackPane prefHeight="150.0" prefWidth="200.0" onMouseClicked="#notifyPresenterPositionClick">
                <ImageView fitHeight="90.0" fitWidth="140.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
                   <StackPane.margin>
                      <Insets bottom="10.0" top="15.0" />
                   </StackPane.margin>
-                  <Image url="@./imgs/position_off.png" />
+                  <Image url="@imgs/parking_off.png" />
                </ImageView>
                <ImageView fx:id="positionRightLight" fitHeight="90.0" fitWidth="140.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true" visible="false">
                   <StackPane.margin>
                      <Insets bottom="10.0" top="15.0" />
                   </StackPane.margin>
-                  <Image url="@./imgs/position_on.png" />
+                  <Image url="@imgs/parking_on.png" />
                </ImageView>
             </StackPane>
-            <StackPane prefHeight="150.0" prefWidth="200.0">
+            <StackPane prefHeight="150.0" prefWidth="200.0" onMouseClicked="#notifyPresenterBackFogToggle">
                <ImageView fitHeight="90.0" fitWidth="140.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
                   <StackPane.margin>
                      <Insets bottom="10.0" />
                   </StackPane.margin>
                   <Image url="@./imgs/fog_off.png" />
                </ImageView>
-               <ImageView fx:id="fogRightLight" fitHeight="90.0" fitWidth="140.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true" visible="false">
+               <ImageView fx:id="fogBackLight" fitHeight="90.0" fitWidth="140.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true" visible="false">
                   <StackPane.margin>
                      <Insets bottom="10.0" />
                   </StackPane.margin>
                   <Image url="@./imgs/fog_on.png" />
                </ImageView>
             </StackPane>
-            <StackPane prefHeight="150.0" prefWidth="200.0">
+            <StackPane prefHeight="150.0" prefWidth="200.0" onMouseClicked="#notifyPresenterHighBeamClick">
                <ImageView fitHeight="90.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                   <StackPane.margin>
                      <Insets bottom="10.0" />
                   </StackPane.margin>
-                  <Image url="@./imgs/road_off.png" />
+                  <Image url="@imgs/high_beam_off.png" />
                </ImageView>
-               <ImageView fx:id="roadLight" fitHeight="90.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <ImageView fx:id="highBeamLight" fitHeight="90.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" visible="false">
                   <StackPane.margin>
                      <Insets bottom="10.0" />
                   </StackPane.margin>
-                  <Image url="@./imgs/road_on.png" />
+                  <Image url="@imgs/high_beam_on.png" />
                </ImageView>
             </StackPane>
          </VBox>
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <VBox>
-            <Button text="R" style="-fx-background-color: #000" fx:id="resetOdometerOne"/>
-            <Button text="R" style="-fx-background-color: #000" fx:id="resetOdometerTwo"/>
+            <Button text="R" style="-fx-background-color: #000" onMouseClicked="#notifyPresenterOdometerOneReset"/>
+            <Button text="R" style="-fx-background-color: #000" onMouseClicked="#notifyPresenterOdometerTwoReset"/>
          </VBox>
          <VBox prefHeight="99.0" prefWidth="200.0">
             <Label style="-fx-text-fill: #f0f8ff;" text="Dailty odometer one">

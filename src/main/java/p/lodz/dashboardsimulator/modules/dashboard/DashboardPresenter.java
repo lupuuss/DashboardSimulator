@@ -64,11 +64,68 @@ public class DashboardPresenter extends Presenter<DashboardView> {
                 .observeOn(currentScheduler)
                 .subscribe(this::updateMileageOnView);
 
+        Disposable leftTurnSub = lightsController.getLeftTurnState()
+                .observeOn(currentScheduler)
+                .subscribe(this::updateLeftTurnStateOnView);
+
+        Disposable rightTurnSub = lightsController.getRightTurnState()
+                .observeOn(currentScheduler)
+                .subscribe(this::updateRightTurnStateOnView);
+
+        Disposable frontFogSub = lightsController.getFogFrontLightsState()
+                .observeOn(currentScheduler)
+                .subscribe(this::updateFogFrontLightStateOnView);
+
+        Disposable backFogSub = lightsController.getFogBackLightsState()
+                .observeOn(currentScheduler)
+                .subscribe(this::updateFogBackLightStateOnView);
+
+        Disposable mainLightSub = lightsController.getMainLightMode()
+                .observeOn(currentScheduler)
+                .subscribe(this::updateMainLightStateOnView);
+
+        subscriptions.add(rightTurnSub);
+        subscriptions.add(leftTurnSub);
         subscriptions.add(engineSub);
+        subscriptions.add(frontFogSub);
+        subscriptions.add(backFogSub);
+        subscriptions.add(mainLightSub);
         subscriptions.add(statisticsSub);
         subscriptions.add(mileageSub);
+    }
 
-        engine.setAcceleration(true);
+    private void updateMainLightStateOnView(LightsMode lightsMode) {
+
+        view.setParkingLight(false);
+        view.setLowBeamLight(false);
+        view.setHighBeamLight(false);
+
+        switch (lightsMode) {
+            case HIGH_BEAM:
+                view.setHighBeamLight(true);
+            case LOW_BEAM:
+                view.setLowBeamLight(true);
+            case PARKING:
+                view.setParkingLight(true);
+                break;
+        }
+
+    }
+
+    private void updateFogBackLightStateOnView(Boolean backFogState) {
+        view.setBackFogLightState(backFogState);
+    }
+
+    private void updateFogFrontLightStateOnView(Boolean frontFogState) {
+        view.setFrontFogLightState(frontFogState);
+    }
+
+    private void updateRightTurnStateOnView(Boolean rightTurnState) {
+        view.setRightTurnSignalLight(rightTurnState);
+    }
+
+    private void updateLeftTurnStateOnView(Boolean leftTurnState) {
+        view.setLeftTurnSignalLight(leftTurnState);
     }
 
     private void updateStatisticsOnView(TravelStatistics engineStats) {
@@ -112,6 +169,7 @@ public class DashboardPresenter extends Presenter<DashboardView> {
      * @param mode Determines mode of light.
      */
     public void changeLightMode(LightsMode mode) {
+
         lightsController.setMainLightMode(mode);
     }
 
@@ -119,7 +177,7 @@ public class DashboardPresenter extends Presenter<DashboardView> {
      * Notifies presenter about user intent to switch left turn signal state.
      */
     public void triggerLeftTurnSignal() {
-        view.setLeftTurnSignalLight(true);
+        lightsController.triggerLeftTurnSignal();
     }
 
     /**
@@ -131,18 +189,20 @@ public class DashboardPresenter extends Presenter<DashboardView> {
 
     /**
      * Notifies presenter about user intent to turn on/off back fog lights.
-     * @param areOn Determines if user wants to turn on or off the lights.
      */
-    public void setFogBackLight(boolean areOn) {
-        lightsController.setFogBackLights(areOn);
+    public void toggleFogBackLight() {
+        lightsController.setFogBackLights(
+                !lightsController.isFogBackLightOn()
+        );
     }
 
     /**
      * Notifies presenter about user intent to turn on/off front fog lights.
-     * @param areOn Determines if user wants to turn on or off the lights.
      */
-    public void setFogFrontLight(boolean areOn) {
-        lightsController.setFogFrontLights(areOn);
+    public void toggleFogFrontLight() {
+        lightsController.setFogFrontLights(
+                !lightsController.isFogFrontLightOn()
+        );
     }
 
     /**
