@@ -76,7 +76,7 @@ public class TravelStatistics {
      */
     @Override
     public String toString() {
-        return "EngineStatistics{" +
+        return "TravelStatistics{" +
                 "avg=" + Utils.round(avgSpeed, roundToDecimal) +
                 ", max=" + Utils.round(maxSpeed, roundToDecimal) +
                 ", time=" + travelTime +
