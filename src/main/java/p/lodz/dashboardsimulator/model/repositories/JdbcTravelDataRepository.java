@@ -79,7 +79,8 @@ public class JdbcTravelDataRepository implements TravelDataRepository {
                 insertInto.setDouble(5, travelStatistics.getAvgFuelConsumption());
                 return insertInto.executeUpdate() == 1;
             }
-        })).subscribeOn(Schedulers.computation());
+        }))
+                .subscribeOn(Schedulers.single());
     }
 
     @Override
@@ -111,7 +112,8 @@ public class JdbcTravelDataRepository implements TravelDataRepository {
 
                 return travels;
             }
-        });
+        })
+                .subscribeOn(Schedulers.single());
     }
 
     @Override
@@ -122,6 +124,7 @@ public class JdbcTravelDataRepository implements TravelDataRepository {
 
                 return statement.executeUpdate() == 1;
             }
-        });
+        })
+                .subscribeOn(Schedulers.single());
     }
 }

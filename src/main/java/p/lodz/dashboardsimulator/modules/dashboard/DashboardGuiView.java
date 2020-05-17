@@ -9,16 +9,14 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import p.lodz.dashboardsimulator.base.Injector;
+import p.lodz.dashboardsimulator.base.JavaFxView;
 import p.lodz.dashboardsimulator.model.light.LightsMode;
 import p.lodz.dashboardsimulator.model.monitor.odometer.Mileage;
 import p.lodz.dashboardsimulator.model.monitor.statistics.TravelStatistics;
 
-import java.text.Normalizer;
-
-public class DashboardGuiView implements DashboardView {
+public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements DashboardView {
 
     @FXML private Gauge speedometer;
     @FXML private Gauge tachometer;
@@ -41,11 +39,12 @@ public class DashboardGuiView implements DashboardView {
 
     DashboardPresenter presenter;
 
-    private Scene scene;
     private MenuBar menuBar;
 
+    @Override
     public void attachScene(Scene scene) {
-        this.scene = scene;
+        super.attachScene(scene);
+
         this.menuBar = new MenuBar();
         ((VBox) scene.getRoot()).getChildren().add(0, menuBar);
     }
@@ -96,7 +95,8 @@ public class DashboardGuiView implements DashboardView {
         presenter.changeLightMode(LightsMode.HIGH_BEAM);
     }
 
-    public void notifyPresenterCloseEvent() {
+    @Override
+    public void notifyCloseEvent() {
         presenter.closeView();
     }
 

@@ -1,15 +1,10 @@
 package p.lodz.dashboardsimulator;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.MenuBar;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import p.lodz.dashboardsimulator.base.GlobalInjector;
-import p.lodz.dashboardsimulator.modules.dashboard.DashboardGuiView;
+import p.lodz.dashboardsimulator.modules.FxModulesRunner;
+import p.lodz.dashboardsimulator.modules.Module;
 import p.lodz.dashboardsimulator.modules.dashboard.DashboardInjector;
 import p.lodz.dashboardsimulator.modules.dashboard.DashboardView;
 import p.lodz.dashboardsimulator.modules.dashboard.console.ConsoleCommandsReader;
@@ -50,25 +45,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        GlobalInjector globalInjector = new GlobalInjector();
-        DashboardInjector dashboardInjector = new DashboardInjector();
+        FxModulesRunner initializer = new FxModulesRunner(primaryStage, Module.DASHBOARD);
 
-        globalInjector.init(null);
-        dashboardInjector.init(globalInjector);
-
-        FXMLLoader fxml = new FXMLLoader(getClass().getResource("/dashboard.fxml"));
-        Parent root = fxml.load();
-
-        DashboardGuiView view = fxml.getController();
-
-        primaryStage.setTitle("Car Dashboard");
-        primaryStage.setScene(new Scene(root, 1280, 400));
-
-        view.attachScene(primaryStage.getScene());
-        view.start(dashboardInjector);
-
-        primaryStage.show();
-
-        primaryStage.setOnCloseRequest(event -> view.notifyPresenterCloseEvent());
+        initializer.runModule(Module.DASHBOARD);
     }
 }
