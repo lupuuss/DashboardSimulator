@@ -15,4 +15,10 @@ public abstract class StatisticsMonitor extends EngineMonitor {
      * @return Instance of {@link Observable} that provides any update in {@link TravelStatistics}
      */
     public abstract Observable<TravelStatistics> getCurrentStats();
+
+    /**
+     * Returns last produced travel statistics.
+     * @return Instance of {@link TravelStatistics} with last produced statistics.
+     */
+    public abstract TravelStatistics getLastStatistics();
 }

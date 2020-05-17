@@ -36,7 +36,8 @@ public class DashboardConsoleView implements DashboardView {
                 dashboardInjector.getEngine(),
                 dashboardInjector.getStatisticsMonitor(),
                 dashboardInjector.getLightsController(),
-                dashboardInjector.getOdometer()
+                dashboardInjector.getOdometer(),
+                dashboardInjector.getTravelDataRepository()
         );
 
         presenter.attach(this);
@@ -109,6 +110,11 @@ public class DashboardConsoleView implements DashboardView {
 
     @Override
     public void setFrontFogLightState(boolean isOn) {
+
+    }
+
+    @Override
+    public void showMessage(String message, MessageType type) {
 
     }
 

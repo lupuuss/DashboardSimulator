@@ -10,6 +10,7 @@ import p.lodz.dashboardsimulator.model.monitor.odometer.Mileage;
 import p.lodz.dashboardsimulator.model.monitor.odometer.Odometer;
 import p.lodz.dashboardsimulator.model.monitor.statistics.StatisticsMonitor;
 import p.lodz.dashboardsimulator.model.monitor.statistics.TravelStatistics;
+import p.lodz.dashboardsimulator.model.repositories.TravelDataRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ public class DashboardPresenter extends Presenter<DashboardView> {
     private StatisticsMonitor engineMonitor;
     private LightsController lightsController;
     private Odometer odometer;
+    private TravelDataRepository repository;
 
     private List<Disposable> subscriptions = new ArrayList<>();
 
@@ -31,12 +33,14 @@ public class DashboardPresenter extends Presenter<DashboardView> {
             Engine engine,
             StatisticsMonitor engineMonitor,
             LightsController lightsController,
-            Odometer odometer
+            Odometer odometer,
+            TravelDataRepository repository
     ) {
         this.engine = engine;
         this.engineMonitor = engineMonitor;
         this.lightsController = lightsController;
         this.odometer = odometer;
+        this.repository = repository;
     }
 
     /**
@@ -218,6 +222,36 @@ public class DashboardPresenter extends Presenter<DashboardView> {
      */
     public void deactivateCruiseControl() {
         // TODO
+    }
+
+    public void saveCurrentStatsToDatabase() {
+
+        TravelStatistics tmp = engineMonitor.getLastStatistics();
+
+        if (tmp == null) {
+
+            view.showMessage("No data to save!", DashboardView.MessageType.ERROR);
+            return;
+        }
+
+        Disposable addToDatabase = repository.addTravelStatistics(tmp)
+                .observeOn(currentScheduler)
+                .doOnNext(result -> {
+
+                    if (result) {
+                        view.showMessage("Statistics were successfully saved!", DashboardView.MessageType.INFO);
+                    } else {
+                        view.showMessage("Statistics couldn't be saved!", DashboardView.MessageType.WARNING);
+                    }
+
+                })
+                .doOnError(error -> view.showMessage(
+                        "An error occurred while saving the data! \n\n" + error.getMessage(),
+                        DashboardView.MessageType.ERROR
+                ))
+                .subscribe();
+
+        subscriptions.add(addToDatabase);
     }
 
     /**

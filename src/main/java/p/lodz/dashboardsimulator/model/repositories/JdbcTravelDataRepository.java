@@ -1,6 +1,7 @@
 package p.lodz.dashboardsimulator.model.repositories;
 
 import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
 import p.lodz.dashboardsimulator.model.monitor.statistics.TravelStatistics;
 
 import java.sql.*;
@@ -78,7 +79,7 @@ public class JdbcTravelDataRepository implements TravelDataRepository {
                 insertInto.setDouble(5, travelStatistics.getAvgFuelConsumption());
                 return insertInto.executeUpdate() == 1;
             }
-        }));
+        })).subscribeOn(Schedulers.computation());
     }
 
     @Override

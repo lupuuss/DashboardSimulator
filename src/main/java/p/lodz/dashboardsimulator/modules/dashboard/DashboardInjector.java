@@ -10,6 +10,7 @@ import p.lodz.dashboardsimulator.model.monitor.odometer.BasicOdometer;
 import p.lodz.dashboardsimulator.model.monitor.odometer.Odometer;
 import p.lodz.dashboardsimulator.model.monitor.statistics.BasicStatisticsMonitor;
 import p.lodz.dashboardsimulator.model.monitor.statistics.StatisticsMonitor;
+import p.lodz.dashboardsimulator.model.repositories.TravelDataRepository;
 
 public class DashboardInjector implements Injector {
 
@@ -17,6 +18,7 @@ public class DashboardInjector implements Injector {
     private StatisticsMonitor statisticsMonitor;
     private Odometer odometer;
     private LightsController lightsController;
+    private TravelDataRepository travelDataRepository;
 
     @Override
     public void init(Injector parentInjector) {
@@ -27,6 +29,7 @@ public class DashboardInjector implements Injector {
         statisticsMonitor = new BasicStatisticsMonitor();
         odometer = new BasicOdometer(globalInjector.getSerializer(), 2);
         lightsController = new LightsControllerSimulator();
+        travelDataRepository = globalInjector.getTravelDataRepository();
     }
 
     public Engine getEngine() {
@@ -43,5 +46,9 @@ public class DashboardInjector implements Injector {
 
     public LightsController getLightsController() {
         return lightsController;
+    }
+
+    public TravelDataRepository getTravelDataRepository() {
+        return travelDataRepository;
     }
 }

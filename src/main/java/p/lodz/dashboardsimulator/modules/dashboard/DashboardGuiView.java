@@ -5,15 +5,18 @@ import io.reactivex.Scheduler;
 import io.reactivex.rxjavafx.schedulers.JavaFxScheduler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import p.lodz.dashboardsimulator.base.Injector;
 import p.lodz.dashboardsimulator.model.light.LightsMode;
 import p.lodz.dashboardsimulator.model.monitor.odometer.Mileage;
 import p.lodz.dashboardsimulator.model.monitor.statistics.TravelStatistics;
+
+import java.text.Normalizer;
 
 public class DashboardGuiView implements DashboardView {
 
@@ -39,54 +42,57 @@ public class DashboardGuiView implements DashboardView {
     DashboardPresenter presenter;
 
     private Scene scene;
+    private MenuBar menuBar;
 
     public void attachScene(Scene scene) {
         this.scene = scene;
+        this.menuBar = new MenuBar();
+        ((VBox) scene.getRoot()).getChildren().add(0, menuBar);
     }
 
     @FXML
-    private void notifyPresenterLeftTurn(MouseEvent mouseEvent) {
+    private void notifyPresenterLeftTurn() {
         presenter.triggerLeftTurnSignal();
     }
 
     @FXML
-    private void notifyPresenterRightTurn(MouseEvent mouseEvent) {
+    private void notifyPresenterRightTurn() {
         presenter.triggerRightTurnSignal();
     }
 
     @FXML
-    private void notifyPresenterOdometerOneReset(MouseEvent event) {
+    private void notifyPresenterOdometerOneReset() {
         presenter.resetMileage(0);
     }
 
     @FXML
-    private void notifyPresenterOdometerTwoReset(MouseEvent event) {
+    private void notifyPresenterOdometerTwoReset() {
         presenter.resetMileage(1);
     }
 
     @FXML
-    private void notifyPresenterFrontFogToggle(MouseEvent mouseEvent) {
+    private void notifyPresenterFrontFogToggle() {
 
         presenter.toggleFogFrontLight();
     }
 
     @FXML
-    private void notifyPresenterBackFogToggle(MouseEvent mouseEvent) {
+    private void notifyPresenterBackFogToggle() {
         presenter.toggleFogBackLight();
     }
 
     @FXML
-    private void notifyPresenterPositionClick(MouseEvent mouseEvent) {
+    private void notifyPresenterPositionClick() {
         presenter.changeLightMode(LightsMode.PARKING);
     }
 
     @FXML
-    private void notifyPresenterLowBeamClick(MouseEvent mouseEvent) {
+    private void notifyPresenterLowBeamClick() {
         presenter.changeLightMode(LightsMode.LOW_BEAM);
     }
 
     @FXML
-    private void notifyPresenterHighBeamClick(MouseEvent mouseEvent) {
+    private void notifyPresenterHighBeamClick() {
         presenter.changeLightMode(LightsMode.HIGH_BEAM);
     }
 
@@ -103,8 +109,25 @@ public class DashboardGuiView implements DashboardView {
                 dashboardInjector.getEngine(),
                 dashboardInjector.getStatisticsMonitor(),
                 dashboardInjector.getLightsController(),
-                dashboardInjector.getOdometer()
+                dashboardInjector.getOdometer(),
+                dashboardInjector.getTravelDataRepository()
         );
+
+        Menu fileMenu = new Menu("Plik");
+
+        MenuItem saveStatsItem = new MenuItem("Zapisz statystyki");
+        MenuItem statsHistoryItem = new MenuItem("Historia statystyk");
+        MenuItem settingsItem = new MenuItem("Ustawienia");
+
+        saveStatsItem.setOnAction(event -> presenter.saveCurrentStatsToDatabase());
+
+        fileMenu.getItems().addAll(
+                saveStatsItem,
+                statsHistoryItem,
+                settingsItem
+        );
+
+        menuBar.getMenus().add(fileMenu);
 
         presenter.attach(this);
 
@@ -217,6 +240,28 @@ public class DashboardGuiView implements DashboardView {
     @Override
     public void setHighBeamLight(boolean isOn) {
         highBeamLight.setVisible(isOn);
+    }
+
+    @Override
+    public void showMessage(String message, MessageType type) {
+        Alert.AlertType alertType = Alert.AlertType.NONE;
+
+        switch (type) {
+
+            case INFO:
+                alertType = Alert.AlertType.INFORMATION;
+                break;
+            case WARNING:
+                alertType = Alert.AlertType.WARNING;
+                break;
+            case ERROR:
+                alertType = Alert.AlertType.ERROR;
+                break;
+        }
+
+        Alert alert = new Alert(alertType, message);
+
+        alert.show();
     }
 
     @Override

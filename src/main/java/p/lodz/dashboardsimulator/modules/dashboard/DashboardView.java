@@ -1,7 +1,6 @@
 package p.lodz.dashboardsimulator.modules.dashboard;
 
 import p.lodz.dashboardsimulator.base.View;
-import p.lodz.dashboardsimulator.model.light.LightsMode;
 import p.lodz.dashboardsimulator.model.monitor.statistics.TravelStatistics;
 import p.lodz.dashboardsimulator.model.monitor.odometer.Mileage;
 
@@ -10,6 +9,10 @@ import p.lodz.dashboardsimulator.model.monitor.odometer.Mileage;
  * Methods in this interface are supposed to change the state of view.
  */
 public interface DashboardView extends View<DashboardPresenter> {
+
+    enum MessageType {
+        INFO, WARNING, ERROR
+    }
 
     /**
      * Updates current speed on the view.
@@ -70,4 +73,10 @@ public interface DashboardView extends View<DashboardPresenter> {
      * @param isOn Determines if back fog light is on/off.
      */
     void setFrontFogLightState(boolean isOn);
+
+    /**
+     * Shows message.
+     * @param message {@link String} that contains message to be shown.
+     */
+    void showMessage(String message, MessageType type);
 }

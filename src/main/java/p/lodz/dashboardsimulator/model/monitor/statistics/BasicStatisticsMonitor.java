@@ -4,6 +4,7 @@ import io.reactivex.Observable;
 import p.lodz.dashboardsimulator.utils.AtomicDouble;
 
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Basic implementation of {@link StatisticsMonitor} that provides statistics
@@ -18,6 +19,7 @@ public class BasicStatisticsMonitor extends StatisticsMonitor {
     private AtomicDouble avgSpeed = new AtomicDouble(0.0);
 
     private AtomicDouble distance = new AtomicDouble(0.0);
+    private AtomicReference<TravelStatistics> travelStatisticsAtomicReference = new AtomicReference<>(null);
 
     /**
      * Returns observable travel statistics.
@@ -44,14 +46,22 @@ public class BasicStatisticsMonitor extends StatisticsMonitor {
                         maxSpeed.set(state.getSpeed());
                     }
 
-                    return new TravelStatistics(
+                    TravelStatistics tmp = new TravelStatistics(
                             avgSpeed.get(),
                             maxSpeed.get(),
                             travelTime.get(),
                             distance.get(),
                             0 // TODO
                     );
+
+                    travelStatisticsAtomicReference.set(tmp);
+
+                    return tmp;
                 });
     }
 
+    @Override
+    public TravelStatistics getLastStatistics() {
+        return travelStatisticsAtomicReference.get();
+    }
 }
