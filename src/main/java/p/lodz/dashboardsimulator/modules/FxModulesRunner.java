@@ -44,7 +44,7 @@ public class FxModulesRunner {
 
         injector.init(globalInjector);
 
-        view.attachScene(stage.getScene());
+        view.attachFx(stage.getScene(), this);
         view.start(injector);
 
         stage.show();

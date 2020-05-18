@@ -4,13 +4,16 @@ import io.reactivex.Scheduler;
 import io.reactivex.rxjavafx.schedulers.JavaFxScheduler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import p.lodz.dashboardsimulator.modules.FxModulesRunner;
 
 public abstract class JavaFxView<T extends Presenter<?>> implements View<T> {
 
     protected Scene scene;
+    protected FxModulesRunner runner;
 
-    public void attachScene(Scene scene) {
+    public void attachFx(Scene scene, FxModulesRunner runner) {
         this.scene = scene;
+        this.runner = runner;
     }
 
     @Override

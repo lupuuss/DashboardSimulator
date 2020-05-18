@@ -15,6 +15,7 @@ import p.lodz.dashboardsimulator.base.JavaFxView;
 import p.lodz.dashboardsimulator.model.light.LightsMode;
 import p.lodz.dashboardsimulator.model.monitor.odometer.Mileage;
 import p.lodz.dashboardsimulator.model.monitor.statistics.TravelStatistics;
+import p.lodz.dashboardsimulator.modules.FxModulesRunner;
 
 public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements DashboardView {
 
@@ -42,8 +43,8 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
     private MenuBar menuBar;
 
     @Override
-    public void attachScene(Scene scene) {
-        super.attachScene(scene);
+    public void attachFx(Scene scene, FxModulesRunner runner) {
+        super.attachFx(scene, runner);
 
         this.menuBar = new MenuBar();
         ((VBox) scene.getRoot()).getChildren().add(0, menuBar);
