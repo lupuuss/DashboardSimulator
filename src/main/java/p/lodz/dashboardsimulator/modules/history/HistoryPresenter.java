@@ -45,6 +45,7 @@ public class HistoryPresenter extends Presenter<HistoryView> {
                     + " | Distance: " + stat.getDistance() + "km"
                     + " | Time: " + stat.getTravelTime() + "ms"
                     + " | Avg fuel consumption: " + stat.getAvgFuelConsumption() + "L/KM"
+                    + " | Date: " + stat.getDate()
             );
         }
     }

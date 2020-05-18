@@ -8,6 +8,7 @@ import p.lodz.dashboardsimulator.model.monitor.statistics.TravelStatistics;
 public class SignedTravelStatistics extends TravelStatistics {
 
     private int id;
+    private java.util.Date date;
 
     /**
      * @param avgSpeed           Average speed in km/h.
@@ -16,9 +17,19 @@ public class SignedTravelStatistics extends TravelStatistics {
      * @param distance           Distance in km.
      * @param avgFuelConsumption Average fuel consumption in liters per kilometer
      */
-    public SignedTravelStatistics(int id, double avgSpeed, double maxSpeed, long travelTime, double distance, double avgFuelConsumption) {
+    public SignedTravelStatistics(
+            int id,
+            double avgSpeed,
+            double maxSpeed,
+            long travelTime,
+            double distance,
+            double avgFuelConsumption,
+            java.sql.Timestamp date
+    ) {
+
         super(avgSpeed, maxSpeed, travelTime, distance, avgFuelConsumption);
         this.id = id;
+        this.date = new java.util.Date(date.getTime());
     }
 
     /**
@@ -27,5 +38,9 @@ public class SignedTravelStatistics extends TravelStatistics {
      */
     public int getId() {
         return id;
+    }
+
+    public java.util.Date getDate() {
+        return date;
     }
 }

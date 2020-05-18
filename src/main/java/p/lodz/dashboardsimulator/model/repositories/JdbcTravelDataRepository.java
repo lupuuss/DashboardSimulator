@@ -25,7 +25,8 @@ public class JdbcTravelDataRepository implements TravelDataRepository {
             "maxSpeed FLOAT NOT NULL," +
             "travelTime BIGINT NOT NULL," +
             "distance FLOAT NOT NULL," +
-            "avgFuelConsumption FLOAT NOT NULL" +
+            "avgFuelConsumption FLOAT NOT NULL," +
+            "travelDate DATETIME DEFAULT GETDATE()" +
             ");";
 
     private final String insertTravelQuery = "INSERT INTO travels(" +
@@ -105,7 +106,8 @@ public class JdbcTravelDataRepository implements TravelDataRepository {
                                     result.getDouble(3),
                                     result.getLong(4),
                                     result.getDouble(5),
-                                    result.getDouble(6)
+                                    result.getDouble(6),
+                                    result.getTimestamp(7)
                             )
                     );
                 }
