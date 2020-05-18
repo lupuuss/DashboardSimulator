@@ -3,8 +3,7 @@ package p.lodz.dashboardsimulator.base;
 import io.reactivex.Scheduler;
 import io.reactivex.rxjavafx.schedulers.JavaFxScheduler;
 import javafx.scene.Scene;
-import p.lodz.dashboardsimulator.base.Presenter;
-import p.lodz.dashboardsimulator.base.View;
+import javafx.scene.control.Alert;
 
 public abstract class JavaFxView<T extends Presenter<?>> implements View<T> {
 
@@ -20,4 +19,26 @@ public abstract class JavaFxView<T extends Presenter<?>> implements View<T> {
     }
 
     public abstract void notifyCloseEvent();
+
+    @Override
+    public void showMessage(String message, MessageType type) {
+        Alert.AlertType alertType = Alert.AlertType.NONE;
+
+        switch (type) {
+
+            case INFO:
+                alertType = Alert.AlertType.INFORMATION;
+                break;
+            case WARNING:
+                alertType = Alert.AlertType.WARNING;
+                break;
+            case ERROR:
+                alertType = Alert.AlertType.ERROR;
+                break;
+        }
+
+        Alert alert = new Alert(alertType, message);
+
+        alert.show();
+    }
 }

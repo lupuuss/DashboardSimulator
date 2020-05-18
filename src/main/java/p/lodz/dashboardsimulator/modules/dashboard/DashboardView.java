@@ -10,10 +10,6 @@ import p.lodz.dashboardsimulator.model.monitor.odometer.Mileage;
  */
 public interface DashboardView extends View<DashboardPresenter> {
 
-    enum MessageType {
-        INFO, WARNING, ERROR
-    }
-
     /**
      * Updates current speed on the view.
      * @param speed value of the speed in km/h.
@@ -73,10 +69,4 @@ public interface DashboardView extends View<DashboardPresenter> {
      * @param isOn Determines if back fog light is on/off.
      */
     void setFrontFogLightState(boolean isOn);
-
-    /**
-     * Shows message.
-     * @param message {@link String} that contains message to be shown.
-     */
-    void showMessage(String message, MessageType type);
 }
