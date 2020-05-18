@@ -142,7 +142,9 @@ public class DashboardPresenter extends Presenter<DashboardView> {
     }
 
     private void updateStateOnView(EngineState engineState) {
+
         view.updateSpeed(engineState.getSpeed());
+        view.updateRpm(engineState.getRpm());
     }
 
     private void updateMileageOnView(Mileage mileage) {

@@ -7,14 +7,19 @@ public class EngineState {
 
     private double speed;
     private long betweenTicks;
-
+    private int rpm;
+    private int gear;
     /**
      * @param speed Speed in km/h
      * @param betweenTicks Period of time between engine ticks in ms.
+     * @param rpm
+     * @param gear
      */
-    public EngineState(double speed, long betweenTicks) {
+    public EngineState(double speed, long betweenTicks, int rpm, int gear) {
         this.speed = speed;
         this.betweenTicks = betweenTicks;
+        this.rpm = rpm;
+        this.gear = gear;
     }
 
     /**
@@ -31,5 +36,13 @@ public class EngineState {
      */
     public long getBetweenTicks() {
         return betweenTicks;
+    }
+
+    public int getRpm() {
+        return rpm;
+    }
+
+    public int getGear() {
+        return gear;
     }
 }

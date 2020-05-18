@@ -71,4 +71,6 @@ public interface DashboardView extends View<DashboardPresenter> {
     void setFrontFogLightState(boolean isOn);
 
     void openStatsHistory();
+
+    void updateRpm(int rpm);
 }

@@ -7,6 +7,7 @@ import io.reactivex.schedulers.Schedulers;
 import p.lodz.dashboardsimulator.utils.AtomicDouble;
 
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Simulates the behaviour of car engine.
@@ -15,6 +16,17 @@ public class EngineSimulator implements Engine {
 
     private final double noAcceleration = -1.0;
     private final double brakeAcceleration = -10.0;
+
+    private final int minRpm = 1000;
+    private final int switchRpm = 4000;
+    private final int maxRpm = 6000;
+
+    private final int minGear = 1;
+    private final int maxGear = 5;
+
+    private final int rpmLeftover = maxRpm - minRpm;
+    private final int perGearRpm = switchRpm - minRpm;
+    private final int rpmSum = perGearRpm * (maxGear - 1) + rpmLeftover;
 
     private final double accelerationConst;
     private final double maximumSpeed;
@@ -62,9 +74,25 @@ public class EngineSimulator implements Engine {
                         currentSpeed.set(Math.max(tmpSpeed, 0.0));
                     }
 
-                    return new EngineState(currentSpeed.get(), betweenTicks);
+                    int totalRpm = (int) (rpmSum * (currentSpeed.get() / maximumSpeed));
+
+                    int tmpRpm;
+
+                    if (totalRpm > (maxGear - 1) * perGearRpm) {
+                        tmpRpm = minRpm + totalRpm - (maxGear - 1) * perGearRpm;
+                    } else {
+                        tmpRpm = minRpm + totalRpm % perGearRpm;
+                    }
+
+                    int tmpGear = totalRpm / perGearRpm + 1;
+
+                    if (tmpGear > maxGear) {
+                        tmpGear = maxGear;
+                    }
+
+                    return new EngineState(currentSpeed.get(), betweenTicks, tmpRpm, tmpGear);
                 })
-                .subscribeOn(Schedulers.computation())
+                .subscribeOn(Schedulers.single())
                 .publish();
 
         sub = engineState.connect();

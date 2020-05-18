@@ -119,6 +119,11 @@ public class DashboardConsoleView implements DashboardView {
     }
 
     @Override
+    public void updateRpm(int rpm) {
+
+    }
+
+    @Override
     public void showMessage(String message, MessageType type) {
 
     }
