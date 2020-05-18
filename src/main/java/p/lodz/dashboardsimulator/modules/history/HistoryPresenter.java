@@ -7,13 +7,14 @@ import p.lodz.dashboardsimulator.model.repositories.SignedTravelStatistics;
 import p.lodz.dashboardsimulator.model.repositories.TravelDataRepository;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HistoryPresenter extends Presenter<HistoryView> {
 
     private TravelDataRepository travelDataRepository;
 
-    private Disposable dataDisposable;
+    private List<Disposable> subscriptions = new ArrayList<>();
 
     private List<SignedTravelStatistics> currentStats = null;
 
@@ -26,9 +27,11 @@ public class HistoryPresenter extends Presenter<HistoryView> {
     public void attach(HistoryView view) {
         super.attach(view);
 
-        dataDisposable = travelDataRepository.getAllTravelStatistics()
+        Disposable dataDisposable = travelDataRepository.getAllTravelStatistics()
                 .observeOn(currentScheduler)
                 .subscribe(this::displayStatistics, this::displayError);
+
+        subscriptions.add(dataDisposable);
     }
 
     private void displayStatistics(List<SignedTravelStatistics> signedTravelStatistics) {
@@ -50,7 +53,7 @@ public class HistoryPresenter extends Presenter<HistoryView> {
 
         if (throwable instanceof SQLException) {
 
-            view.showMessage("Reading records failed! \n\n" + throwable, View.MessageType.ERROR);
+            view.showMessage("SQL operation failed! \n\n" + throwable, View.MessageType.ERROR);
         } else {
             view.showMessage("Unexpected error occurred! \n\n" + throwable, View.MessageType.ERROR);
         }
@@ -62,12 +65,32 @@ public class HistoryPresenter extends Presenter<HistoryView> {
     public void detach() {
         super.detach();
 
-        if (dataDisposable != null) {
-            dataDisposable.dispose();
-        }
+        subscriptions.forEach(Disposable::dispose);
     }
 
     public void closeView() {
         view.close();
+    }
+
+    public void removeStats(int index) {
+
+
+
+        Disposable removeDisposable = travelDataRepository
+                .removeTravelStatistics(currentStats.get(index).getId())
+                .observeOn(currentScheduler)
+                .subscribe(
+                        result -> {
+
+                            if (result) {
+                                currentStats.remove(index);
+                                view.removeFromList(index);
+                            } else {
+                                view.showMessage("Record couldn't be removed!", View.MessageType.ERROR);
+                            }
+
+                            },
+                        this::displayError)
+                ;
     }
 }

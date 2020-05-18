@@ -10,6 +10,8 @@ import p.lodz.dashboardsimulator.base.GlobalInjector;
 import p.lodz.dashboardsimulator.base.Injector;
 import p.lodz.dashboardsimulator.base.JavaFxView;
 
+import java.util.function.Consumer;
+
 public class HistoryGuiView extends JavaFxView<HistoryPresenter> implements HistoryView {
 
     @FXML private ListView<String> statsListView;
@@ -25,6 +27,11 @@ public class HistoryGuiView extends JavaFxView<HistoryPresenter> implements Hist
 
         presenter = new HistoryPresenter(globalInjector.getTravelDataRepository());
 
+        Consumer<Integer> onClick = (index) -> {
+            presenter.removeStats(index);
+        };
+
+        statsListView.setCellFactory((listView) -> new HistoryCell(onClick));
         statsListView.setItems(statsList);
 
         presenter.attach(this);
@@ -52,6 +59,6 @@ public class HistoryGuiView extends JavaFxView<HistoryPresenter> implements Hist
 
     @Override
     public void removeFromList(int index) {
-
+        statsList.remove(index);
     }
 }

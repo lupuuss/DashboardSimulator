@@ -4,14 +4,16 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import javafx.scene.text.Text?>
-<HBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="p.lodz.dashboardsimulator.modules.history.HistoryCell"
-      prefHeight="50.0" prefWidth="300.0">
+<fx:root type="javafx.scene.control.ListCell" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+    <graphic>
+        <HBox xmlns="http://javafx.com/javafx"
+              xmlns:fx="http://javafx.com/fxml"
+                alignment="CENTER">
 
-    <Text fx:id="statText" text="No nieźle"/>
+            <Label fx:id="statText" text="No nieźle" textAlignment="CENTER" style="-fx-padding: 5px;"/>
 
-    <Button fx:id="removeButton" text="Remove" />
+            <Button fx:id="removeButton" text="Remove" />
 
-</HBox>
+        </HBox>
+    </graphic>
+</fx:root>
