@@ -40,9 +40,14 @@ public class FxModulesRunner {
         stage.setTitle(module.getTitle());
         stage.setScene(new Scene(root));
 
-        Injector injector = module.getInjectorSupplier();
+        Injector injector;
 
-        injector.init(globalInjector);
+        if (module.getInjectorSupplier() != null) {
+            injector = module.getInjectorSupplier().get();
+            injector.init(globalInjector);
+        } else {
+            injector = globalInjector;
+        }
 
         view.attachFx(stage.getScene(), this);
         view.start(injector);

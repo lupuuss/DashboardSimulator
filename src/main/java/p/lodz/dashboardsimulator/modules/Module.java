@@ -28,8 +28,8 @@ public enum Module {
         this.title = title;
     }
 
-    public Injector getInjectorSupplier() {
-        return injectorSupplier.get();
+    public Supplier<Injector> getInjectorSupplier() {
+        return injectorSupplier;
     }
 
     public String getFxmlName() {

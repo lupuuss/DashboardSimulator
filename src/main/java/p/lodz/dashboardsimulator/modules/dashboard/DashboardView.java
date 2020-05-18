@@ -69,4 +69,6 @@ public interface DashboardView extends View<DashboardPresenter> {
      * @param isOn Determines if back fog light is on/off.
      */
     void setFrontFogLightState(boolean isOn);
+
+    void openStatsHistory();
 }

@@ -5,7 +5,6 @@ import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import p.lodz.dashboardsimulator.base.Injector;
-import p.lodz.dashboardsimulator.model.light.LightsMode;
 import p.lodz.dashboardsimulator.model.monitor.statistics.TravelStatistics;
 import p.lodz.dashboardsimulator.model.monitor.odometer.Mileage;
 import p.lodz.dashboardsimulator.modules.dashboard.DashboardInjector;
@@ -110,6 +109,11 @@ public class DashboardConsoleView implements DashboardView {
 
     @Override
     public void setFrontFogLightState(boolean isOn) {
+
+    }
+
+    @Override
+    public void openStatsHistory() {
 
     }
 

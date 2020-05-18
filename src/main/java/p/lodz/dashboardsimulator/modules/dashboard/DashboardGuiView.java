@@ -16,6 +16,9 @@ import p.lodz.dashboardsimulator.model.light.LightsMode;
 import p.lodz.dashboardsimulator.model.monitor.odometer.Mileage;
 import p.lodz.dashboardsimulator.model.monitor.statistics.TravelStatistics;
 import p.lodz.dashboardsimulator.modules.FxModulesRunner;
+import p.lodz.dashboardsimulator.modules.Module;
+
+import java.io.IOException;
 
 public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements DashboardView {
 
@@ -121,6 +124,7 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
         MenuItem settingsItem = new MenuItem("Ustawienia");
 
         saveStatsItem.setOnAction(event -> presenter.saveCurrentStatsToDatabase());
+        statsHistoryItem.setOnAction(event -> presenter.openStatsHistory());
 
         fileMenu.getItems().addAll(
                 saveStatsItem,
@@ -241,6 +245,16 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
     @Override
     public void setHighBeamLight(boolean isOn) {
         highBeamLight.setVisible(isOn);
+    }
+
+    @Override
+    public void openStatsHistory() {
+
+        try {
+            runner.runModule(Module.HISTORY);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

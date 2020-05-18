@@ -272,4 +272,8 @@ public class DashboardPresenter extends Presenter<DashboardView> {
     public void closeView() {
         view.close();
     }
+
+    public void openStatsHistory() {
+        view.openStatsHistory();
+    }
 }
