@@ -2,6 +2,8 @@ package p.lodz.dashboardsimulator.modules.dashboard;
 
 import p.lodz.dashboardsimulator.base.GlobalInjector;
 import p.lodz.dashboardsimulator.base.Injector;
+import p.lodz.dashboardsimulator.model.control.ActiveCruiseControl;
+import p.lodz.dashboardsimulator.model.control.ActiveCruiseControlSimulator;
 import p.lodz.dashboardsimulator.model.engine.Engine;
 import p.lodz.dashboardsimulator.model.engine.EngineSimulator;
 import p.lodz.dashboardsimulator.model.light.LightsController;
@@ -19,6 +21,7 @@ public class DashboardInjector implements Injector {
     private Odometer odometer;
     private LightsController lightsController;
     private TravelDataRepository travelDataRepository;
+    private ActiveCruiseControl activeCruiseControl;
 
     @Override
     public void init(Injector parentInjector) {
@@ -29,6 +32,7 @@ public class DashboardInjector implements Injector {
         statisticsMonitor = new BasicStatisticsMonitor();
         odometer = new BasicOdometer(globalInjector.getSerializer(), 2);
         lightsController = new LightsControllerSimulator();
+        activeCruiseControl = new ActiveCruiseControlSimulator();
         travelDataRepository = globalInjector.getTravelDataRepository();
     }
 
@@ -50,5 +54,9 @@ public class DashboardInjector implements Injector {
 
     public TravelDataRepository getTravelDataRepository() {
         return travelDataRepository;
+    }
+
+    public ActiveCruiseControl getActiveCruiseControl() {
+        return activeCruiseControl;
     }
 }

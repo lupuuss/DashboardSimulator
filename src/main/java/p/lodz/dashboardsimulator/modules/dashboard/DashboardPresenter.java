@@ -2,6 +2,8 @@ package p.lodz.dashboardsimulator.modules.dashboard;
 
 import io.reactivex.disposables.Disposable;
 import p.lodz.dashboardsimulator.base.Presenter;
+import p.lodz.dashboardsimulator.base.View;
+import p.lodz.dashboardsimulator.model.control.ActiveCruiseControl;
 import p.lodz.dashboardsimulator.model.engine.Engine;
 import p.lodz.dashboardsimulator.model.engine.EngineState;
 import p.lodz.dashboardsimulator.model.light.LightsController;
@@ -25,6 +27,7 @@ public class DashboardPresenter extends Presenter<DashboardView> {
     private StatisticsMonitor engineMonitor;
     private LightsController lightsController;
     private Odometer odometer;
+    private ActiveCruiseControl cruiseControl;
     private TravelDataRepository repository;
 
     private List<Disposable> subscriptions = new ArrayList<>();
@@ -34,12 +37,14 @@ public class DashboardPresenter extends Presenter<DashboardView> {
             StatisticsMonitor engineMonitor,
             LightsController lightsController,
             Odometer odometer,
+            ActiveCruiseControl cruiseControl,
             TravelDataRepository repository
     ) {
         this.engine = engine;
         this.engineMonitor = engineMonitor;
         this.lightsController = lightsController;
         this.odometer = odometer;
+        this.cruiseControl = cruiseControl;
         this.repository = repository;
     }
 
@@ -214,14 +219,19 @@ public class DashboardPresenter extends Presenter<DashboardView> {
      * @param speed Speed limit for cruise control in km/h.
      */
     public void activateCruiseControl(double speed) {
-        // TODO
+
+        if (speed <= 0) {
+            view.showMessage("Invalid speed!", View.MessageType.ERROR);
+        } else {
+            cruiseControl.keepEngineSpeed(engine, speed);
+        }
     }
 
     /**
      * Notifies presenter about user intent to deactivate cruise control.
      */
     public void deactivateCruiseControl() {
-        // TODO
+        cruiseControl.dropControl();
     }
 
     public void saveCurrentStatsToDatabase() {

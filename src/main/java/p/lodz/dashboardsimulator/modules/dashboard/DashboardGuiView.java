@@ -114,6 +114,7 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
                 dashboardInjector.getStatisticsMonitor(),
                 dashboardInjector.getLightsController(),
                 dashboardInjector.getOdometer(),
+                dashboardInjector.getActiveCruiseControl(),
                 dashboardInjector.getTravelDataRepository()
         );
 

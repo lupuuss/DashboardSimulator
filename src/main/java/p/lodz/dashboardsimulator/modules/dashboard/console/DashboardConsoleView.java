@@ -36,6 +36,7 @@ public class DashboardConsoleView implements DashboardView {
                 dashboardInjector.getStatisticsMonitor(),
                 dashboardInjector.getLightsController(),
                 dashboardInjector.getOdometer(),
+                dashboardInjector.getActiveCruiseControl(),
                 dashboardInjector.getTravelDataRepository()
         );
 
