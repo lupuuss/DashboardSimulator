@@ -74,8 +74,6 @@ public class HistoryPresenter extends Presenter<HistoryView> {
 
     public void removeStats(int index) {
 
-
-
         Disposable removeDisposable = travelDataRepository
                 .removeTravelStatistics(currentStats.get(index).getId())
                 .observeOn(currentScheduler)
@@ -90,7 +88,8 @@ public class HistoryPresenter extends Presenter<HistoryView> {
                             }
 
                             },
-                        this::displayError)
-                ;
+                        this::displayError
+                );
+        subscriptions.add(removeDisposable);
     }
 }
