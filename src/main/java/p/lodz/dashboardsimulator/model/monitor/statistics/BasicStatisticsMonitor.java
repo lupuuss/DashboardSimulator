@@ -1,9 +1,11 @@
 package p.lodz.dashboardsimulator.model.monitor.statistics;
 
 import io.reactivex.Observable;
-import p.lodz.dashboardsimulator.utils.AtomicDouble;
+import p.lodz.dashboardsimulator.model.engine.Engine;
+import p.lodz.dashboardsimulator.model.serialize.Serializer;
+import p.lodz.dashboardsimulator.model.serialize.exceptions.DeserializationException;
+import p.lodz.dashboardsimulator.model.serialize.exceptions.SerializationException;
 
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -12,14 +14,65 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class BasicStatisticsMonitor extends StatisticsMonitor {
 
-    private AtomicLong travelTime = new AtomicLong(0);
-    private AtomicDouble maxSpeed = new AtomicDouble(0.0);
+    private long travelTime = 0;
+    private double maxSpeed = 0;
 
-    private AtomicLong avgCount = new AtomicLong(0);
-    private AtomicDouble avgSpeed = new AtomicDouble(0.0);
+    private long avgSpeedCount = 0;
+    private double avgSpeed = 0;
 
-    private AtomicDouble distance = new AtomicDouble(0.0);
+    private long avgFuelCount = 0;
+    private double avgFuel = 0;
+
+    private double distance = 0;
     private AtomicReference<TravelStatistics> travelStatisticsAtomicReference = new AtomicReference<>(null);
+
+    private final Serializer serializer;
+
+    private final String serializationKey = "backup";
+
+    public BasicStatisticsMonitor(Serializer serializer) {
+        this.serializer = serializer;
+    }
+
+    @Override
+    public void watch(Engine engine) {
+
+        TravelStatistics previousState = null;
+        AvgCounters avgCounters = null;
+
+        try {
+
+            previousState = serializer.deserialize(serializationKey, TravelStatistics.class);
+            avgCounters = serializer.deserialize(serializationKey, AvgCounters.class);
+
+        } catch (DeserializationException e) {
+            e.printStackTrace();
+        }
+
+        if (previousState != null && avgCounters != null) {
+            travelTime = previousState.getTravelTime();
+            maxSpeed = previousState.getMaxSpeed();
+            avgSpeedCount = avgCounters.getAvgSpeedCounter();
+            avgSpeed = previousState.getAvgSpeed();
+            distance = previousState.getDistance();
+        }
+
+        super.watch(engine);
+    }
+
+    @Override
+    public void closeAndSave() {
+
+        try {
+
+            serializer.serialize(serializationKey, travelStatisticsAtomicReference.get());
+            serializer.serialize(serializationKey, new AvgCounters(avgSpeedCount, avgFuelCount));
+
+        } catch (SerializationException e) {
+            System.out.println("Statistics data could not be saved!");
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Returns observable travel statistics.
@@ -30,27 +83,25 @@ public class BasicStatisticsMonitor extends StatisticsMonitor {
         return engineState
                 .map(state -> {
 
-                    long n = avgCount.getAndIncrement();
+                    long n = avgSpeedCount++;
 
-                    avgSpeed.set((avgSpeed.get() * n + state.getSpeed()) / (n + 1));
+                    avgSpeed = (avgSpeed * n + state.getSpeed()) / (n + 1);
 
                     if (state.getSpeed() != 0.0) {
-                        travelTime.addAndGet(state.getBetweenTicks());
 
-                        double dist = (state.getSpeed() / (60 * 60 * 1000)) * state.getBetweenTicks();
-
-                        distance.addAndGet(dist);
+                        travelTime += state.getBetweenTicks();
+                        distance += (state.getSpeed() / (60 * 60 * 1000)) * state.getBetweenTicks();
                     }
 
-                    if (state.getSpeed() > maxSpeed.get()){
-                        maxSpeed.set(state.getSpeed());
+                    if (state.getSpeed() > maxSpeed){
+                        maxSpeed = state.getSpeed();
                     }
 
                     TravelStatistics tmp = new TravelStatistics(
-                            avgSpeed.get(),
-                            maxSpeed.get(),
-                            travelTime.get(),
-                            distance.get(),
+                            avgSpeed,
+                            maxSpeed,
+                            travelTime,
+                            distance,
                             0 // TODO
                     );
 
@@ -63,5 +114,24 @@ public class BasicStatisticsMonitor extends StatisticsMonitor {
     @Override
     public TravelStatistics getLastStatistics() {
         return travelStatisticsAtomicReference.get();
+    }
+}
+
+class AvgCounters {
+
+    private final long avgSpeedCounter;
+    private final long avgFuelCounter;
+
+    AvgCounters(long avgSpeedCounter, long avgFuelCounter) {
+        this.avgSpeedCounter = avgSpeedCounter;
+        this.avgFuelCounter = avgFuelCounter;
+    }
+
+    public long getAvgSpeedCounter() {
+        return avgSpeedCounter;
+    }
+
+    public long getAvgFuelCounter() {
+        return avgFuelCounter;
     }
 }

@@ -275,6 +275,7 @@ public class DashboardPresenter extends Presenter<DashboardView> {
 
         engine.stop();
         odometer.closeAndSave();
+        engineMonitor.closeAndSave();
         subscriptions.forEach(Disposable::dispose);
     }
 

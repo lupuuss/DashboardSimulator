@@ -21,4 +21,6 @@ public abstract class StatisticsMonitor extends EngineMonitor {
      * @return Instance of {@link TravelStatistics} with last produced statistics.
      */
     public abstract TravelStatistics getLastStatistics();
+
+    public abstract void closeAndSave();
 }

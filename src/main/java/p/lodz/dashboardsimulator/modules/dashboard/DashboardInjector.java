@@ -29,7 +29,7 @@ public class DashboardInjector implements Injector {
         GlobalInjector globalInjector = (GlobalInjector) parentInjector;
 
         engine = new EngineSimulator(20, 300, 50);
-        statisticsMonitor = new BasicStatisticsMonitor();
+        statisticsMonitor = new BasicStatisticsMonitor(globalInjector.getSerializer());
         odometer = new BasicOdometer(globalInjector.getSerializer(), 2);
         lightsController = new LightsControllerSimulator();
         activeCruiseControl = new ActiveCruiseControlSimulator();
