@@ -30,8 +30,8 @@ public interface Engine {
     void stop();
 
     /**
-     * Returns an observable object that allows to watch engine state.
-     * @return {@link Observable} with {@link EngineState}.
+     * Returns an {@link Observable} object that allows to watch current {@link EngineState}.
+     * @return {@link Observable} that streams {@link EngineState}.
      */
     Observable<EngineState> getEngineState();
 }

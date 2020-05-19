@@ -83,9 +83,11 @@ public class BasicStatisticsMonitor extends StatisticsMonitor {
         return engineState
                 .map(state -> {
 
-                    long n = avgSpeedCount++;
+                    avgSpeedCount++;
+                    avgFuelCount++;
 
-                    avgSpeed = (avgSpeed * n + state.getSpeed()) / (n + 1);
+                    avgSpeed = (avgSpeed * avgSpeedCount + state.getSpeed()) / (avgSpeedCount + 1);
+                    avgFuel = (avgFuel * avgFuelCount + state.getFuelConsumption()) / (avgFuelCount + 1);
 
                     if (state.getSpeed() != 0.0) {
 
@@ -102,7 +104,7 @@ public class BasicStatisticsMonitor extends StatisticsMonitor {
                             maxSpeed,
                             travelTime,
                             distance,
-                            0 // TODO
+                            avgFuel
                     );
 
                     travelStatisticsAtomicReference.set(tmp);

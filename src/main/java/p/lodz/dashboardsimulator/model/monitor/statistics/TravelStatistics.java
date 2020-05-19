@@ -64,7 +64,7 @@ public class TravelStatistics {
 
     /**
      * Returns average fuel consumption in liters per kilometer.
-     * @return Average fuel use in liters per kilometer.
+     * @return Average fuel use in liters per 100 kilometer.
      */
     public double getAvgFuelConsumption() {
         return avgFuelConsumption;
