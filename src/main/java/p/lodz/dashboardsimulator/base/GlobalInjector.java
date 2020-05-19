@@ -4,6 +4,8 @@ import p.lodz.dashboardsimulator.model.repositories.JdbcTravelDataRepository;
 import p.lodz.dashboardsimulator.model.repositories.TravelDataRepository;
 import p.lodz.dashboardsimulator.model.serialize.Serializer;
 import p.lodz.dashboardsimulator.model.serialize.XmlSerializer;
+import p.lodz.dashboardsimulator.model.settings.Settings;
+import p.lodz.dashboardsimulator.model.settings.SettingsManager;
 
 /**
  * Contains instances shared between other injectors
@@ -12,6 +14,7 @@ public class GlobalInjector implements Injector {
 
     private Serializer serializer;
     private TravelDataRepository travelDataRepository;
+    private SettingsManager settingsManager;
 
     /**
      * Creates shared instances.
@@ -20,7 +23,16 @@ public class GlobalInjector implements Injector {
     @Override
     public void init(Injector parentInjector) {
         serializer = new XmlSerializer(".\\serializable\\");
-        travelDataRepository = new JdbcTravelDataRepository();
+        settingsManager = new SettingsManager(serializer);
+
+        Settings settings = settingsManager.getSettings();
+
+        travelDataRepository = new JdbcTravelDataRepository(
+                settings.getDatabaseUser(),
+                settings.getDatabasePassword(),
+                settings.getDatabaseHost(),
+                settings.getDatabaseName()
+        );
     }
 
     /**
@@ -37,5 +49,9 @@ public class GlobalInjector implements Injector {
      */
     public TravelDataRepository getTravelDataRepository() {
         return travelDataRepository;
+    }
+
+    public SettingsManager getSettingsManager() {
+        return settingsManager;
     }
 }

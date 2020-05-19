@@ -13,6 +13,7 @@ import p.lodz.dashboardsimulator.model.monitor.odometer.Odometer;
 import p.lodz.dashboardsimulator.model.monitor.statistics.BasicStatisticsMonitor;
 import p.lodz.dashboardsimulator.model.monitor.statistics.StatisticsMonitor;
 import p.lodz.dashboardsimulator.model.repositories.TravelDataRepository;
+import p.lodz.dashboardsimulator.model.settings.Settings;
 
 public class DashboardInjector implements Injector {
 
@@ -28,7 +29,15 @@ public class DashboardInjector implements Injector {
 
         GlobalInjector globalInjector = (GlobalInjector) parentInjector;
 
-        engine = new EngineSimulator(20, 300, 50);
+        Settings settings = globalInjector
+                .getSettingsManager()
+                .getSettings();
+
+        engine = new EngineSimulator(
+                settings.getAccelerationConst(),
+                settings.getMaximumSpeed(),
+                settings.getBetweenEngineTicks()
+        );
         statisticsMonitor = new BasicStatisticsMonitor(globalInjector.getSerializer());
         odometer = new BasicOdometer(globalInjector.getSerializer(), 2);
         lightsController = new LightsControllerSimulator();

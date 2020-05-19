@@ -14,9 +14,11 @@ import java.util.List;
 public class JdbcTravelDataRepository implements TravelDataRepository {
 
     private final String driverName = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    private final String connectionUrl = "jdbc:sqlserver://localhost:1433;databaseName=dashboard;";
-    private final String user = "root";
-    private final String password = "root";
+    private final String connectionUrl;
+    private final String user;
+    private final String password;
+
+
 
     private final String createTravelTableQuery = "IF OBJECT_ID('travels', 'U') IS NULL " +
             "CREATE TABLE travels(" +
@@ -36,6 +38,12 @@ public class JdbcTravelDataRepository implements TravelDataRepository {
             "distance," +
             "avgFuelConsumption" +
             ") VALUES(?, ?, ?, ?, ?)";
+
+    public JdbcTravelDataRepository(String user, String password, String databaseHost, String databaseName) {
+        this.user = user;
+        this.password = password;
+        connectionUrl = "jdbc:sqlserver://" + databaseHost + ";databaseName=" + databaseName + ";";
+    }
 
     @FunctionalInterface
     private interface SqlThrowingFunction<T, R> {

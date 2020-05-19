@@ -10,6 +10,10 @@ import java.util.List;
  */
 public interface TravelDataRepository {
 
+    public enum Type {
+        JDBC, XML
+    }
+
     /**
      * Adds passed travel statistics to the database.
      * @param travelStatistics statistics to be added to the database.
