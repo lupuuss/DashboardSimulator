@@ -126,6 +126,7 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
 
         saveStatsItem.setOnAction(event -> presenter.saveCurrentStatsToDatabase());
         statsHistoryItem.setOnAction(event -> presenter.openStatsHistory());
+        settingsItem.setOnAction(event -> presenter.openSettings());
 
         fileMenu.getItems().addAll(
                 saveStatsItem,
@@ -254,6 +255,15 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
 
         try {
             runner.runModule(Module.HISTORY);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void openSettings() {
+        try {
+            runner.runModule(Module.SETTINGS);
         } catch (IOException e) {
             e.printStackTrace();
         }

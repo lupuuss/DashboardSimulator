@@ -72,5 +72,7 @@ public interface DashboardView extends View<DashboardPresenter> {
 
     void openStatsHistory();
 
+    void openSettings();
+
     void updateRpm(int rpm);
 }

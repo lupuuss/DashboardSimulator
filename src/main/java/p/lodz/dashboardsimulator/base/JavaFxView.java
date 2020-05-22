@@ -2,11 +2,16 @@ package p.lodz.dashboardsimulator.base;
 
 import io.reactivex.Scheduler;
 import io.reactivex.rxjavafx.schedulers.JavaFxScheduler;
-import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import p.lodz.dashboardsimulator.modules.FxModulesRunner;
+
+import java.util.Optional;
+import java.util.function.Consumer;
+
+import static javafx.scene.control.ButtonType.OK;
 
 /**
  * Provides useful methods for views that are implemented using JavaFX.
@@ -66,6 +71,21 @@ public abstract class JavaFxView<T extends Presenter<?>> implements View<T> {
         Alert alert = new Alert(alertType, message);
 
         alert.show();
+    }
+
+    @Override
+    public void askUser(String message, Consumer<Boolean> onUserDecision) {
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+
+        alert.setContentText(message);
+        Optional<ButtonType> buttonType = alert.showAndWait();
+
+        if (buttonType.isPresent() && buttonType.get() == OK) {
+            onUserDecision.accept(true);
+        } else {
+            onUserDecision.accept(false);
+        }
     }
 
     @Override

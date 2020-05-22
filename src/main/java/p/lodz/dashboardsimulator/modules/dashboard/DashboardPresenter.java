@@ -218,12 +218,22 @@ public class DashboardPresenter extends Presenter<DashboardView> {
 
     /**
      * Notifies presenter about user intent to activate cruise control with given speed.
-     * @param speed Speed limit for cruise control in km/h.
+     * @param speedInput Speed limit input in km/h from user (might be invalid).
      */
-    public void activateCruiseControl(double speed) {
+    public void activateCruiseControl(String speedInput) {
+
+        double speed = -1;
+
+        try {
+            speed = Double.parseDouble(speedInput);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+
+            view.showMessage("Speed input must be a numeric value in km/h!", View.MessageType.ERROR);
+        }
 
         if (speed <= 0) {
-            view.showMessage("Invalid speed!", View.MessageType.ERROR);
+            view.showMessage("Speed must be a positive number!", View.MessageType.ERROR);
         } else {
             cruiseControl.keepEngineSpeed(engine, speed);
         }
@@ -288,5 +298,9 @@ public class DashboardPresenter extends Presenter<DashboardView> {
 
     public void openStatsHistory() {
         view.openStatsHistory();
+    }
+
+    public void openSettings() {
+        view.openSettings();
     }
 }

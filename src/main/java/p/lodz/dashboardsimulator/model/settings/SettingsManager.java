@@ -41,6 +41,10 @@ public class SettingsManager {
         return settings;
     }
 
+    public void setSettings(Settings settings) {
+        this.settings = settings;
+    }
+
     public void edit(Consumer<Settings> edit) {
         edit.accept(settings);
     }
