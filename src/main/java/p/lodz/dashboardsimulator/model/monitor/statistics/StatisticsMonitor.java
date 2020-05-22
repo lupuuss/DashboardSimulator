@@ -22,5 +22,8 @@ public abstract class StatisticsMonitor extends EngineMonitor {
      */
     public abstract TravelStatistics getLastStatistics();
 
+    /**
+     * Persists collected data.
+     */
     public abstract void closeAndSave();
 }

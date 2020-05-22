@@ -2,6 +2,7 @@ package p.lodz.dashboardsimulator.model.monitor.statistics;
 
 import io.reactivex.Observable;
 import p.lodz.dashboardsimulator.model.engine.Engine;
+import p.lodz.dashboardsimulator.model.monitor.odometer.BasicOdometer;
 import p.lodz.dashboardsimulator.model.serialize.Serializer;
 import p.lodz.dashboardsimulator.model.serialize.exceptions.DeserializationException;
 import p.lodz.dashboardsimulator.model.serialize.exceptions.SerializationException;
@@ -30,10 +31,18 @@ public class BasicStatisticsMonitor extends StatisticsMonitor {
 
     private final String serializationKey = "backup";
 
+    /**
+     * Empty BasicStatistcsMonitor with passed serializer. Before any action {@link BasicStatisticsMonitor#watch(Engine)} must be called.
+     * @param serializer Implementation of serializer that is required to persist statistics.
+     */
     public BasicStatisticsMonitor(Serializer serializer) {
         this.serializer = serializer;
     }
 
+    /**
+     * Loads persisted statistics and initializes engine subscription. After this method call engine is considered monitored.
+     * @param engine Instance of {@link Engine} that will be monitored.
+     */
     @Override
     public void watch(Engine engine) {
 
@@ -60,6 +69,9 @@ public class BasicStatisticsMonitor extends StatisticsMonitor {
         super.watch(engine);
     }
 
+    /**
+     * Persists current statistics for next run.
+     */
     @Override
     public void closeAndSave() {
 
@@ -113,6 +125,10 @@ public class BasicStatisticsMonitor extends StatisticsMonitor {
                 });
     }
 
+    /**
+     * Returns last calculated statistics
+     * @return Last calculated statistics.
+     */
     @Override
     public TravelStatistics getLastStatistics() {
         return travelStatisticsAtomicReference.get();

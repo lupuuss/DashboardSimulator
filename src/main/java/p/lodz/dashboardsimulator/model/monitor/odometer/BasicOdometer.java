@@ -25,6 +25,7 @@ public class BasicOdometer extends Odometer {
     private final String serializationKey = "backup";
 
     /**
+     * Empty BasicOdometer with passed serializer. Before any action {@link BasicOdometer#watch(Engine)} must be called.
      * @param serializer Implementation of serializer that is required to persist mileage data.
      * @param resettableCount Amount of resettable mileages.
      */
@@ -34,7 +35,7 @@ public class BasicOdometer extends Odometer {
     }
 
     /**
-     * Loads persisted mileage data.
+     * Loads persisted mileage data and initializes engine subscription. After this method call engine is considered monitored.
      * @param engine Instance of {@link Engine} that will be monitored.
      */
     @Override

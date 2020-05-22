@@ -67,9 +67,21 @@ public interface LightsController {
      */
     Observable<Boolean> getFogFrontLightsState();
 
+    /**
+     * Returns last state of fog front light.
+     * @return Last state of fog front light.
+     */
     boolean isFogFrontLightOn();
 
+    /**
+     * Returns last state of fog back light.
+     * @return Last state of fog back light.
+     */
     boolean isFogBackLightOn();
 
+    /**
+     * Returns last lights mode.
+     * @return Last lights mode.
+     */
     LightsMode getCurrentLightsMode();
 }

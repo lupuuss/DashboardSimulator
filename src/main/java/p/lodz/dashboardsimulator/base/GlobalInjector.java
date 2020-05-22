@@ -36,7 +36,7 @@ public class GlobalInjector implements Injector {
     }
 
     /**
-     * Returns xml implementation of serializer.
+     * Returns xml implementation of {@link Serializer}.
      * @return Instance of {@link XmlSerializer}
      */
     public Serializer getSerializer() {
@@ -44,13 +44,17 @@ public class GlobalInjector implements Injector {
     }
 
     /**
-     * Returns TravelDataRepository implemented in JDBC using MS SQL
+     * Returns {@link TravelDataRepository} implemented in JDBC using MS SQL
      * @return Instance of {@link JdbcTravelDataRepository}
      */
     public TravelDataRepository getTravelDataRepository() {
         return travelDataRepository;
     }
 
+    /**
+     * Returns {@link SettingsManager}
+     * @return {@link SettingsManager}
+     */
     public SettingsManager getSettingsManager() {
         return settingsManager;
     }

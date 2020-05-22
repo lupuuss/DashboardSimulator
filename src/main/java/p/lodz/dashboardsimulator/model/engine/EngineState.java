@@ -1,7 +1,7 @@
 package p.lodz.dashboardsimulator.model.engine;
 
 /**
- * Data class that describes engine state.
+ * Data class that describes engine state. Contains properties like speed and rpm.
  */
 public class EngineState {
 

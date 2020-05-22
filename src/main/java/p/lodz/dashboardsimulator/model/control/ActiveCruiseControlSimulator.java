@@ -10,8 +10,14 @@ public class ActiveCruiseControlSimulator implements ActiveCruiseControl {
     private double speedLimit = 0;
 
     private Disposable engineDispose;
-    private Vehicle vehicle;
+    private Vehicle frontVehicle;
 
+    /**
+     * Starts to observe passed engine using {@link io.reactivex.Observable}.
+     * On every change adjusts the engine acceleration to keep vehicle speed at given level.
+     * @param engine {@link Engine} to be controlled.
+     * @param speed Speed level in km/h that has to be kept.
+     */
     @Override
     public void keepEngineSpeed(Engine engine, double speed) {
         currentEngine = engine;
@@ -26,10 +32,10 @@ public class ActiveCruiseControlSimulator implements ActiveCruiseControl {
 
         double speedToKeep;
 
-        if (vehicle == null) {
+        if (frontVehicle == null) {
             speedToKeep = speedLimit;
         } else {
-            speedToKeep = Math.min(vehicle.getSpeed(), speedLimit);
+            speedToKeep = Math.min(frontVehicle.getSpeed(), speedLimit);
         }
 
         if (engineState.getSpeed() < speedToKeep) {
@@ -40,6 +46,9 @@ public class ActiveCruiseControlSimulator implements ActiveCruiseControl {
 
     }
 
+    /**
+     * Stops engine subscription and engine is no longer controlled.
+     */
     @Override
     public void dropControl() {
         engineDispose.dispose();
@@ -48,8 +57,13 @@ public class ActiveCruiseControlSimulator implements ActiveCruiseControl {
         speedLimit = 0;
     }
 
+    /**
+     * Sets vehicle in front of a car. Its speed has higher priority than
+     * speed passed in {@link ActiveCruiseControlSimulator#keepEngineSpeed(Engine, double)}
+     * @param vehicle Instance of {@link Vehicle} which speed is to be followed.
+     */
     @Override
     public void setFrontVehicle(Vehicle vehicle) {
-        this.vehicle = vehicle;
+        this.frontVehicle = vehicle;
     }
 }

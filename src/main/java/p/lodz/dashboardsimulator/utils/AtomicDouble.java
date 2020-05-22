@@ -2,6 +2,9 @@ package p.lodz.dashboardsimulator.utils;
 
 import java.util.concurrent.atomic.AtomicLong;
 
+/**
+ * Wraps AtomicLong to provide atomic features for double.
+ */
 public class AtomicDouble {
 
     private AtomicLong value;

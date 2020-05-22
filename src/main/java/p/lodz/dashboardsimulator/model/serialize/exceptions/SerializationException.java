@@ -7,14 +7,14 @@ package p.lodz.dashboardsimulator.model.serialize.exceptions;
 public class SerializationException extends Exception {
 
     /**
-     * @param cause of occurred exception.
+     * @param cause Cause of occurred exception.
      */
     public SerializationException(Throwable cause) {
         super(cause);
     }
 
     /**
-     * @param msg describing occurred exception.
+     * @param msg  Message describing occurred exception.
      */
     public SerializationException(String msg) {
         super(msg);

@@ -73,6 +73,11 @@ public abstract class JavaFxView<T extends Presenter<?>> implements View<T> {
         alert.show();
     }
 
+    /**
+     * Displays conformation dialog using {@link Alert} with passed message/question as content.
+     * @param message Question to the user.
+     * @param onUserDecision On user decision listener.
+     */
     @Override
     public void askUser(String message, Consumer<Boolean> onUserDecision) {
 
@@ -88,6 +93,9 @@ public abstract class JavaFxView<T extends Presenter<?>> implements View<T> {
         }
     }
 
+    /**
+     * Closes JavaFx window.
+     */
     @Override
     public void close() {
         ((Stage) scene.getWindow()).close();

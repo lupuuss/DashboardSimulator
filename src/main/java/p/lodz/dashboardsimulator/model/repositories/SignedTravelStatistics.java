@@ -11,6 +11,7 @@ public class SignedTravelStatistics extends TravelStatistics {
     private java.util.Date date;
 
     /**
+     * Initialize object properties with given values.
      * @param avgSpeed           Average speed in km/h.
      * @param maxSpeed           Maximum speed in in km/h.
      * @param travelTime         Travel time in ms.
@@ -40,6 +41,10 @@ public class SignedTravelStatistics extends TravelStatistics {
         return id;
     }
 
+    /**
+     * Returns the date the statistics were added to the database.
+     * @return The {@link java.util.Date} the statistics were added to the database.
+     */
     public java.util.Date getDate() {
         return date;
     }

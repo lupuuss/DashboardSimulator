@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Typical data class. Contains mileage data. That includes total mileage and an unlimited amount of resettable mileages.
+ * Typical data class. Contains mileage data, that includes total mileage and an unlimited amount of resettable mileages.
  */
 public class Mileage {
 

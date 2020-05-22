@@ -18,8 +18,6 @@ public class JdbcTravelDataRepository implements TravelDataRepository {
     private final String user;
     private final String password;
 
-
-
     private final String createTravelTableQuery = "IF OBJECT_ID('travels', 'U') IS NULL " +
             "CREATE TABLE travels(" +
             "id INT NOT NULL IDENTITY(1, 1) PRIMARY KEY," +
@@ -39,6 +37,13 @@ public class JdbcTravelDataRepository implements TravelDataRepository {
             "avgFuelConsumption" +
             ") VALUES(?, ?, ?, ?, ?)";
 
+    /**
+     * Initialize database properties with given values.
+     * @param user User name.
+     * @param password Password for passed user.
+     * @param databaseHost Ip address/domain where database server is hosted.
+     * @param databaseName Name of database to be used.
+     */
     public JdbcTravelDataRepository(String user, String password, String databaseHost, String databaseName) {
         this.user = user;
         this.password = password;
@@ -72,6 +77,11 @@ public class JdbcTravelDataRepository implements TravelDataRepository {
         }));
     }
 
+    /**
+     * Adds travel statistcs to the database.
+     * @param travelStatistics statistics to be added to the database.
+     * @return Observable state of a query. List of statistics is return if successful.
+     */
     @Override
     public Observable<Boolean> addTravelStatistics(TravelStatistics travelStatistics) {
         return createConnectionConsumer(((connection) -> {
@@ -92,6 +102,10 @@ public class JdbcTravelDataRepository implements TravelDataRepository {
                 .subscribeOn(Schedulers.single());
     }
 
+    /**
+     * Performs a query that returns all travel statistics from database.
+     * @return Observable state of a query. List of statistics is return if successful.
+     */
     @Override
     public Observable<List<SignedTravelStatistics>> getAllTravelStatistics() {
         return createConnectionConsumer((connection) -> {
@@ -126,6 +140,11 @@ public class JdbcTravelDataRepository implements TravelDataRepository {
                 .subscribeOn(Schedulers.single());
     }
 
+    /**
+     * Removes a row with given id from database.
+     * @param id Id of row to be removed.
+     * @return Observable state of a query. True is emitted if successful.
+     */
     @Override
     public Observable<Boolean> removeTravelStatistics(int id) {
         return createConnectionConsumer((connection) -> {

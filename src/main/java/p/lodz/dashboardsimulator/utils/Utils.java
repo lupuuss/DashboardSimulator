@@ -1,5 +1,8 @@
 package p.lodz.dashboardsimulator.utils;
 
+/**
+ * Contains static utility methods.
+ */
 public class Utils {
 
     public static double round(double value, int n) {
