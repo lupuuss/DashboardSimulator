@@ -40,6 +40,7 @@ public class HistoryGuiView extends JavaFxView<HistoryPresenter> implements Hist
     @Override
     public void close() {
         presenter.detach();
+        super.close();
     }
 
     @Override

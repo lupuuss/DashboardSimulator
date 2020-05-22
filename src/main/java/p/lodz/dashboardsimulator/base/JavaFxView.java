@@ -2,8 +2,10 @@ package p.lodz.dashboardsimulator.base;
 
 import io.reactivex.Scheduler;
 import io.reactivex.rxjavafx.schedulers.JavaFxScheduler;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.stage.Stage;
 import p.lodz.dashboardsimulator.modules.FxModulesRunner;
 
 /**
@@ -64,5 +66,10 @@ public abstract class JavaFxView<T extends Presenter<?>> implements View<T> {
         Alert alert = new Alert(alertType, message);
 
         alert.show();
+    }
+
+    @Override
+    public void close() {
+        ((Stage) scene.getWindow()).close();
     }
 }

@@ -19,6 +19,11 @@ public enum Module {
             null,
             "/history.fxml",
             "Statistics history"
+    ),
+    SETTINGS(
+            null,
+            "/settings.fxml",
+            "Settings"
     );
 
     private Supplier<Injector> injectorSupplier;

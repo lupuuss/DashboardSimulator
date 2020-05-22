@@ -66,7 +66,10 @@ public class FxModulesRunner {
         view.start(injector);
 
         stage.show();
-        stage.setOnCloseRequest(event -> view.notifyCloseEvent());
+        stage.setOnCloseRequest(event -> {
+            view.notifyCloseEvent();
+            event.consume();
+        });
     }
 
 }

@@ -176,6 +176,7 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
     @Override
     public void close() {
         presenter.detach();
+        super.close();
     }
 
     @Override
