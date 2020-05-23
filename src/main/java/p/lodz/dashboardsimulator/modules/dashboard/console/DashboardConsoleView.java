@@ -11,6 +11,8 @@ import p.lodz.dashboardsimulator.modules.dashboard.DashboardInjector;
 import p.lodz.dashboardsimulator.modules.dashboard.DashboardPresenter;
 import p.lodz.dashboardsimulator.modules.dashboard.DashboardView;
 
+import java.util.function.Consumer;
+
 public class DashboardConsoleView implements DashboardView {
 
     private double speed;
@@ -119,12 +121,22 @@ public class DashboardConsoleView implements DashboardView {
     }
 
     @Override
+    public void openSettings() {
+
+    }
+
+    @Override
     public void updateRpm(int rpm) {
 
     }
 
     @Override
     public void showMessage(String message, MessageType type) {
+
+    }
+
+    @Override
+    public void askUser(String message, Consumer<Boolean> onUserDecision) {
 
     }
 
