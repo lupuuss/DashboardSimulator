@@ -19,8 +19,10 @@ javafx {
 repositories {
     mavenCentral()
 }
-
-
+run {
+    args "--cli"
+    standardInput = System.in
+}
 jar {
     manifest {
         attributes(

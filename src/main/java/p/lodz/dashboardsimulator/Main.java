@@ -1,6 +1,8 @@
 package p.lodz.dashboardsimulator;
 
+import io.reactivex.schedulers.Schedulers;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.stage.Stage;
 import p.lodz.dashboardsimulator.base.GlobalInjector;
 import p.lodz.dashboardsimulator.modules.FxModulesRunner;
@@ -40,6 +42,8 @@ public class Main extends Application {
         view.start(dashboardInjector);
 
         reader.await();
+
+        Platform.exit();
     }
 
     @Override
