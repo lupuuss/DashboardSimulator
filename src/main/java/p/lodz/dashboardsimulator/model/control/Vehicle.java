@@ -7,7 +7,7 @@ public class Vehicle {
 
     private double speed;
 
-    Vehicle() {
+    public Vehicle() {
         this.speed = 0.0;
     }
 

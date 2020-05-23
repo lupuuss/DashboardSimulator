@@ -4,6 +4,9 @@ import io.reactivex.disposables.Disposable;
 import p.lodz.dashboardsimulator.model.engine.Engine;
 import p.lodz.dashboardsimulator.model.engine.EngineState;
 
+/**
+ * Simulates active cruise control.
+ */
 public class ActiveCruiseControlSimulator implements ActiveCruiseControl {
 
     private Engine currentEngine;
@@ -51,6 +54,7 @@ public class ActiveCruiseControlSimulator implements ActiveCruiseControl {
      */
     @Override
     public void dropControl() {
+        currentEngine.setAcceleration(false);
         engineDispose.dispose();
         engineDispose = null;
         currentEngine = null;
@@ -65,5 +69,14 @@ public class ActiveCruiseControlSimulator implements ActiveCruiseControl {
     @Override
     public void setFrontVehicle(Vehicle vehicle) {
         this.frontVehicle = vehicle;
+    }
+
+    /**
+     * Returns true if engine is controlled.
+     * @return True if engine is controlled.
+     */
+    @Override
+    public boolean isOn() {
+        return engineDispose != null;
     }
 }

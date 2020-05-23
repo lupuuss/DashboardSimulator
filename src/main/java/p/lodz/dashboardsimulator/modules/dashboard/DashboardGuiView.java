@@ -1,14 +1,13 @@
 package p.lodz.dashboardsimulator.modules.dashboard;
 
 import eu.hansolo.medusa.Gauge;
-import io.reactivex.Scheduler;
-import io.reactivex.rxjavafx.schedulers.JavaFxScheduler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import p.lodz.dashboardsimulator.base.Injector;
 import p.lodz.dashboardsimulator.base.JavaFxView;
@@ -22,6 +21,10 @@ import java.io.IOException;
 
 public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements DashboardView {
 
+    @FXML private TextField cruiseControlActiveLimit;
+    @FXML private ToggleButton cruiseControlActiveButton;
+    @FXML private TextField cruiseControlSpeed;
+    @FXML private CheckBox cruiseControlCheckbox;
     @FXML private Gauge speedometer;
     @FXML private Gauge tachometer;
     @FXML private ImageView turnLeftLight;
@@ -40,6 +43,7 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
     @FXML private Label travelTime;
     @FXML private Label distancePassed;
     @FXML private Label avgConsumption;
+    @FXML private Label gearValue;
 
     DashboardPresenter presenter;
 
@@ -53,61 +57,12 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
         ((VBox) scene.getRoot()).getChildren().add(0, menuBar);
     }
 
-    @FXML
-    private void notifyPresenterLeftTurn() {
-        presenter.triggerLeftTurnSignal();
-    }
-
-    @FXML
-    private void notifyPresenterRightTurn() {
-        presenter.triggerRightTurnSignal();
-    }
-
-    @FXML
-    private void notifyPresenterOdometerOneReset() {
-        presenter.resetMileage(0);
-    }
-
-    @FXML
-    private void notifyPresenterOdometerTwoReset() {
-        presenter.resetMileage(1);
-    }
-
-    @FXML
-    private void notifyPresenterFrontFogToggle() {
-
-        presenter.toggleFogFrontLight();
-    }
-
-    @FXML
-    private void notifyPresenterBackFogToggle() {
-        presenter.toggleFogBackLight();
-    }
-
-    @FXML
-    private void notifyPresenterPositionClick() {
-        presenter.changeLightMode(LightsMode.PARKING);
-    }
-
-    @FXML
-    private void notifyPresenterLowBeamClick() {
-        presenter.changeLightMode(LightsMode.LOW_BEAM);
-    }
-
-    @FXML
-    private void notifyPresenterHighBeamClick() {
-        presenter.changeLightMode(LightsMode.HIGH_BEAM);
-    }
-
-    @Override
-    public void notifyCloseEvent() {
-        presenter.closeView();
-    }
-
     @Override
     public void start(Injector injector) {
 
         DashboardInjector dashboardInjector = (DashboardInjector) injector;
+
+        scene.getRoot().requestFocus();
 
         presenter = new DashboardPresenter(
                 dashboardInjector.getEngine(),
@@ -118,11 +73,11 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
                 dashboardInjector.getTravelDataRepository()
         );
 
-        Menu fileMenu = new Menu("File");
+        Menu fileMenu = new Menu("Plik");
 
-        MenuItem saveStatsItem = new MenuItem("Save statistics");
-        MenuItem statsHistoryItem = new MenuItem("Statistics history");
-        MenuItem settingsItem = new MenuItem("Settings");
+        MenuItem saveStatsItem = new MenuItem("Zapisz statystyki");
+        MenuItem statsHistoryItem = new MenuItem("Historia statystyk");
+        MenuItem settingsItem = new MenuItem("Ustawienia");
 
         saveStatsItem.setOnAction(event -> presenter.saveCurrentStatsToDatabase());
         statsHistoryItem.setOnAction(event -> presenter.openStatsHistory());
@@ -178,6 +133,16 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
     public void close() {
         presenter.detach();
         super.close();
+    }
+
+    @Override
+    public void updateRpm(int rpm) {
+        tachometer.setValue(rpm);
+    }
+
+    @Override
+    public void updateGear(int gear) {
+        gearValue.setText(String.valueOf(gear));
     }
 
     @Override
@@ -251,6 +216,11 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
     }
 
     @Override
+    public void setCruiseControlState(boolean isOn) {
+        cruiseControlCheckbox.setSelected(isOn);
+    }
+
+    @Override
     public void openStatsHistory() {
 
         try {
@@ -270,7 +240,86 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
     }
 
     @Override
-    public void updateRpm(int rpm) {
-        tachometer.setValue(rpm);
+    public void openMp3() {
+
+    }
+
+    @FXML
+    private void notifyPresenterLeftTurn() {
+        presenter.triggerLeftTurnSignal();
+    }
+
+    @FXML
+    private void notifyPresenterRightTurn() {
+        presenter.triggerRightTurnSignal();
+    }
+
+    @FXML
+    private void notifyPresenterOdometerOneReset() {
+        presenter.resetMileage(0);
+    }
+
+    @FXML
+    private void notifyPresenterOdometerTwoReset() {
+        presenter.resetMileage(1);
+    }
+
+    @FXML
+    private void notifyPresenterFrontFogToggle() {
+
+        presenter.toggleFogFrontLight();
+    }
+
+    @FXML
+    private void notifyPresenterBackFogToggle() {
+        presenter.toggleFogBackLight();
+    }
+
+    @FXML
+    private void notifyPresenterPositionClick() {
+        presenter.changeLightMode(LightsMode.PARKING);
+    }
+
+    @FXML
+    private void notifyPresenterLowBeamClick() {
+        presenter.changeLightMode(LightsMode.LOW_BEAM);
+    }
+
+    @FXML
+    private void notifyPresenterHighBeamClick() {
+        presenter.changeLightMode(LightsMode.HIGH_BEAM);
+    }
+
+    @FXML
+    private void notifyPresenterOpenMp3() {
+        presenter.openMp3();
+    }
+
+    @Override
+    public void notifyCloseEvent() {
+        presenter.closeView();
+    }
+
+    @FXML
+    private void notifyPresenterCruiseControl() {
+
+        if (cruiseControlCheckbox.isSelected()) {
+            presenter.activateCruiseControl(cruiseControlSpeed.getText());
+        } else {
+            presenter.deactivateCruiseControl();
+        }
+    }
+
+    @FXML
+    private void notifyPresenterSpeedChanged() {
+        presenter.updateCruiseControlSpeed(cruiseControlSpeed.getText());
+    }
+
+    @FXML
+    private void notifyPresenterVehicleActive() {
+        presenter.updateActiveCruiseControlVehicle(
+                cruiseControlActiveButton.isSelected(),
+                cruiseControlActiveLimit.getText()
+        );
     }
 }

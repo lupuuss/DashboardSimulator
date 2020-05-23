@@ -25,4 +25,6 @@ public interface ActiveCruiseControl {
      * @param vehicle Instance of {@link Vehicle} which speed is to be followed.
      */
     void setFrontVehicle(Vehicle vehicle);
+
+    boolean isOn();
 }

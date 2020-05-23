@@ -12,7 +12,6 @@ import p.lodz.dashboardsimulator.modules.dashboard.DashboardInjector;
 import p.lodz.dashboardsimulator.modules.dashboard.DashboardPresenter;
 import p.lodz.dashboardsimulator.modules.dashboard.DashboardView;
 
-import javax.sound.midi.Sequence;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -91,6 +90,11 @@ public class DashboardConsoleView implements DashboardView {
     }
 
     @Override
+    public void updateGear(int gear) {
+
+    }
+
+    @Override
     public synchronized void updateSpeed(double speed) {
         this.speed = speed;
         reprintStatus();
@@ -106,6 +110,11 @@ public class DashboardConsoleView implements DashboardView {
     public synchronized void updateEngineStats(TravelStatistics travelStatistics) {
         this.stats = travelStatistics;
         reprintStatus();
+    }
+
+    @Override
+    public void setCruiseControlState(boolean isOn) {
+
     }
 
     @Override
@@ -157,6 +166,11 @@ public class DashboardConsoleView implements DashboardView {
     public void updateRpm(int rpm) {
         this.rpm = rpm;
         reprintStatus();
+    }
+
+    @Override
+    public void openMp3() {
+
     }
 
     @Override

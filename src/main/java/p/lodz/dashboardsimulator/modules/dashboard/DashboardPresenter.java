@@ -1,9 +1,11 @@
 package p.lodz.dashboardsimulator.modules.dashboard;
 
 import io.reactivex.disposables.Disposable;
+import javafx.scene.control.TextField;
 import p.lodz.dashboardsimulator.base.Presenter;
 import p.lodz.dashboardsimulator.base.View;
 import p.lodz.dashboardsimulator.model.control.ActiveCruiseControl;
+import p.lodz.dashboardsimulator.model.control.Vehicle;
 import p.lodz.dashboardsimulator.model.engine.Engine;
 import p.lodz.dashboardsimulator.model.engine.EngineState;
 import p.lodz.dashboardsimulator.model.light.LightsController;
@@ -29,6 +31,8 @@ public class DashboardPresenter extends Presenter<DashboardView> {
     private Odometer odometer;
     private ActiveCruiseControl cruiseControl;
     private TravelDataRepository repository;
+
+    private Vehicle vehicle = new Vehicle();
 
     private List<Disposable> subscriptions = new ArrayList<>();
 
@@ -144,6 +148,7 @@ public class DashboardPresenter extends Presenter<DashboardView> {
     private void updateStateOnView(EngineState engineState) {
 
         view.updateSpeed(engineState.getSpeed());
+        view.updateGear(engineState.getGear());
         view.updateRpm(engineState.getRpm());
     }
 
@@ -216,11 +221,7 @@ public class DashboardPresenter extends Presenter<DashboardView> {
         );
     }
 
-    /**
-     * Notifies presenter about user intent to activate cruise control with given speed.
-     * @param speedInput Speed limit input in km/h from user (might be invalid).
-     */
-    public void activateCruiseControl(String speedInput) {
+    private double parseSpeed(String speedInput) {
 
         double speed = -1;
 
@@ -228,15 +229,36 @@ public class DashboardPresenter extends Presenter<DashboardView> {
             speed = Double.parseDouble(speedInput);
         } catch (NumberFormatException e) {
             e.printStackTrace();
-
-            view.showMessage("Speed input must be a numeric value in km/h!", View.MessageType.ERROR);
         }
+
+        return speed;
+    }
+
+
+    /**
+     * Notifies presenter about user intent to activate cruise control with given speed.
+     * @param speedInput Speed limit input in km/h from user (might be invalid).
+     */
+    public void activateCruiseControl(String speedInput) {
+
+        double speed = parseSpeed(speedInput);
 
         if (speed <= 0) {
-            view.showMessage("Speed must be a positive number!", View.MessageType.ERROR);
+            view.setCruiseControlState(false);
+            view.showMessage("Speed input must be a positive numeric value in km/h!", View.MessageType.ERROR);
         } else {
+            view.setCruiseControlState(true);
             cruiseControl.keepEngineSpeed(engine, speed);
         }
+    }
+
+    public void updateCruiseControlSpeed(String speed) {
+
+        if (cruiseControl.isOn()) {
+            deactivateCruiseControl();
+        }
+
+        activateCruiseControl(speed);
     }
 
     /**
@@ -302,5 +324,29 @@ public class DashboardPresenter extends Presenter<DashboardView> {
 
     public void openSettings() {
         view.openSettings();
+    }
+
+    public void openMp3() {
+        view.openMp3();
+    }
+
+    public void updateActiveCruiseControlVehicle(boolean selected, String speedInput) {
+
+        if (selected) {
+
+            double speed = parseSpeed(speedInput);
+
+            if (speed >= 0) {
+                vehicle.setSpeed(speed);
+                cruiseControl.setFrontVehicle(vehicle);
+            } else {
+                view.showMessage("Speed input must be a numeric value in km/h!", View.MessageType.ERROR);
+            }
+
+        } else {
+
+            cruiseControl.setFrontVehicle(null);
+        }
+
     }
 }

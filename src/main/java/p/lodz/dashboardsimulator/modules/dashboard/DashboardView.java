@@ -11,6 +11,18 @@ import p.lodz.dashboardsimulator.model.monitor.odometer.Mileage;
 public interface DashboardView extends View<DashboardPresenter> {
 
     /**
+     * Updates number of engine's rpm on the view.
+     * @param rpm Engines rpm.
+     */
+    void updateRpm(int rpm);
+
+    /**
+     * Updates current gear on the view.
+     * @param gear Current gear.
+     */
+    void updateGear(int gear);
+
+    /**
      * Updates current speed on the view.
      * @param speed value of the speed in km/h.
      */
@@ -27,6 +39,8 @@ public interface DashboardView extends View<DashboardPresenter> {
      * @param travelStatistics instance of {@link TravelStatistics}.
      */
     void updateEngineStats(TravelStatistics travelStatistics);
+
+    void setCruiseControlState(boolean isOn);
 
     /**
      * Shows the state of left turn singal.
@@ -82,8 +96,7 @@ public interface DashboardView extends View<DashboardPresenter> {
     void openSettings();
 
     /**
-     * Updates number of engine's rpm.
-     * @param rpm Engines rpm.
+     * Opens new view with MP3 Player
      */
-    void updateRpm(int rpm);
+    void openMp3();
 }
