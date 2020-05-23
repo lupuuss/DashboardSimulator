@@ -8,36 +8,27 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox prefHeight="111.0" prefWidth="300.0" style="-fx-background-color: #231F20;"
-      xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <Label alignment="CENTER" prefHeight="46.0" prefWidth="306.0" text="Odtwarzacz MP3 " textAlignment="CENTER"
-          textFill="WHITE">
+<VBox prefHeight="111.0" prefWidth="300.0" style="-fx-background-color: #231F20;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <Label alignment="CENTER" prefHeight="46.0" prefWidth="306.0" text="Odtwarzacz MP3 " textAlignment="CENTER" textFill="WHITE">
       <font>
-         <Font size="31.0"/>
+         <Font size="31.0" />
       </font>
    </Label>
    <HBox prefHeight="69.0" prefWidth="300.0">
-      <Polygon fill="WHITE"
-               points="-306.0000915527344, -369.2001037597656, -280.4001159667969, -342.0000915527344, -306.0000915527344, -319.60009765625"
-               stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
+      <Polygon fx:id="playMusicButton" fill="WHITE" points="-306.0000915527344, -369.2001037597656, -280.4001159667969, -342.0000915527344, -306.0000915527344, -319.60009765625" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
          <HBox.margin>
-            <Insets left="80.0" right="10.0"/>
+            <Insets left="80.0" right="10.0" />
          </HBox.margin>
       </Polygon>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="BLACK" strokeType="INSIDE"
-                 width="49.0">
+      <Rectangle fx:id="stopMusicButton" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="BLACK" strokeType="INSIDE" width="49.0">
          <HBox.margin>
-            <Insets right="10.0"/>
+            <Insets right="10.0" />
          </HBox.margin>
       </Rectangle>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="52.0" stroke="BLACK" strokeType="INSIDE"
-                 width="13.0"/>
-      <Polygon fill="WHITE"
-               points="-306.0000915527344, -369.2001037597656, -280.4001159667969, -342.0000915527344, -306.0000915527344, -319.60009765625"
-               stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
+      <Rectangle id="skipMusicButton" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="52.0" stroke="BLACK" strokeType="INSIDE" width="13.0" />
+      <Polygon fx:id="skipMusicButton" fill="WHITE" points="-306.0000915527344, -369.2001037597656, -280.4001159667969, -342.0000915527344, -306.0000915527344, -319.60009765625" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
          <HBox.margin>
-            <Insets left="5.0"/>
+            <Insets left="5.0" />
          </HBox.margin>
       </Polygon>
    </HBox>
