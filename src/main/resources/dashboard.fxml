@@ -1,49 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
 <?import eu.hansolo.medusa.Gauge?>
-<?import javafx.scene.control.Button?>
-<VBox xmlns="http://javafx.com/javafx/11.0.1"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="p.lodz.dashboardsimulator.modules.dashboard.DashboardGuiView">
+
+<VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="p.lodz.dashboardsimulator.modules.dashboard.DashboardGuiView">
 
    <HBox prefHeight="400.0" prefWidth="1280.0" style="-fx-background-color: #231F20;">
       <VBox prefHeight="400.0" prefWidth="182.0">
-
-         <Gauge fx:id="tachometer" backgroundPaint="black" maxValue="6000"/>
+        <Gauge fx:id="tachometer" backgroundPaint="black" maxValue="6000"/>
 
          <HBox prefHeight="100.0" prefWidth="200.0">
             <VBox.margin>
-               <Insets left="15.0" top="50.0"/>
+               <Insets left="15.0" top="50.0" />
             </VBox.margin>
-            <StackPane prefHeight="100.0" prefWidth="180.0" onMouseClicked="#notifyPresenterLeftTurn">
+            <StackPane onMouseClicked="#notifyPresenterLeftTurn" prefHeight="100.0" prefWidth="180.0">
                <ImageView fitHeight="95.0" fitWidth="95.0" pickOnBounds="true" preserveRatio="true">
                   <Image url="@./imgs/side_off.png" />
                </ImageView>
                <ImageView fx:id="turnLeftLight" fitHeight="95.0" fitWidth="95.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                  <Image url="@./imgs/side_on.png"/>
+                  <Image url="@./imgs/side_on.png" />
                </ImageView>
             </StackPane>
-            <StackPane prefHeight="100.0" prefWidth="180.0" onMouseClicked="#notifyPresenterRightTurn">
-               <ImageView fitHeight="95.0" fitWidth="95.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true"
-                          preserveRatio="true">
-                  <Image url="@./imgs/side_off.png"/>
+            <StackPane onMouseClicked="#notifyPresenterRightTurn" prefHeight="100.0" prefWidth="180.0">
+               <ImageView fitHeight="95.0" fitWidth="95.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
+                  <Image url="@./imgs/side_off.png" />
                </ImageView>
-               <ImageView fx:id="turnRightLight" fitHeight="95.0" fitWidth="95.0" nodeOrientation="RIGHT_TO_LEFT"
-                          pickOnBounds="true" preserveRatio="true" visible="false">
-                  <Image url="@./imgs/side_on.png"/>
+               <ImageView fx:id="turnRightLight" fitHeight="95.0" fitWidth="95.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <Image url="@./imgs/side_on.png" />
                </ImageView>
             </StackPane>
          </HBox>
       </VBox>
+      <Circle />
       <Gauge fx:id="speedometer" backgroundPaint="black" maxValue="300">
          <HBox.margin>
             <Insets left="20.0" top="50.0" />
@@ -58,7 +59,7 @@
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
-               <StackPane prefHeight="150.0" prefWidth="200.0" onMouseClicked="#notifyPresenterPositionClick">
+               <StackPane onMouseClicked="#notifyPresenterPositionClick" prefHeight="150.0" prefWidth="200.0">
                   <opaqueInsets>
                      <Insets />
                   </opaqueInsets>
@@ -75,7 +76,7 @@
                      <Image url="@imgs/parking_on.png" />
                   </ImageView>
                </StackPane>
-               <StackPane prefHeight="150.0" prefWidth="200.0" onMouseClicked="#notifyPresenterFrontFogToggle">
+               <StackPane onMouseClicked="#notifyPresenterFrontFogToggle" prefHeight="150.0" prefWidth="200.0">
                   <ImageView fitHeight="90.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                      <StackPane.margin>
                         <Insets bottom="10.0" right="15.0" />
@@ -89,7 +90,7 @@
                      <Image url="@./imgs/fog_on.png" />
                   </ImageView>
                </StackPane>
-               <StackPane prefHeight="150.0" prefWidth="200.0" onMouseClicked="#notifyPresenterLowBeamClick">
+               <StackPane onMouseClicked="#notifyPresenterLowBeamClick" prefHeight="150.0" prefWidth="200.0">
                   <ImageView fitHeight="90.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                      <StackPane.margin>
                         <Insets bottom="10.0" right="15.0" />
@@ -105,7 +106,7 @@
                </StackPane>
             </VBox>
             <VBox prefHeight="322.0" prefWidth="412.0">
-               <StackPane prefHeight="150.0" prefWidth="200.0" onMouseClicked="#notifyPresenterPositionClick">
+               <StackPane onMouseClicked="#notifyPresenterPositionClick" prefHeight="150.0" prefWidth="200.0">
                   <ImageView fitHeight="90.0" fitWidth="140.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
                      <StackPane.margin>
                         <Insets bottom="10.0" top="15.0" />
@@ -119,7 +120,7 @@
                      <Image url="@imgs/parking_on.png" />
                   </ImageView>
                </StackPane>
-               <StackPane prefHeight="150.0" prefWidth="200.0" onMouseClicked="#notifyPresenterBackFogToggle">
+               <StackPane onMouseClicked="#notifyPresenterBackFogToggle" prefHeight="150.0" prefWidth="200.0">
                   <ImageView fitHeight="90.0" fitWidth="140.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
                      <StackPane.margin>
                         <Insets bottom="10.0" />
@@ -133,7 +134,7 @@
                      <Image url="@./imgs/fog_on.png" />
                   </ImageView>
                </StackPane>
-               <StackPane prefHeight="150.0" prefWidth="200.0" onMouseClicked="#notifyPresenterHighBeamClick">
+               <StackPane onMouseClicked="#notifyPresenterHighBeamClick" prefHeight="150.0" prefWidth="200.0">
                   <ImageView fitHeight="90.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                      <StackPane.margin>
                         <Insets bottom="10.0" />
@@ -151,21 +152,21 @@
          </HBox>
          <HBox prefHeight="100.0" prefWidth="200.0">
             <VBox>
-               <Button text="R" style="-fx-background-color: #000" onMouseClicked="#notifyPresenterOdometerOneReset"/>
-               <Button text="R" style="-fx-background-color: #000" onMouseClicked="#notifyPresenterOdometerTwoReset"/>
+               <Button onMouseClicked="#notifyPresenterOdometerOneReset" style="-fx-background-color: #000" text="R" />
+               <Button onMouseClicked="#notifyPresenterOdometerTwoReset" style="-fx-background-color: #000" text="R" />
             </VBox>
             <VBox prefHeight="99.0" prefWidth="200.0">
-               <Label style="-fx-text-fill: #f0f8ff;" text="Dailty odometer one">
+               <Label style="-fx-text-fill: #f0f8ff;" text="Licznik przebiegu 1">
                   <font>
                      <Font size="19.0" />
                   </font>
                </Label>
-               <Label style="-fx-text-fill: #f0f8ff;" text="Dailty odometer two">
+               <Label style="-fx-text-fill: #f0f8ff;" text="Licznik przebiegu 2">
                   <font>
                      <Font size="19.0" />
                   </font>
                </Label>
-               <Label style="-fx-text-fill: #f0f8ff;" text="Odometer">
+               <Label style="-fx-text-fill: #f0f8ff;" text="Całkowity przebieg">
                   <font>
                      <Font size="19.0" />
                   </font>
@@ -244,5 +245,53 @@
             </font>
          </Label>
       </VBox>
+   </HBox>
+   <HBox prefHeight="158.0" prefWidth="1280.0" style="-fx-background-color: #231F20;">
+      <Label alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" prefHeight="158.0" prefWidth="209.0"
+             style="-fx-text-alignment: rigth;" text="0" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="AcadEref" size="82.0"/>
+         </font>
+      </Label>
+      <VBox prefHeight="158.0" prefWidth="226.0">
+         <HBox prefHeight="27.0" prefWidth="226.0">
+            <Label alignment="CENTER" prefHeight="46.0" prefWidth="201.0" text="Tempomat" textAlignment="CENTER"
+                   textFill="WHITE">
+               <font>
+                  <Font size="30.0"/>
+               </font>
+            </Label>
+            <CheckBox mnemonicParsing="false" prefHeight="46.0" prefWidth="26.0"/>
+         </HBox>
+         <TextField alignment="CENTER" prefHeight="26.0" prefWidth="214.0" promptText="podaj prędkość..."/>
+         <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="230.0" text="Zatwierdź prędkość"/>
+         <TextField promptText="prędkośc samochodu przed nami..."/>
+         <ToggleButton mnemonicParsing="false" prefHeight="26.0" prefWidth="228.0" text="Aktywny tempomat">
+            <opaqueInsets>
+               <Insets top="15.0"/>
+            </opaqueInsets>
+         </ToggleButton>
+      </VBox>
+      <HBox prefHeight="158.0" prefWidth="174.0">
+         <VBox prefHeight="158.0" prefWidth="186.0">
+            <Button mnemonicParsing="false" prefHeight="122.0" prefWidth="114.0"
+                    style="-fx-border-radius: 250; -fx-background-radius: 250;" text="MP3">
+               <VBox.margin>
+                  <Insets left="25.0" top="25.0"/>
+               </VBox.margin>
+               <font>
+                  <Font size="25.0"/>
+               </font>
+            </Button>
+         </VBox>
+      </HBox>
+      <Button mnemonicParsing="false" prefHeight="118.0" prefWidth="234.0" text="Ustawienia">
+         <font>
+            <Font size="28.0"/>
+         </font>
+         <HBox.margin>
+            <Insets top="25.0"/>
+         </HBox.margin>
+      </Button>
    </HBox>
 </VBox>
