@@ -2,6 +2,9 @@ package p.lodz.dashboardsimulator.model.settings;
 
 import p.lodz.dashboardsimulator.model.repositories.TravelDataRepository;
 
+/**
+ * Contains application settings
+ */
 public class Settings {
 
     private String databaseUser = "root";

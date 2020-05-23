@@ -70,9 +70,20 @@ public interface DashboardView extends View<DashboardPresenter> {
      */
     void setFrontFogLightState(boolean isOn);
 
+    /**
+     * Opens new view with statistics history.
+     */
     void openStatsHistory();
 
+
+    /**
+     * Opens new view with settings.
+     */
     void openSettings();
 
+    /**
+     * Updates number of engine's rpm.
+     * @param rpm Engines rpm.
+     */
     void updateRpm(int rpm);
 }

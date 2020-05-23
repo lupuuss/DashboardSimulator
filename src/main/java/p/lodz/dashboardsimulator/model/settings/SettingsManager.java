@@ -6,6 +6,9 @@ import p.lodz.dashboardsimulator.model.serialize.exceptions.SerializationExcepti
 
 import java.util.function.Consumer;
 
+/**
+ * Manages current application settings and persists state using serializer.
+ */
 public class SettingsManager {
 
     private Serializer serializer;
@@ -13,11 +16,18 @@ public class SettingsManager {
 
     private final String serializationKey = "global";
 
+    /**
+     * Injects serializer and loads current settings from serializer.
+     * @param serializer Serializer that is used to persisting settings.
+     */
     public SettingsManager(Serializer serializer) {
         this.serializer = serializer;
         loadSettings();
     }
 
+    /**
+     * Loads settings from serializer. Should be called once at the start of the app.
+     */
     public final void loadSettings() {
 
         try {
@@ -37,19 +47,35 @@ public class SettingsManager {
         }
     }
 
+    /**
+     * Returns current settings
+     * @return Instance of {@link Settings} that contains current settings.
+     */
     public Settings getSettings() {
         return settings;
     }
 
+    /**
+     * Replace current settings object with given reference.
+     * Also, settings state is persisted.
+     * @param settings Settings to set.
+     */
     public void setSettings(Settings settings) {
         this.settings = settings;
+        saveSettings();
     }
 
+    /**
+     * Changes current settings using given lambda.
+     * Also, settings state is persisted.
+     * @param edit Lambda that edits current settings.
+     */
     public void edit(Consumer<Settings> edit) {
         edit.accept(settings);
+        saveSettings();
     }
 
-    public void saveSettings() {
+    private void saveSettings() {
 
         try {
             serializer.serialize(serializationKey, settings);

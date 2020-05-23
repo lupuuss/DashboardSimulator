@@ -6,7 +6,7 @@ import p.lodz.dashboardsimulator.modules.dashboard.DashboardInjector;
 import java.util.function.Supplier;
 
 /**
- * Enumerates modules available in a program.
+ * Enumerates JavaFx modules available in a program.
  */
 public enum Module {
 

@@ -42,7 +42,6 @@ public class SettingsPresenter extends Presenter<SettingsView> {
         }
 
         settingsManager.setSettings(fromView);
-        settingsManager.saveSettings();
 
         view.showMessage("Application restart required after settings change!", View.MessageType.WARNING);
     }

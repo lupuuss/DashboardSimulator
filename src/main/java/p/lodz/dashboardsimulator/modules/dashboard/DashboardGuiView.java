@@ -273,9 +273,4 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
     public void updateRpm(int rpm) {
         tachometer.setValue(rpm);
     }
-
-    @Override
-    public Scheduler getViewScheduler() {
-        return JavaFxScheduler.platform();
-    }
 }
