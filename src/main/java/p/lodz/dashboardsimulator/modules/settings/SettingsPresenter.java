@@ -29,6 +29,17 @@ public class SettingsPresenter extends Presenter<SettingsView> {
     @Override
     public void attach(SettingsView view) {
         super.attach(view);
+
+        Settings settings = settingsManager.getSettings();
+
+        view.setAccelerationConst(String.valueOf(settings.getAccelerationConst()));
+        view.setBetweenEngineTicks(String.valueOf(settings.getBetweenEngineTicks()));
+        view.setDatabaseHost(settings.getDatabaseHost());
+        view.setDatabasePassword(settings.getDatabasePassword());
+        view.setDatabaseName(settings.getDatabaseName());
+        view.setDatabaseType(settings.getDatabaseType());
+        view.setDatabaseUser(settings.getDatabaseUser());
+        view.setMaximumSpeed(String.valueOf(settings.getMaximumSpeed()));
     }
 
     public void saveSettings() {
@@ -69,11 +80,7 @@ public class SettingsPresenter extends Presenter<SettingsView> {
             );
         }
 
-        try {
-            TravelDataRepository.Type.valueOf(view.getDatabaseType());
-        } catch (IllegalArgumentException e) {
-            throw new ParseException("database type");
-        }
+        fromGui.setDatabaseType(view.getDatabaseType());
 
         if (view.getDatabaseHost().isEmpty()
                 || view.getDatabaseName().isEmpty()

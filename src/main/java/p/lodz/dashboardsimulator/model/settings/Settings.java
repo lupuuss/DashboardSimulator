@@ -82,4 +82,38 @@ public class Settings {
     public void setDatabaseType(TravelDataRepository.Type databaseType) {
         this.databaseType = databaseType;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Settings settings = (Settings) o;
+
+        if (betweenEngineTicks != settings.betweenEngineTicks) return false;
+        if (Double.compare(settings.accelerationConst, accelerationConst) != 0) return false;
+        if (Double.compare(settings.maximumSpeed, maximumSpeed) != 0) return false;
+        if (!databaseUser.equals(settings.databaseUser)) return false;
+        if (!databasePassword.equals(settings.databasePassword)) return false;
+        if (!databaseHost.equals(settings.databaseHost)) return false;
+        if (!databaseName.equals(settings.databaseName)) return false;
+        return databaseType == settings.databaseType;
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = databaseUser.hashCode();
+        result = 31 * result + databasePassword.hashCode();
+        result = 31 * result + databaseHost.hashCode();
+        result = 31 * result + databaseName.hashCode();
+        result = 31 * result + (int) (betweenEngineTicks ^ (betweenEngineTicks >>> 32));
+        temp = Double.doubleToLongBits(accelerationConst);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(maximumSpeed);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + databaseType.hashCode();
+        return result;
+    }
 }

@@ -33,8 +33,8 @@ public interface SettingsView extends View<SettingsPresenter> {
 
     void setMaximumSpeed(String maximumSpeed);
 
-    String getDatabaseType();
+    TravelDataRepository.Type getDatabaseType();
 
-    void setDatabaseType(String databaseType);
+    void setDatabaseType(TravelDataRepository.Type databaseType);
 
 }

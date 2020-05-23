@@ -1,18 +1,31 @@
 package p.lodz.dashboardsimulator.modules.settings;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import p.lodz.dashboardsimulator.base.GlobalInjector;
 import p.lodz.dashboardsimulator.base.Injector;
 import p.lodz.dashboardsimulator.base.JavaFxView;
+import p.lodz.dashboardsimulator.model.repositories.TravelDataRepository;
 
 
 public class SettingsGuiView extends JavaFxView<SettingsPresenter> implements SettingsView {
+
+    public TextField loginValue;
+    public PasswordField passwordValue;
+    public TextField hostValue;
+    public TextField baseNameValue;
+    public TextField ticksPerSecValue;
+    public TextField accValue;
+    public TextField maxSpeedValue;
 
     SettingsPresenter presenter;
 
     @Override
     public void start(Injector injector) {
         GlobalInjector globalInjector = (GlobalInjector) injector;
+
+        scene.getRoot().requestFocus();
 
         presenter = new SettingsPresenter(
                 globalInjector.getSettingsManager()
@@ -40,81 +53,81 @@ public class SettingsGuiView extends JavaFxView<SettingsPresenter> implements Se
 
     @Override
     public String getDatabaseUser() {
-        return null;
+        return loginValue.getText();
     }
 
     @Override
     public void setDatabaseUser(String databaseUser) {
-
+        loginValue.setText(databaseUser);
     }
 
     @Override
     public String getDatabasePassword() {
-        return null;
+        return passwordValue.getText();
     }
 
     @Override
     public void setDatabasePassword(String databasePassword) {
-
+        passwordValue.setText(databasePassword);
     }
 
     @Override
     public String getDatabaseHost() {
-        return null;
+        return hostValue.getText();
     }
 
     @Override
     public void setDatabaseHost(String databaseHost) {
-
+        hostValue.setText(databaseHost);
     }
 
     @Override
     public String getDatabaseName() {
-        return null;
+        return baseNameValue.getText();
     }
 
     @Override
     public void setDatabaseName(String databaseName) {
-
+        baseNameValue.setText(databaseName);
     }
 
     @Override
     public String getBetweenEngineTicks() {
-        return null;
+        return ticksPerSecValue.getText();
     }
 
     @Override
     public void setBetweenEngineTicks(String betweenEngineTicks) {
-
+        ticksPerSecValue.setText(betweenEngineTicks);
     }
 
     @Override
     public String getAccelerationConst() {
-        return null;
+        return accValue.getText();
     }
 
     @Override
     public void setAccelerationConst(String accelerationConst) {
-
+        accValue.setText(accelerationConst);
     }
 
     @Override
     public String getMaximumSpeed() {
-        return null;
+        return maxSpeedValue.getText();
     }
 
     @Override
     public void setMaximumSpeed(String maximumSpeed) {
-
+        maxSpeedValue.setText(maximumSpeed);
     }
 
     @Override
-    public String getDatabaseType() {
+    public TravelDataRepository.Type getDatabaseType() {
         return null;
     }
 
     @Override
-    public void setDatabaseType(String databaseType) {
+    public void setDatabaseType(TravelDataRepository.Type databaseType) {
 
     }
 }
