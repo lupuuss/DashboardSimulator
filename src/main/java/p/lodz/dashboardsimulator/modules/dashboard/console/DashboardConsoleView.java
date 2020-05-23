@@ -5,17 +5,22 @@ import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import p.lodz.dashboardsimulator.base.Injector;
+import p.lodz.dashboardsimulator.model.light.LightsMode;
 import p.lodz.dashboardsimulator.model.monitor.statistics.TravelStatistics;
 import p.lodz.dashboardsimulator.model.monitor.odometer.Mileage;
 import p.lodz.dashboardsimulator.modules.dashboard.DashboardInjector;
 import p.lodz.dashboardsimulator.modules.dashboard.DashboardPresenter;
 import p.lodz.dashboardsimulator.modules.dashboard.DashboardView;
 
+import javax.sound.midi.Sequence;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class DashboardConsoleView implements DashboardView {
 
     private double speed;
+    private double rpm;
     private Mileage mileage;
     private TravelStatistics stats;
 
@@ -23,6 +28,8 @@ public class DashboardConsoleView implements DashboardView {
     private Disposable commandsSubscription;
 
     private DashboardPresenter presenter;
+
+    private int lastStatusLength = 0;
 
     public DashboardConsoleView(Observable<String> commands) {
         this.commands = commands;
@@ -59,80 +66,104 @@ public class DashboardConsoleView implements DashboardView {
             case "r":
                 presenter.closeView();
                 break;
+            case "d":
+                presenter.triggerRightTurnSignal();
+                break;
+            case "a":
+                presenter.triggerLeftTurnSignal();
+                break;
+            case "1":
+                presenter.changeLightMode(LightsMode.OFF);
+                break;
+            case "2":
+                presenter.changeLightMode(LightsMode.PARKING);
+                break;
+            case "3":
+                presenter.changeLightMode(LightsMode.LOW_BEAM);
+                break;
+            case "4":
+                presenter.changeLightMode(LightsMode.HIGH_BEAM);
+            case "add":
+                presenter.saveCurrentStatsToDatabase();
+                break;
+
         }
     }
 
     @Override
     public synchronized void updateSpeed(double speed) {
         this.speed = speed;
-        printStatus();
+        reprintStatus();
     }
 
     @Override
     public synchronized void updateMileage(Mileage mileage) {
         this.mileage = mileage;
-        printStatus();
+        reprintStatus();
     }
 
     @Override
     public synchronized void updateEngineStats(TravelStatistics travelStatistics) {
         this.stats = travelStatistics;
-        printStatus();
+        reprintStatus();
     }
 
     @Override
     public void setLeftTurnSignalLight(boolean isOn) {
-
+        showMessage("Left turn state changed: " + isOn, MessageType.INFO);
     }
 
     @Override
     public void setRightTurnSignalLight(boolean isOn) {
-
+        showMessage("Right turn state changed: " + isOn, MessageType.INFO);
     }
 
     @Override
     public void setParkingLight(boolean isOn) {
-
+        showMessage("Parking lights state changed: " + isOn, MessageType.INFO);
     }
 
     @Override
     public void setLowBeamLight(boolean isOn) {
-
+        showMessage("Low beam lights state changed: " + isOn, MessageType.INFO);
     }
 
     @Override
     public void setHighBeamLight(boolean isOn) {
-
+        showMessage("High beam lights state changed: " + isOn, MessageType.INFO);
     }
 
     @Override
     public void setBackFogLightState(boolean isOn) {
-
+        showMessage("Back fog state changed: " + isOn, MessageType.INFO);
     }
 
     @Override
     public void setFrontFogLightState(boolean isOn) {
-
+        showMessage("Front fog state changed: " + isOn, MessageType.INFO);
     }
 
     @Override
     public void openStatsHistory() {
-
+        showMessage("Not supported in cli mode!", MessageType.ERROR);
     }
 
     @Override
     public void openSettings() {
-
+        showMessage("Not supported in cli mode!", MessageType.ERROR);
     }
 
     @Override
     public void updateRpm(int rpm) {
-
+        this.rpm = rpm;
+        reprintStatus();
     }
 
     @Override
     public void showMessage(String message, MessageType type) {
-
+        clearStatus();
+        System.out.println("[" + type  + "] " + message);
+        printStatus();
     }
 
     @Override
@@ -140,13 +171,27 @@ public class DashboardConsoleView implements DashboardView {
 
     }
 
+    private void reprintStatus() {
+        clearStatus();
+        printStatus();
+    }
+
+    private void clearStatus() {
+        System.out.print("\r" + Stream.generate(() -> " ").limit(lastStatusLength).collect(Collectors.joining("")));
+        System.out.print("\r");
+    }
+
     private void printStatus() {
 
-        System.out.print("\rSpeed: " + speed + " | Mileage: " + mileage + " | " + stats);
+        String status = "Speed: " + speed + " | Mileage: " + mileage + " | " + stats;
+
+        lastStatusLength = status.length();
+        System.out.print("\r" + status);
     }
 
     @Override
     public void close() {
+
         commandsSubscription.dispose();
         presenter.detach();
     }

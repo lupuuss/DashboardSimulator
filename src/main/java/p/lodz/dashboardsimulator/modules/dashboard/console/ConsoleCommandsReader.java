@@ -17,12 +17,15 @@ public class ConsoleCommandsReader {
     public Observable<String> read() {
         return Observable
                 .create((ObservableOnSubscribe<String>) emitter -> {
-                    try (Scanner scanner = new Scanner(System.in)) {
-                        do {
-                            emitter.onNext(scanner.nextLine());
 
-                        } while (!emitter.isDisposed());
-                    }
+                    Scanner scanner = new Scanner(System.in);
+
+                    do {
+
+                        emitter.onNext(scanner.nextLine());
+
+                    } while (!emitter.isDisposed());
+
                     executor.shutdown();
                 })
                 .subscribeOn(Schedulers.from(executor));
