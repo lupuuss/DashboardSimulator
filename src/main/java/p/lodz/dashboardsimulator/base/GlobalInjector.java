@@ -38,7 +38,7 @@ public class GlobalInjector implements Injector {
                         settings.getDatabaseName()
                 );
                 break;
-            case XML:
+            case SERIALIZED:
                 travelDataRepository = new SerializedTravelDataRepository(serializer);
                 break;
         }
