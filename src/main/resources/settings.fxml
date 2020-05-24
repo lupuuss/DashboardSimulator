@@ -25,7 +25,7 @@
             <Insets top="15.0" />
          </VBox.margin>
       </Label>
-      <TextField fx:id="loginValue" focusTraversable="false" prefHeight="26.0" prefWidth="105.0" scaleShape="false" text="xDD" />
+      <TextField fx:id="loginValue" focusTraversable="false" prefHeight="26.0" prefWidth="105.0" scaleShape="false" />
       <Label alignment="CENTER" prefHeight="18.0" prefWidth="210.0" text="Hasło" textAlignment="CENTER">
          <font>
             <Font size="17.0" />
