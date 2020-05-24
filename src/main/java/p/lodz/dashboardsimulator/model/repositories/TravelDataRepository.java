@@ -10,8 +10,8 @@ import java.util.List;
  */
 public interface TravelDataRepository {
 
-    public enum Type {
-        JDBC, XML
+    enum Type {
+        JDBC, SERIALIZED
     }
 
     /**
