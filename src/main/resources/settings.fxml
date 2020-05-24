@@ -64,12 +64,12 @@
       <TextField fx:id="maxSpeedValue" prefHeight="26.0" prefWidth="105.0" scaleShape="false" />
       <MenuButton alignment="CENTER" mnemonicParsing="false" prefHeight="26.0" prefWidth="202.0" text="Sposób zapisu" textAlignment="CENTER">
         <items>
-            <RadioMenuItem mnemonicParsing="false" selected="true" text="Baza danych">
+            <RadioMenuItem mnemonicParsing="false" selected="true" text="Baza danych" userData="JDBC">
                <toggleGroup>
                   <ToggleGroup fx:id="savingMethods" />
                </toggleGroup>
             </RadioMenuItem>
-            <RadioMenuItem mnemonicParsing="false" text="XML" toggleGroup="$savingMethods" />
+            <RadioMenuItem mnemonicParsing="false" text="XML" toggleGroup="$savingMethods" userData="SERIALIZED" />
         </items>
          <VBox.margin>
             <Insets top="5.0" />
