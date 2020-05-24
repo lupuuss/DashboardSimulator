@@ -113,7 +113,7 @@
                      </StackPane.margin>
                      <Image url="@imgs/parking_off.png" />
                   </ImageView>
-                  <ImageView fx:id="positionRightLight" fitHeight="90.0" fitWidth="140.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="parkingRightLight" fitHeight="90.0" fitWidth="140.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true" visible="false">
                      <StackPane.margin>
                         <Insets bottom="10.0" top="15.0" />
                      </StackPane.margin>

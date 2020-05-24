@@ -10,6 +10,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Describes logic behind {@link HistoryView}. Communicates view with {@link TravelDataRepository}.
+ */
 public class HistoryPresenter extends Presenter<HistoryView> {
 
     private TravelDataRepository travelDataRepository;
@@ -23,6 +26,11 @@ public class HistoryPresenter extends Presenter<HistoryView> {
         this.travelDataRepository = travelDataRepository;
     }
 
+    /**
+     * Bounds view to the presenter. Performs a query to the database using {@link TravelDataRepository},
+     * that receives all travel statistics.
+     * @param view Instance of {@link View} that is bounded to this presenter.
+     */
     @Override
     public void attach(HistoryView view) {
         super.attach(view);
@@ -62,6 +70,9 @@ public class HistoryPresenter extends Presenter<HistoryView> {
         throwable.printStackTrace();
     }
 
+    /**
+     * Unsubscribes pending queries and detaches the view.
+     */
     @Override
     public void detach() {
         super.detach();
@@ -69,10 +80,17 @@ public class HistoryPresenter extends Presenter<HistoryView> {
         subscriptions.forEach(Disposable::dispose);
     }
 
+    /**
+     * Closes the view.
+     */
     public void closeView() {
         view.close();
     }
 
+    /**
+     * Removes travel statistics with given index form database. If sucessful, statistics are also removed from view.
+     * @param index
+     */
     public void removeStats(int index) {
 
         Disposable removeDisposable = travelDataRepository

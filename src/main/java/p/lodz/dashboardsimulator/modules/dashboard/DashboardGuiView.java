@@ -7,7 +7,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import p.lodz.dashboardsimulator.base.Injector;
 import p.lodz.dashboardsimulator.base.JavaFxView;
@@ -16,9 +15,16 @@ import p.lodz.dashboardsimulator.model.monitor.odometer.Mileage;
 import p.lodz.dashboardsimulator.model.monitor.statistics.TravelStatistics;
 import p.lodz.dashboardsimulator.modules.FxModulesRunner;
 import p.lodz.dashboardsimulator.modules.Module;
+import p.lodz.dashboardsimulator.utils.Utils;
 
 import java.io.IOException;
 
+/**
+ * Implements {@link DashboardView} using JavaFX. Speed and rpm is shown using gauges.
+ * All lights indicators are instances of {@link ImageView} and are hidden if light is turned off.
+ * All travel statistics and odometers are shown using {@link Label}s. User controls Engine using up arrow and down arrow.
+ * Cruise control is managed using text fields and checkbox. Also, user can open other views (settings, mp3 player, statistics history).
+ */
 public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements DashboardView {
 
     @FXML private TextField cruiseControlActiveLimit;
@@ -33,7 +39,7 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
     @FXML private ImageView fogFrontLight;
     @FXML private ImageView fogBackLight;
     @FXML private ImageView lowBeamLight;
-    @FXML private ImageView positionRightLight;
+    @FXML private ImageView parkingRightLight;
     @FXML private ImageView highBeamLight;
     @FXML private Label odometer;
     @FXML private Label dailyOdometerOne;
@@ -49,6 +55,12 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
 
     private MenuBar menuBar;
 
+    /**
+     * Injects current {@link Scene} and {@link FxModulesRunner} to this view.
+     * Also, it initializes {@link MenuBar}.
+     * @param scene {@link Scene} associated with this view.
+     * @param runner {@link FxModulesRunner} that created this view. It allows to run other modules.
+     */
     @Override
     public void attachFx(Scene scene, FxModulesRunner runner) {
         super.attachFx(scene, runner);
@@ -57,6 +69,11 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
         ((VBox) scene.getRoot()).getChildren().add(0, menuBar);
     }
 
+    /**
+     * Initializes {@link DashboardPresenter} using passed {@link DashboardInjector} as
+     * a parameter and attaches this view to it. Sets onClicks and prepares view to interactions with user.
+     * @param injector Implementation of injector that provides necessary components for presenter.
+     */
     @Override
     public void start(Injector injector) {
 
@@ -129,22 +146,37 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
         }
     }
 
+    /**
+     * Close view and detaches presenter.
+     */
     @Override
     public void close() {
         presenter.detach();
         super.close();
     }
 
+    /**
+     * Updates rpm in the associated {@link Gauge}.
+     * @param rpm Engines rpm.
+     */
     @Override
     public void updateRpm(int rpm) {
         tachometer.setValue(rpm);
     }
 
+    /**
+     * Updates gear value in the associated {@link Label} with id = gearValue.
+     * @param gear Current gear.
+     */
     @Override
     public void updateGear(int gear) {
         gearValue.setText(String.valueOf(gear));
     }
 
+    /**
+     * Updates speed in the associated {@link Gauge} with id = speedometer.
+     * @param speed Engines speed.
+     */
     @Override
     public void updateSpeed(double speed) {
         speedometer.setValue(speed);
@@ -153,9 +185,10 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
     @Override
     public void updateMileage(Mileage mileage) {
 
-        double odometerValue =  Math.ceil(mileage.getTotalMileage() * 100)/100;
-        double dailyOdometerOneValue =  Math.ceil(mileage.getResettableMileages().get(0) * 100)/100;
-        double dailyOdometerTwoValue =  Math.ceil(mileage.getResettableMileages().get(1) * 100)/100;
+        double odometerValue = Utils.round(mileage.getTotalMileage(),2);
+        double dailyOdometerOneValue =  Utils.round(mileage.getResettableMileages().get(0), 2);
+        double dailyOdometerTwoValue = Utils.round(mileage.getResettableMileages().get(1), 2);
+
         odometer.setText(odometerValue + " km");
         dailyOdometerOne.setText(dailyOdometerOneValue + " km");
         dailyOdometerTwo.setText(dailyOdometerTwoValue + " km");
@@ -179,47 +212,91 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
         avgConsumption.setText(currentAvgFuelConsumption+ " l/km");
     }
 
+    /**
+     * Updates left turn signal state. If true sets its indicator ({@link ImageView} with id = turnLeftLight) visible.
+     * Otherwise, it is invisible.
+     * @param isOn Determines if left turn signal is on/off.
+     */
     @Override
     public void setLeftTurnSignalLight(boolean isOn) {
         turnLeftLight.setVisible(isOn);
     }
 
+    /**
+     * Updates right turn signal state. If true sets its indicator ({@link ImageView} with id = turnRightLight) visible.
+     * Otherwise, it is invisible.
+     * @param isOn Determines if right turn signal is on/off.
+     */
     @Override
     public void setRightTurnSignalLight(boolean isOn) {
         turnRightLight.setVisible(isOn);
     }
 
+    /**
+     * Updates back fog lights state. If true sets its indicator ({@link ImageView} with id = fogBackLight) visible.
+     * Otherwise, it is invisible.
+     * @param isOn Determines if back fog lights are on/off.
+     */
     @Override
     public void setBackFogLightState(boolean isOn) {
         fogBackLight.setVisible(isOn);
     }
 
+    /**
+     * Updates front fog lights state. If true sets its indicator ({@link ImageView} with id = fogFrontLight) visible.
+     * Otherwise, it is invisible.
+     * @param isOn Determines if front fog lights are on/off.
+     */
     @Override
     public void setFrontFogLightState(boolean isOn) {
         fogFrontLight.setVisible(isOn);
     }
 
+    /**
+     * Updates parking lights state. If true sets its
+     * indicators ({@link ImageView} with id = parkingLeftLight and {@link ImageView} with id = parkingRightLight) visible.
+     * Otherwise, it is invisible.
+     * @param isOn Determines if parking lights are on/off.
+     */
     @Override
     public void setParkingLight(boolean isOn) {
         parkingLeftLight.setVisible(isOn);
-        positionRightLight.setVisible(isOn);
+        parkingRightLight.setVisible(isOn);
     }
 
+    /**
+     * Updates low beam lights state. If true sets its indicator ({@link ImageView} with id = lowBeamLight) visible.
+     * Otherwise, it is invisible.
+     * @param isOn Determines if low beam lights are on/off.
+     */
     @Override
     public void setLowBeamLight(boolean isOn) {
         lowBeamLight.setVisible(isOn);
     }
 
+    /**
+     * Updates high beam lights state. If true sets its indicator ({@link ImageView} with id = highBeamLight) visible.
+     * Otherwise, it is invisible.
+     * @param isOn Determines if high beam lights are on/off.
+     */
     @Override
     public void setHighBeamLight(boolean isOn) {
         highBeamLight.setVisible(isOn);
     }
 
+    /**
+     * Updates cruise control state in the {@link CheckBox} with id = cruiseControlCheckbox.
+     * {@link CheckBox} is selected if cruise control is on.
+     * @param isOn Determines if cruise control is on/off.
+     */
     @Override
     public void setCruiseControlState(boolean isOn) {
         cruiseControlCheckbox.setSelected(isOn);
     }
 
+    /**
+     * Opens new window with statistics history using {@link FxModulesRunner}
+     */
     @Override
     public void openStatsHistory() {
 
@@ -230,6 +307,9 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
         }
     }
 
+    /**
+     * Opens new window with settings using {@link FxModulesRunner}
+     */
     @Override
     public void openSettings() {
         try {
@@ -239,6 +319,9 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
         }
     }
 
+    /**
+     * Opens new window with MP3 Player using {@link FxModulesRunner}
+     */
     @Override
     public void openMp3() {
 

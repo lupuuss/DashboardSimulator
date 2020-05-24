@@ -5,8 +5,8 @@ import p.lodz.dashboardsimulator.model.monitor.statistics.TravelStatistics;
 import p.lodz.dashboardsimulator.model.monitor.odometer.Mileage;
 
 /**
+ * Describes interactions with view shown to the user in dashboard module.
  * Every {@link View} bounded to {@link DashboardPresenter} must extend this class.
- * Methods in this interface are supposed to change the state of view.
  */
 public interface DashboardView extends View<DashboardPresenter> {
 
@@ -88,7 +88,6 @@ public interface DashboardView extends View<DashboardPresenter> {
      * Opens new view with statistics history.
      */
     void openStatsHistory();
-
 
     /**
      * Opens new view with settings.

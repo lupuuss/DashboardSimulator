@@ -1,7 +1,6 @@
 package p.lodz.dashboardsimulator.modules.dashboard;
 
 import io.reactivex.disposables.Disposable;
-import javafx.scene.control.TextField;
 import p.lodz.dashboardsimulator.base.Presenter;
 import p.lodz.dashboardsimulator.base.View;
 import p.lodz.dashboardsimulator.model.control.ActiveCruiseControl;
@@ -21,6 +20,8 @@ import java.util.List;
 
 /**
  * Describes whole logic layer behind DashboardView.
+ * Communicates the view with {@link Engine}, engine monitors, and all data sources.
+ * Interprets user intent and response to them.
  */
 public class DashboardPresenter extends Presenter<DashboardView> {
 
@@ -36,6 +37,15 @@ public class DashboardPresenter extends Presenter<DashboardView> {
 
     private List<Disposable> subscriptions = new ArrayList<>();
 
+    /**
+     * Initializes presenter with passed implementation of used interfaces.
+     * @param engine Implementation of {@link Engine} to be used by presenter.
+     * @param engineMonitor Implementation of {@link StatisticsMonitor} to be used by presenter.
+     * @param lightsController Implementation of {@link LightsController} to be used by presenter.
+     * @param odometer Implementation of {@link Odometer} to be used by presenter.
+     * @param cruiseControl Implementation of {@link ActiveCruiseControl} to be used by presenter.
+     * @param repository Implementation of {@link TravelDataRepository} to be used by presenter.
+     */
     public DashboardPresenter(
             Engine engine,
             StatisticsMonitor engineMonitor,
@@ -157,7 +167,7 @@ public class DashboardPresenter extends Presenter<DashboardView> {
     }
 
     /**
-     * Notifies presenter about user intent to change acceleration state.
+     * Sets acceleration on {@link Engine}.
      * @param isOn Determines if user wants to turn on/off acceleration.
      */
     public void setEngineAcceleration(boolean isOn) {
@@ -165,7 +175,7 @@ public class DashboardPresenter extends Presenter<DashboardView> {
     }
 
     /**
-     * Notifies presenter about user intent to change brakes state.
+     * Sets brake on {@link Engine}.
      * @param isOn Determines if user wants to turn on/off brakes.
      */
     public void setEngineBrake(boolean isOn) {
@@ -173,7 +183,7 @@ public class DashboardPresenter extends Presenter<DashboardView> {
     }
 
     /**
-     * Notifies presenter about user intent to reset Mileage
+     * Resets {@link Odometer} resettable mileage with given index.
      * @param n Number of mileage to reset.
      */
     public void resetMileage(int n) {
@@ -181,7 +191,7 @@ public class DashboardPresenter extends Presenter<DashboardView> {
     }
 
     /**
-     * Notifies presenter about user intent to change lights mode.
+     * Changes lights mode in {@link LightsController}.
      * @param mode Determines mode of light.
      */
     public void changeLightMode(LightsMode mode) {
@@ -190,21 +200,21 @@ public class DashboardPresenter extends Presenter<DashboardView> {
     }
 
     /**
-     * Notifies presenter about user intent to switch left turn signal state.
+     * Triggers left turn in {@link LightsController}.
      */
     public void triggerLeftTurnSignal() {
         lightsController.triggerLeftTurnSignal();
     }
 
     /**
-     * Notifies presenter about user intent to switch right turn signal state.
+     * Triggers left turn in {@link LightsController}.
      */
     public void triggerRightTurnSignal() {
         lightsController.triggerRightTurnSignal();
     }
 
     /**
-     * Notifies presenter about user intent to turn on/off back fog lights.
+     * Switches back fog lights state left in {@link LightsController}.
      */
     public void toggleFogBackLight() {
         lightsController.setFogBackLights(
@@ -213,7 +223,7 @@ public class DashboardPresenter extends Presenter<DashboardView> {
     }
 
     /**
-     * Notifies presenter about user intent to turn on/off front fog lights.
+     * Switches front fog lights state left in {@link LightsController}.
      */
     public void toggleFogFrontLight() {
         lightsController.setFogFrontLights(
@@ -234,9 +244,9 @@ public class DashboardPresenter extends Presenter<DashboardView> {
         return speed;
     }
 
-
     /**
-     * Notifies presenter about user intent to activate cruise control with given speed.
+     * Parses passed speed. If speed is valid activates cruise control in {@link ActiveCruiseControl}.
+     * If passed speed is invalid, shows message to the user.
      * @param speedInput Speed limit input in km/h from user (might be invalid).
      */
     public void activateCruiseControl(String speedInput) {
@@ -252,7 +262,15 @@ public class DashboardPresenter extends Presenter<DashboardView> {
         }
     }
 
+    /**
+     * Updates cruise control speed if passed speed is valid.
+     */
     public void updateCruiseControlSpeed(String speed) {
+
+        if (parseSpeed(speed) <= 0) {
+            view.showMessage("Speed input must be a positive numeric value in km/h!", View.MessageType.ERROR);
+            return;
+        }
 
         if (cruiseControl.isOn()) {
             deactivateCruiseControl();
@@ -268,6 +286,9 @@ public class DashboardPresenter extends Presenter<DashboardView> {
         cruiseControl.dropControl();
     }
 
+    /**
+     * Saves current statistics to repository and notifies user about the results.
+     */
     public void saveCurrentStatsToDatabase() {
 
         TravelStatistics tmp = engineMonitor.getLastStatistics();
@@ -287,7 +308,6 @@ public class DashboardPresenter extends Presenter<DashboardView> {
                     } else {
                         view.showMessage("Statistics couldn't be saved!", DashboardView.MessageType.WARNING);
                     }
-
                 })
                 .doOnError(error -> view.showMessage(
                         "An error occurred while saving the data! \n\n" + error.getMessage(),
@@ -312,24 +332,38 @@ public class DashboardPresenter extends Presenter<DashboardView> {
     }
 
     /**
-     * Notifies presenter about user intent to close a view.
+     * Closes the view.
      */
     public void closeView() {
         view.close();
     }
 
+    /**
+     *  Opens stats history using view.
+     */
     public void openStatsHistory() {
         view.openStatsHistory();
     }
 
+    /**
+     *  Opens settings using view.
+     */
     public void openSettings() {
         view.openSettings();
     }
 
+    /**
+     *  Opens mp3 player using view.
+     */
     public void openMp3() {
         view.openMp3();
     }
 
+    /**
+     * Updates vehicle in front of a car.
+     * @param selected Determines if vehicle appears.
+     * @param speedInput Vehicle speed input in km/h from user (might be invalid).
+     */
     public void updateActiveCruiseControlVehicle(boolean selected, String speedInput) {
 
         if (selected) {

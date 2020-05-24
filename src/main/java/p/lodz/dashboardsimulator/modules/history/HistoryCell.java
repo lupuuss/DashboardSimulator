@@ -10,6 +10,9 @@ import javafx.scene.control.ListCell;
 import java.io.IOException;
 import java.util.function.Consumer;
 
+/**
+ * Data cell in JavaFX {@link javafx.scene.control.ListView} used to display travel statistics.
+ */
 public class HistoryCell extends ListCell<String> {
 
     @FXML private Label statText;
@@ -33,7 +36,6 @@ public class HistoryCell extends ListCell<String> {
             throw new RuntimeException(e);
         }
     }
-
 
     @Override
     protected void updateItem(String item, boolean empty) {
