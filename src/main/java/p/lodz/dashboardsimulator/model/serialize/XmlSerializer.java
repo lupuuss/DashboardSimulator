@@ -121,4 +121,16 @@ public class XmlSerializer implements Serializer {
             throw new DeserializationException(e);
         }
     }
+
+    @Override
+    public <T> void removeSerialization(String key, Class<T> classObject) throws DeserializationException {
+
+        String fileName = generateFileName(key, classObject);
+
+        File serializedObject = new File(rootDir, fileName);
+
+        if (!serializedObject.delete()) {
+            throw new DeserializationException("Serialized object with passed identifier doesn't exist.");
+        }
+    }
 }

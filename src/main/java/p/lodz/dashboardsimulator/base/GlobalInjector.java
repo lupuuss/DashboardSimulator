@@ -2,6 +2,7 @@ package p.lodz.dashboardsimulator.base;
 
 import p.lodz.dashboardsimulator.model.repositories.JdbcTravelDataRepository;
 import p.lodz.dashboardsimulator.model.repositories.TravelDataRepository;
+import p.lodz.dashboardsimulator.model.repositories.XmlTravelDataRepository;
 import p.lodz.dashboardsimulator.model.serialize.Serializer;
 import p.lodz.dashboardsimulator.model.serialize.XmlSerializer;
 import p.lodz.dashboardsimulator.model.settings.Settings;
@@ -27,12 +28,20 @@ public class GlobalInjector implements Injector {
 
         Settings settings = settingsManager.getSettings();
 
-        travelDataRepository = new JdbcTravelDataRepository(
-                settings.getDatabaseUser(),
-                settings.getDatabasePassword(),
-                settings.getDatabaseHost(),
-                settings.getDatabaseName()
-        );
+        switch (settings.getDatabaseType()) {
+
+            case JDBC:
+                travelDataRepository = new JdbcTravelDataRepository(
+                        settings.getDatabaseUser(),
+                        settings.getDatabasePassword(),
+                        settings.getDatabaseHost(),
+                        settings.getDatabaseName()
+                );
+                break;
+            case XML:
+                travelDataRepository = new XmlTravelDataRepository(serializer);
+                break;
+        }
     }
 
     /**
