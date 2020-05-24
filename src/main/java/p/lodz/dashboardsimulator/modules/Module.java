@@ -2,6 +2,7 @@ package p.lodz.dashboardsimulator.modules;
 
 import p.lodz.dashboardsimulator.base.Injector;
 import p.lodz.dashboardsimulator.modules.dashboard.DashboardInjector;
+import p.lodz.dashboardsimulator.modules.player.PlayerInjector;
 
 import java.util.function.Supplier;
 
@@ -24,6 +25,11 @@ public enum Module {
             null,
             "/settings.fxml",
             "Ustawienia"
+    ),
+    PLAYER(
+      PlayerInjector::new,
+      "/player.fxml",
+      "MP3 Player"
     );
 
     private Supplier<Injector> injectorSupplier;
