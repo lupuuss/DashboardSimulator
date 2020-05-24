@@ -2,7 +2,9 @@ package p.lodz.dashboardsimulator.modules.settings;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import p.lodz.dashboardsimulator.base.GlobalInjector;
 import p.lodz.dashboardsimulator.base.Injector;
 import p.lodz.dashboardsimulator.base.JavaFxView;
@@ -11,15 +13,16 @@ import p.lodz.dashboardsimulator.model.repositories.TravelDataRepository;
 
 public class SettingsGuiView extends JavaFxView<SettingsPresenter> implements SettingsView {
 
-    public TextField loginValue;
-    public PasswordField passwordValue;
-    public TextField hostValue;
-    public TextField baseNameValue;
-    public TextField ticksPerSecValue;
-    public TextField accValue;
-    public TextField maxSpeedValue;
+    @FXML private TextField loginValue;
+    @FXML private PasswordField passwordValue;
+    @FXML  private TextField hostValue;
+    @FXML private TextField baseNameValue;
+    @FXML  private TextField ticksPerSecValue;
+    @FXML private TextField accValue;
+    @FXML private TextField maxSpeedValue;
+    @FXML private ToggleGroup savingMethods;
 
-    SettingsPresenter presenter;
+    private SettingsPresenter presenter;
 
     @Override
     public void start(Injector injector) {
@@ -123,11 +126,16 @@ public class SettingsGuiView extends JavaFxView<SettingsPresenter> implements Se
 
     @Override
     public TravelDataRepository.Type getDatabaseType() {
-        return null;
+
+        return TravelDataRepository.Type.valueOf(savingMethods.getSelectedToggle().getUserData().toString());
     }
 
     @Override
     public void setDatabaseType(TravelDataRepository.Type databaseType) {
-
+        savingMethods.
+                getToggles()
+                .filtered(toggle -> toggle.getUserData().toString().equals(databaseType.name()))
+                .get(0)
+                .setSelected(true);
     }
 }
