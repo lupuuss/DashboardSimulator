@@ -324,7 +324,11 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
      */
     @Override
     public void openMp3() {
-
+        try {
+            runner.runModule(Module.PLAYER);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
