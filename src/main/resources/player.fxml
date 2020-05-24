@@ -3,35 +3,44 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Polygon?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="111.0" prefWidth="300.0" style="-fx-background-color: #231F20;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-fx:controller="p.lodz.dashboardsimulator.modules.player.PlayerGuiView">
+<VBox prefHeight="111.0" prefWidth="300.0" style="-fx-background-color: #231F20;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="p.lodz.dashboardsimulator.modules.player.PlayerGuiView">
    <Label alignment="CENTER" prefHeight="46.0" prefWidth="306.0" text="Odtwarzacz MP3 " textAlignment="CENTER" textFill="WHITE">
       <font>
          <Font size="31.0" />
       </font>
    </Label>
    <HBox prefHeight="95.0" prefWidth="300.0">
-      <Polygon fx:id="playMusicButton" fill="WHITE" points="-306.0000915527344, -369.2001037597656, -280.4001159667969, -342.0000915527344, -306.0000915527344, -319.60009765625" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
+      <Polygon fx:id="previousMusicButton" fill="WHITE" points="-306, -370, -280, -342, -306, -319" rotate="180.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
          <HBox.margin>
-            <Insets left="80.0" right="10.0" />
+            <Insets left="60.0" />
          </HBox.margin>
       </Polygon>
+      <Rectangle id="previousMusicButton1" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="52.0" stroke="BLACK" width="13.0" />
+      <StackPane prefHeight="53.0" prefWidth="55.0">
+         <Polygon fx:id="playMusicButton" fill="WHITE"
+                  points="-306, -369, -280, -342, -306, -319"
+                  stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0"/>
+         <Pane fx:id="" prefHeight="200.0" prefWidth="200.0" visible="false">
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="53.0" layoutX="8.0" stroke="BLACK"
+                       strokeType="INSIDE" width="13.0"/>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="53.0" layoutX="28.0" stroke="BLACK"
+                       strokeType="INSIDE" width="13.0"/>
+         </Pane>
+      </StackPane>
       <Rectangle fx:id="stopMusicButton" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="BLACK" strokeType="INSIDE" width="49.0">
          <HBox.margin>
             <Insets right="10.0" />
          </HBox.margin>
       </Rectangle>
       <Rectangle id="skipMusicButton" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="52.0" stroke="BLACK" strokeType="INSIDE" width="13.0" />
-      <Polygon fx:id="skipMusicButton" fill="WHITE" points="-306.0000915527344, -369.2001037597656, -280.4001159667969, -342.0000915527344, -306.0000915527344, -319.60009765625" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
-         <HBox.margin>
-            <Insets left="5.0" />
-         </HBox.margin>
-      </Polygon>
+      <Polygon fx:id="skipMusicButton1" fill="WHITE" points="-306, -369, -280, -342, -306, -319" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
    </HBox>
    <Label alignment="CENTER" prefHeight="50.0" prefWidth="300.0" text="Label" textFill="WHITE">
       <font>
