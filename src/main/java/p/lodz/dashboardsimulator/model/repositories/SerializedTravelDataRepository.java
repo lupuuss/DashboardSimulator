@@ -12,15 +12,20 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class XmlTravelDataRepository implements TravelDataRepository {
+/**
+ * Implements {@link TravelDataRepository} using local data {@link Serializer}.
+ * This implementation keeps list of saved data ids in separate serialized object.
+ * Based on this list data maintained. Every row is saved as a serialized object.
+ */
+public class SerializedTravelDataRepository implements TravelDataRepository {
 
     private Serializer serializer;
     private List<Integer> existingDataIds = new ArrayList<>();
-    private final String idsSerializationKey = "XmlRepositoryIds";
+    private final String idsSerializationKey = "SerializedRepositoryIds";
 
     private int nextId = 0;
 
-    public XmlTravelDataRepository(Serializer serializer) {
+    public SerializedTravelDataRepository(Serializer serializer) {
         this.serializer = serializer;
 
         try {
@@ -32,7 +37,7 @@ public class XmlTravelDataRepository implements TravelDataRepository {
         } catch (DeserializationException e) {
 
             e.printStackTrace();
-            System.out.print("XmlTravelDataRepository data not found!");
+            System.out.print("SerializedTravelDataRepository data not found!");
         }
 
         if (!existingDataIds.isEmpty()) {

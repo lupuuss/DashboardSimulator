@@ -2,7 +2,7 @@ package p.lodz.dashboardsimulator.base;
 
 import p.lodz.dashboardsimulator.model.repositories.JdbcTravelDataRepository;
 import p.lodz.dashboardsimulator.model.repositories.TravelDataRepository;
-import p.lodz.dashboardsimulator.model.repositories.XmlTravelDataRepository;
+import p.lodz.dashboardsimulator.model.repositories.SerializedTravelDataRepository;
 import p.lodz.dashboardsimulator.model.serialize.Serializer;
 import p.lodz.dashboardsimulator.model.serialize.XmlSerializer;
 import p.lodz.dashboardsimulator.model.settings.Settings;
@@ -39,7 +39,7 @@ public class GlobalInjector implements Injector {
                 );
                 break;
             case XML:
-                travelDataRepository = new XmlTravelDataRepository(serializer);
+                travelDataRepository = new SerializedTravelDataRepository(serializer);
                 break;
         }
     }
