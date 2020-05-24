@@ -6,7 +6,7 @@ public interface PlaylistPlayer {
 
     void setPlaylist(Playlist playlist);
 
-    Observable<String> getCurrentSongName();
+    Observable<PlayerState> getPlayerState();
 
     void play();
 
@@ -17,4 +17,6 @@ public interface PlaylistPlayer {
     void next();
 
     void prev();
+
+    boolean isPlaying();
 }

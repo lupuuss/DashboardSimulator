@@ -17,32 +17,32 @@
       </font>
    </Label>
    <HBox prefHeight="95.0" prefWidth="300.0">
-      <Polygon fx:id="previousMusicButton" fill="WHITE" points="-306, -370, -280, -342, -306, -319" rotate="180.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
+      <Polygon fill="WHITE" points="-306, -370, -280, -342, -306, -319" rotate="180.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" onMouseClicked="#notifyPresenterPreviousSong">
          <HBox.margin>
             <Insets left="60.0" />
          </HBox.margin>
       </Polygon>
-      <Rectangle id="previousMusicButton1" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="52.0" stroke="BLACK" width="13.0" />
-      <StackPane prefHeight="53.0" prefWidth="55.0">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="52.0" stroke="BLACK" width="13.0" onMouseClicked="#notifyPresenterPreviousSong" />
+      <StackPane prefHeight="53.0" prefWidth="55.0" onMouseClicked="#notifyPresenterPlayPause">
          <Polygon fx:id="playMusicButton" fill="WHITE"
                   points="-306, -369, -280, -342, -306, -319"
                   stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0"/>
-         <Pane fx:id="" prefHeight="200.0" prefWidth="200.0" visible="false">
+         <Pane fx:id="pauseMusicButton" prefHeight="200.0" prefWidth="200.0" visible="false">
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="53.0" layoutX="8.0" stroke="BLACK"
                        strokeType="INSIDE" width="13.0"/>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="53.0" layoutX="28.0" stroke="BLACK"
                        strokeType="INSIDE" width="13.0"/>
          </Pane>
       </StackPane>
-      <Rectangle fx:id="stopMusicButton" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="BLACK" strokeType="INSIDE" width="49.0">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="BLACK" strokeType="INSIDE" width="49.0" onMouseClicked="#notifyPresenterStop">
          <HBox.margin>
             <Insets right="10.0" />
          </HBox.margin>
       </Rectangle>
-      <Rectangle id="skipMusicButton" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="52.0" stroke="BLACK" strokeType="INSIDE" width="13.0" />
-      <Polygon fx:id="skipMusicButton1" fill="WHITE" points="-306, -369, -280, -342, -306, -319" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="52.0" stroke="BLACK" strokeType="INSIDE" width="13.0" onMouseClicked="#notifyPresenterSkipSong"/>
+      <Polygon fill="WHITE" points="-306, -369, -280, -342, -306, -319" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" onMouseClicked="#notifyPresenterSkipSong"/>
    </HBox>
-   <Label alignment="CENTER" prefHeight="50.0" prefWidth="300.0" text="Label" textFill="WHITE">
+   <Label fx:id="currentSongName" alignment="CENTER" prefHeight="50.0" prefWidth="300.0" text="-" textFill="WHITE">
       <font>
          <Font size="23.0" />
       </font>

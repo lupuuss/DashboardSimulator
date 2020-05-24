@@ -1,6 +1,8 @@
 package p.lodz.dashboardsimulator.model.player;
 
 import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
+import io.reactivex.subjects.Subject;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -15,6 +17,9 @@ public class FxPlaylistPlayer implements PlaylistPlayer {
     private Playlist playlist;
 
     private MediaPlayer currentPlayer;
+    private Subject<PlayerState> playerStateSubject = PublishSubject.create();
+    private String currentSongName;
+    private boolean playing = false;
 
     @Override
     public void setPlaylist(Playlist playlist) {
@@ -24,13 +29,8 @@ public class FxPlaylistPlayer implements PlaylistPlayer {
     }
 
     @Override
-    public Observable<String> getCurrentSongName() {
-        return null;
-    }
-
-    void initNewPlayer(File song) {
-
-        currentPlayer = new MediaPlayer(new Media(song.getAbsolutePath()));
+    public Observable<PlayerState> getPlayerState() {
+        return playerStateSubject;
     }
 
     void restartPlaylist() {
@@ -43,9 +43,17 @@ public class FxPlaylistPlayer implements PlaylistPlayer {
         }
     }
 
+    private void publishState() {
+        playerStateSubject.onNext(new PlayerState(currentSongName, playing));
+    }
+
     private void playNew(File file) {
 
-        currentPlayer = new MediaPlayer(new Media(file.getAbsolutePath()));
+        currentPlayer = new MediaPlayer(new Media(file.toURI().toString()));
+        currentSongName = file.getName();
+        playing = true;
+        currentPlayer.play();
+        publishState();
     }
 
     @Override
@@ -64,31 +72,34 @@ public class FxPlaylistPlayer implements PlaylistPlayer {
 
         } else {
             currentPlayer.play();
+            playing = true;
+            publishState();
         }
 
     }
 
     @Override
     public void stop() {
-
         if (currentPlayer != null) {
             currentPlayer.stop();
             currentPlayer = null;
         }
+        playing = false;
+        publishState();
     }
 
     @Override
     public void pause() {
-
         if (currentPlayer != null) {
             currentPlayer.pause();
         }
+        playing = false;
+        publishState();
     }
 
     @Override
     public void next() {
         stop();
-
         play();
     }
 
@@ -102,5 +113,11 @@ public class FxPlaylistPlayer implements PlaylistPlayer {
         }
 
         playNew(currentSong.previous());
+        currentPlayer.play();
+    }
+
+    @Override
+    public boolean isPlaying() {
+        return playing;
     }
 }
