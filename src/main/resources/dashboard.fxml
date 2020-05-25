@@ -247,7 +247,7 @@
       </VBox>
    </HBox>
    <HBox prefHeight="158.0" prefWidth="1280.0" style="-fx-background-color: #231F20;">
-      <Label fx:id="gearValue" alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" prefHeight="158.0" prefWidth="209.0" style="-fx-text-alignment: rigth;" text="0" textAlignment="CENTER" textFill="WHITE">
+      <Label fx:id="gearValue" alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" prefHeight="158.0" prefWidth="209.0" style="-fx-text-alignment: right;" text="0" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="AcadEref" size="82.0" />
          </font>

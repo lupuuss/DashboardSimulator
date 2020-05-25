@@ -1,12 +1,11 @@
 package p.lodz.dashboardsimulator;
 
-import io.reactivex.schedulers.Schedulers;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 import p.lodz.dashboardsimulator.base.GlobalInjector;
 import p.lodz.dashboardsimulator.modules.FxModulesRunner;
-import p.lodz.dashboardsimulator.modules.Module;
+import p.lodz.dashboardsimulator.modules.FxModule;
 import p.lodz.dashboardsimulator.modules.dashboard.DashboardInjector;
 import p.lodz.dashboardsimulator.modules.dashboard.DashboardView;
 import p.lodz.dashboardsimulator.modules.dashboard.console.ConsoleCommandsReader;
@@ -49,8 +48,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        FxModulesRunner initializer = new FxModulesRunner(primaryStage, Module.DASHBOARD);
+        FxModulesRunner initializer = new FxModulesRunner(primaryStage, FxModule.DASHBOARD);
 
-        initializer.runModule(Module.DASHBOARD);
+        initializer.runModule(FxModule.DASHBOARD);
     }
 }

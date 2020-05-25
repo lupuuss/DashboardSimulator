@@ -7,6 +7,8 @@ import javafx.stage.Stage;
 import p.lodz.dashboardsimulator.base.*;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Initializes modules and shares model instances between them using injectors ({@link Injector}).
@@ -14,49 +16,61 @@ import java.io.IOException;
 public class FxModulesRunner {
 
     private Stage primaryStage;
-    private Module primaryStageModule;
+    private FxModule primaryStageFxModule;
     private GlobalInjector globalInjector = new GlobalInjector();
+
+    private Map<FxModule, Stage> singleModules = new HashMap<>();
 
     /**
      * Requires JavaFx primary {@link Stage} and module that is supposed to be run on this stage.
      * @param primaryStage Primary {@link Stage} from JavaFX.
-     * @param primaryStageModule Module to be run on the primary {@link Stage}.
+     * @param primaryStageFxModule Module to be run on the primary {@link Stage}.
      */
-    public FxModulesRunner(Stage primaryStage, Module primaryStageModule) {
+    public FxModulesRunner(Stage primaryStage, FxModule primaryStageFxModule) {
 
         this.primaryStage = primaryStage;
-        this.primaryStageModule = primaryStageModule;
+        this.primaryStageFxModule = primaryStageFxModule;
 
         globalInjector.init(null);
     }
 
     /**
      * Runs passed module.
-     * @param module Module to be run.
+     * @param fxModule Module to be run.
      * @throws IOException If error occurs during loading fxml.
      */
-    public void runModule(Module module) throws IOException {
+    public void runModule(FxModule fxModule) throws IOException {
 
-        FXMLLoader fxml = new FXMLLoader(getClass().getResource(module.getFxmlPath()));
+        if (fxModule.isSingle() && singleModules.containsKey(fxModule)) {
+
+            Stage stage = singleModules.get(fxModule);
+
+            stage.setIconified(false);
+            stage.getScene().getWindow().requestFocus();
+            return;
+        }
+
+
+        FXMLLoader fxml = new FXMLLoader(getClass().getResource(fxModule.getFxmlPath()));
         Parent root = fxml.load();
 
         JavaFxView<?> view = fxml.getController();
 
         Stage stage;
 
-        if (primaryStageModule == module) {
+        if (primaryStageFxModule == fxModule) {
             stage = primaryStage;
         } else {
             stage = new Stage();
         }
 
-        stage.setTitle(module.getTitle());
+        stage.setTitle(fxModule.getTitle());
         stage.setScene(new Scene(root));
 
         Injector injector;
 
-        if (module.getInjectorSupplier() != null) {
-            injector = module.getInjectorSupplier().get();
+        if (fxModule.getInjectorSupplier() != null) {
+            injector = fxModule.getInjectorSupplier().get();
             injector.init(globalInjector);
         } else {
             injector = globalInjector;
@@ -67,9 +81,18 @@ public class FxModulesRunner {
 
         stage.show();
         stage.setOnCloseRequest(event -> {
+
+            if (fxModule.isSingle()) {
+                singleModules.remove(fxModule);
+            }
+
             view.notifyCloseEvent();
             event.consume();
         });
+
+        if (fxModule.isSingle()) {
+            singleModules.put(fxModule, stage);
+        }
     }
 
 }

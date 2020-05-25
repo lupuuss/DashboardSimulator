@@ -9,45 +9,52 @@ import java.util.function.Supplier;
 /**
  * Enumerates JavaFx modules available in a program.
  */
-public enum Module {
+public enum FxModule {
 
     DASHBOARD(
             DashboardInjector::new,
             "/dashboard.fxml",
-            "Dashboard"
+            "Dashboard",
+            true
     ),
     HISTORY(
             null,
             "/history.fxml",
-            "History statistics"
+            "History statistics",
+            true
     ),
     SETTINGS(
             null,
             "/settings.fxml",
-            "Settings"
+            "Settings",
+            true
     ),
     PLAYER(
       PlayerInjector::new,
       "/player.fxml",
-      "MP3 Player"
+      "MP3 Player",
+            true
     );
 
     private Supplier<Injector> injectorSupplier;
     private String fxmlPath;
     private String title;
+    private boolean single;
 
     /**
      * Requires {@link java.util.function.Supplier} that creates {@link Injector} associated with this module, name
      * of view's fxml and title of a view. If supplier is null, {@link p.lodz.dashboardsimulator.base.GlobalInjector}
      * will be used in {@link FxModulesRunner}
-     * @param injectorSupplier {@link java.util.function.Supplier} that creates required {@link Injector}
+     * @param injectorSupplier {@link Supplier} that creates required {@link Injector}
      * @param fxmlPath Path to fxml file that contains JavaFx view.
      * @param title {@link String} that will be displayed as a window title.
+     * @param isSingle Determines if module can have more than one instance.
      */
-    Module(Supplier<Injector> injectorSupplier, String fxmlPath, String title) {
+    FxModule(Supplier<Injector> injectorSupplier, String fxmlPath, String title, boolean isSingle) {
         this.injectorSupplier = injectorSupplier;
         this.fxmlPath = fxmlPath;
         this.title = title;
+        this.single = isSingle;
     }
 
     /**
@@ -72,5 +79,9 @@ public enum Module {
      */
     public String getTitle() {
         return title;
+    }
+
+    public boolean isSingle() {
+        return single;
     }
 }

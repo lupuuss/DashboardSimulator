@@ -12,7 +12,7 @@ import p.lodz.dashboardsimulator.base.Injector;
 import p.lodz.dashboardsimulator.base.JavaFxView;
 import p.lodz.dashboardsimulator.model.light.LightsMode;
 import p.lodz.dashboardsimulator.modules.FxModulesRunner;
-import p.lodz.dashboardsimulator.modules.Module;
+import p.lodz.dashboardsimulator.modules.FxModule;
 
 import java.io.IOException;
 
@@ -330,7 +330,7 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
     public void openStatsHistory() {
 
         try {
-            runner.runModule(Module.HISTORY);
+            runner.runModule(FxModule.HISTORY);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -342,7 +342,7 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
     @Override
     public void openSettings() {
         try {
-            runner.runModule(Module.SETTINGS);
+            runner.runModule(FxModule.SETTINGS);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -354,7 +354,7 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
     @Override
     public void openMp3() {
         try {
-            runner.runModule(Module.PLAYER);
+            runner.runModule(FxModule.PLAYER);
         } catch (IOException e) {
             e.printStackTrace();
         }
