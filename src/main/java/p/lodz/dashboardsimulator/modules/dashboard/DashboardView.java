@@ -4,7 +4,7 @@ import p.lodz.dashboardsimulator.base.View;
 
 /**
  * Describes interactions with view shown to the user in dashboard module.
- * Every {@link View} bounded to {@link DashboardPresenter} must extend this class.
+ * Every {@link View} bounded to {@link DashboardPresenter} must implement this class.
  */
 public interface DashboardView extends View<DashboardPresenter> {
 

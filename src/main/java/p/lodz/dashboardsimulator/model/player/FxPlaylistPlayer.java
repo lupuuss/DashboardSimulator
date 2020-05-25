@@ -49,10 +49,15 @@ public class FxPlaylistPlayer implements PlaylistPlayer {
 
     private void playNew(File file) {
 
+        if (currentPlayer != null) {
+            currentPlayer.setOnEndOfMedia(null);
+        }
+
         currentPlayer = new MediaPlayer(new Media(file.toURI().toString()));
         currentSongName = file.getName();
         playing = true;
         currentPlayer.play();
+        currentPlayer.setOnEndOfMedia(this::next);
         publishState();
     }
 

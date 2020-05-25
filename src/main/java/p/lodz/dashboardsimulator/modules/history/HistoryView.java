@@ -4,7 +4,7 @@ import p.lodz.dashboardsimulator.base.View;
 
 /**
  * Describes interactions with view shown to the user in history module.
- * Every {@link View} bounded to {@link HistoryPresenter} must extend this class.
+ * Every {@link View} bounded to {@link HistoryPresenter} must implement this class.
  */
 public interface HistoryView extends View<HistoryPresenter> {
 

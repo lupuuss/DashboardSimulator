@@ -69,7 +69,7 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
     /**
      * Initializes {@link DashboardPresenter} using passed {@link DashboardInjector} as
      * a parameter and attaches this view to it. Sets onClicks and prepares view to interactions with user.
-     * @param injector Implementation of injector that provides necessary components for presenter.
+     * @param injector Expected to be instance of {@link DashboardInjector} that provides model classes to the presenter.
      */
     @Override
     public void start(Injector injector) {
@@ -180,7 +180,7 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
     }
 
     /**
-     * Updates mileages labels. Total mileages is set on label with id = odometer.
+     * Updates mileages labels. Total mileages is set on {@link Label} with id = odometer.
      * Two resettable mileages are set on labels with ids dailyOdometerOne and dailyOdometerTwo
      * @param total Total mileage {@link String}.
      * @param resettable Resettable mileages {@link String}s.
@@ -195,7 +195,7 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
     }
 
     /**
-     * Updates average speed on label with id = averageSpeed.
+     * Updates average speed on {@link Label} with id = averageSpeed.
      * @param avgSpeed Well formatted {@link String} that contains average speed.
      */
     @Override
@@ -206,7 +206,7 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
     }
 
     /**
-     * Updates maximum speed on label with id = maxSpeed.
+     * Updates maximum speed on {@link Label} with id = maxSpeed.
      * @param maximumSpeed Well formatted {@link String} that contains maximum speed.
      */
     @Override
@@ -215,7 +215,7 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
     }
 
     /**
-     * Updates distance on label with id = distancePassed.
+     * Updates distance on {@link Label} with id = distancePassed.
      * @param distance Well formatted {@link String} that contains distance.
      */
     @Override
@@ -224,7 +224,7 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
     }
 
     /**
-     * Updates travel time on label with id = travelTime.
+     * Updates travel time on {@link Label} with id = travelTime.
      * @param formatDuration Well formatted {@link String} that contains travel duration.
      */
     @Override
@@ -233,7 +233,7 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
     }
 
     /**
-     * Updates average fuel consumption on label with id = avgConsumption.
+     * Updates average fuel consumption on {@link Label} with id = avgConsumption.
      * @param fuelConsumption Well formatted {@link String} that contains average fuel consumption.
      */
     @Override
