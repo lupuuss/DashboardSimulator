@@ -2,7 +2,6 @@ package p.lodz.dashboardsimulator.modules.settings;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import p.lodz.dashboardsimulator.base.GlobalInjector;
@@ -30,9 +29,8 @@ public class SettingsGuiView extends JavaFxView<SettingsPresenter> implements Se
 
     /**
      * Initializes presenter using {@link GlobalInjector} passed as parameter.
-     * @param injector Implementation of injector that provides necessary components for presenter.
+     * @param injector Expected instance of {@link GlobalInjector}.
      */
-
     @Override
     public void start(Injector injector) {
         GlobalInjector globalInjector = (GlobalInjector) injector;
@@ -48,7 +46,7 @@ public class SettingsGuiView extends JavaFxView<SettingsPresenter> implements Se
     }
 
     /**
-     * Notifes presenter about user intent to close the view.
+     * Notifies presenter about user intent to close the view.
      */
     @Override
     public void notifyCloseEvent() {
@@ -58,19 +56,12 @@ public class SettingsGuiView extends JavaFxView<SettingsPresenter> implements Se
     /**
      * Closes the view and detaches the presenter.
      */
-
     @Override
     public void close() {
         presenter.detach();
         super.close();
     }
-    /**
-     * Notifes presenter about user changes in settings.
-     */
-    @FXML
-    void notifyPresenterSaveSettings() {
-        presenter.saveSettings();
-    }
+
     /**
      * @return Returns database login value passed by user as {@link String}
      * from textField with id loginValue
@@ -81,7 +72,8 @@ public class SettingsGuiView extends JavaFxView<SettingsPresenter> implements Se
     }
 
     /**
-     * Set database user passed by user.
+     * Shows current value of database user in {@link TextField} with id = loginValue
+     * @param databaseUser Database user name to be displayed.
      */
     @Override
     public void setDatabaseUser(String databaseUser) {
@@ -89,8 +81,8 @@ public class SettingsGuiView extends JavaFxView<SettingsPresenter> implements Se
     }
 
     /**
-     * @return Returns database password value passed by user as {@link String}
-     * from passwordField with id passwordValue
+     * Returns database password value passed by user as {@link String} from {@link PasswordField} with id =  passwordValue
+     * @return Password to the database for the user specified by {@link SettingsGuiView#setDatabaseUser(String)}.
      */
     @Override
     public String getDatabasePassword() {
@@ -98,7 +90,8 @@ public class SettingsGuiView extends JavaFxView<SettingsPresenter> implements Se
     }
 
     /**
-     * Set passwordField with id = passwordValue, value with passed value.
+     * Shows current value of user's password in {@link PasswordField} with id = passwordValue
+     * @param databasePassword User's password to be shown.
      */
     @Override
     public void setDatabasePassword(String databasePassword) {
@@ -106,8 +99,8 @@ public class SettingsGuiView extends JavaFxView<SettingsPresenter> implements Se
     }
 
     /**
-     * @return Returns database host value passed by user as {@link String}
-     * from passwordField with id = hostValue
+     * Returns database host value passed by user as {@link String} from {@link TextField} with id = hostValue.
+     * @return Database host name specified by user.
      */
     @Override
     public String getDatabaseHost() {
@@ -115,7 +108,8 @@ public class SettingsGuiView extends JavaFxView<SettingsPresenter> implements Se
     }
 
     /**
-     * Set textField with id = hostValue value with passed value.
+     * Shows current value of database host in {@link TextField} with id = hostValue
+     * @param databaseHost Database host name specified by user.
      */
     @Override
     public void setDatabaseHost(String databaseHost) {
@@ -123,15 +117,17 @@ public class SettingsGuiView extends JavaFxView<SettingsPresenter> implements Se
     }
 
     /**
-     * @return Returns database name value passed by user as {@link String}
-     * from textField with id = baseNameValue
+     * Returns database name value passed by user as {@link String} from {@link TextField} with id = baseNameValue
+     * @return Database name specified by user.
      */
     @Override
     public String getDatabaseName() {
         return baseNameValue.getText();
     }
+
     /**
-     * Set textField with id = baseNameValue value with passed value.
+     * SHows database name in {@link TextField} with id = baseNameValue
+     * @param databaseName Database name to be shown.
      */
     @Override
     public void setDatabaseName(String databaseName) {
@@ -139,8 +135,8 @@ public class SettingsGuiView extends JavaFxView<SettingsPresenter> implements Se
     }
 
     /**
-     * @return Returns ticks between engine value passed by user as {@link String}
-     * from textField with id = baseNameValue
+     * Returns time between engine ticks value in ms passed by user (might be invalid/not a number) as {@link String} from textField with id = ticksPerSecValue
+     * @return {@link String} that contains time between engine ticks in ms specified by the user (might be invalid/not a number).
      */
     @Override
     public String getBetweenEngineTicks() {
@@ -148,7 +144,8 @@ public class SettingsGuiView extends JavaFxView<SettingsPresenter> implements Se
     }
 
     /**
-     * Set textField with id = ticksPerSecValue value with passed value.
+     * Shows current time between engine ticks (in ms) in {@link TextField} with id = ticksPerSecValue.
+     * @param betweenEngineTicks Time between engine ticks in ms to be shown.
      */
     @Override
     public void setBetweenEngineTicks(String betweenEngineTicks) {
@@ -156,8 +153,8 @@ public class SettingsGuiView extends JavaFxView<SettingsPresenter> implements Se
     }
 
     /**
-     * @return Returns acceleration value passed by user as {@link String}
-     * from textField with id = accValue
+     * Returns acceleration value in km/s^2 passed by user (might be invalid/not a number) as {@link String} from {@link TextField} with id = accValue.
+     * @return {@link String} that contains acceleration value in km/s^2.
      */
     @Override
     public String getAccelerationConst() {
@@ -165,22 +162,25 @@ public class SettingsGuiView extends JavaFxView<SettingsPresenter> implements Se
     }
 
     /**
-     * Set textField with id = accValue value with passed value.
+     * Shows current acceleration value (in km/s^2) in {@link TextField} with id = accValue
+     * @param accelerationConst Acceleration const in km/s^2 to be shown.
      */
     @Override
     public void setAccelerationConst(String accelerationConst) {
         accValue.setText(accelerationConst);
     }
     /**
-     * @return Returns Maximum speed value passed by user as {@link String}
-     * from textField with id = maxSpeedValue
+     * Returns maximum speed value passed by user (might be invalid/not a number) as {@link String} from {@link TextField} with id = maxSpeedValue.
+     * @return {@link String} that contains maximum speed in km/h specified by the user (might be invalid/not a number).
      */
     @Override
     public String getMaximumSpeed() {
         return maxSpeedValue.getText();
     }
+
     /**
-     * Set textField with id = maxSpeedValue value with passed value.
+     * Shows current maximum speed in {@link TextField} with id = maxSpeedValue.
+     * @param maximumSpeed Maximum speed in km/h to be shown.
      */
     @Override
     public void setMaximumSpeed(String maximumSpeed) {
@@ -188,7 +188,8 @@ public class SettingsGuiView extends JavaFxView<SettingsPresenter> implements Se
     }
 
     /**
-     * @return Returns database type according to toggled option is Radio Menu
+     * Returns database type enum according to option selected by user in {@link ToggleGroup} with id = savingMethods
+     * @return Enum describing database type specified by user.
      */
     @Override
     public TravelDataRepository.Type getDatabaseType() {
@@ -197,7 +198,8 @@ public class SettingsGuiView extends JavaFxView<SettingsPresenter> implements Se
     }
 
     /**
-     * Set toggled value of MenuButton accordingly to used saving method passed as argument.
+     * Shows current database type in {@link ToggleGroup} with id = savingMethods
+     * @param databaseType Database type to be shown.
      */
     @Override
     public void setDatabaseType(TravelDataRepository.Type databaseType) {
@@ -206,5 +208,10 @@ public class SettingsGuiView extends JavaFxView<SettingsPresenter> implements Se
                 .filtered(toggle -> toggle.getUserData().toString().equals(databaseType.name()))
                 .get(0)
                 .setSelected(true);
+    }
+
+    @FXML
+    private void notifyPresenterSaveSettings() {
+        presenter.saveSettings();
     }
 }

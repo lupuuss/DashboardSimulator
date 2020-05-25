@@ -2,7 +2,6 @@ package p.lodz.dashboardsimulator.modules.settings;
 
 import p.lodz.dashboardsimulator.base.Presenter;
 import p.lodz.dashboardsimulator.base.View;
-import p.lodz.dashboardsimulator.model.repositories.TravelDataRepository;
 import p.lodz.dashboardsimulator.model.settings.Settings;
 import p.lodz.dashboardsimulator.model.settings.SettingsManager;
 
@@ -25,14 +24,18 @@ public class SettingsPresenter extends Presenter<SettingsView> {
 
     SettingsManager settingsManager;
 
+    /**
+     * Injects {@link SettingsManager} to the presenter.
+     * @param settingsManager Instance of {@link SettingsManager} that will be used by the presenter.
+     */
     SettingsPresenter(SettingsManager settingsManager) {
         this.settingsManager = settingsManager;
     }
 
 
     /**
-     * Bounds view to the presenter.
-     * @param view Instance of {@link View} that is bounded to this presenter.
+     * Bounds view to the presenter. Shows current settings received from {@link SettingsManager}.
+     * @param view Instance of {@link SettingsView} that is bounded to this presenter.
      */
     @Override
     public void attach(SettingsView view) {
@@ -51,7 +54,7 @@ public class SettingsPresenter extends Presenter<SettingsView> {
     }
 
     /**
-     * Saves validated setting from textFields passed by user.
+     * Saves current settings if valid. Otherwise, shows the error message to the user.
      */
     public void saveSettings() {
 
@@ -67,10 +70,6 @@ public class SettingsPresenter extends Presenter<SettingsView> {
 
         view.showMessage("Application restart required after settings change!", View.MessageType.WARNING);
     }
-
-    /**
-     * Reads values from textFields and validates it
-     */
 
     private Settings readAndValidateSettingsFromView() throws ParseException, EmptyFieldException {
         Settings fromGui = new Settings();
@@ -114,7 +113,7 @@ public class SettingsPresenter extends Presenter<SettingsView> {
     }
 
     /**
-     * Closes settings window is setting have been saved.
+     * Closes settings window if settings are saved. Otherwise, shows warning that settings might be lost.
      */
     public void closeIfSettingsSaved() {
 

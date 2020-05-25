@@ -5,7 +5,11 @@ import p.lodz.dashboardsimulator.model.engine.Engine;
 import p.lodz.dashboardsimulator.model.engine.EngineState;
 
 /**
- * Simulates active cruise control.
+ * Simulates active cruise control. If active, keeps engine speed at a given level.
+ * Also, it can adjust the speed of the vehicle in front of a car. Cruise control always chose lower speeds.
+ * If user defined lower speed than a vehicle in front, cruise control keeps this speed.
+ * If speed defined by the user is higher than a vehicle in front, cruise control adjusts engine speed to this vehicle.
+ * If the vehicle is not defined cruise control uses only speed given by the user.
  */
 public class ActiveCruiseControlSimulator implements ActiveCruiseControl {
 

@@ -4,7 +4,7 @@ import p.lodz.dashboardsimulator.base.View;
 
 /**
  * Describes interactions with view shown to the user in dashboard module.
- * Every {@link View} bounded to {@link DashboardPresenter} must implement this class.
+ * Every {@link View} bounded to {@link DashboardPresenter} must implement this interface.
  */
 public interface DashboardView extends View<DashboardPresenter> {
 
@@ -21,7 +21,7 @@ public interface DashboardView extends View<DashboardPresenter> {
     void updateGear(int gear);
 
     /**
-     * Updates current speed on the view.
+     * Updates current speed in km/h on the view.
      * @param speed value of the speed in km/h.
      */
     void updateSpeed(double speed);
@@ -99,26 +99,26 @@ public interface DashboardView extends View<DashboardPresenter> {
     void setAverageSpeed(String avgSpeed);
 
     /**
-     * Updates maximum speed state on view.
-     * @param maximumSpeed Well formatted {@link String} that contains maximum speed.
+     * Updates maximum speed state on the view in km/h.
+     * @param maximumSpeed Well formatted {@link String} that contains maximum speed in km/h.
      */
     void setMaximumSpeed(String maximumSpeed);
 
     /**
-     * Updates distance state on view.
-     * @param distance Well formatted {@link String} that contains distance.
+     * Updates distance state on the view in km.
+     * @param distance Well formatted {@link String} that contains distance in km.
      */
     void setDistance(String distance);
 
     /**
-     * Updates travel time state on view.
+     * Updates travel time state on view as a well-formatted date.
      * @param formatDuration Well formatted {@link String} that contains travel duration.
      */
     void setTravelTime(String formatDuration);
 
     /**
-     * Updates fuel consumption state on view.
-     * @param fuelConsumption Well formatted {@link String} that contains average fuel consumption.
+     * Updates fuel consumption state on view in L/100km
+     * @param fuelConsumption Well formatted {@link String} that contains average fuel consumption in L/100km.
      */
     void setAvgFuelConsumption(String fuelConsumption);
 }

@@ -1,7 +1,6 @@
 package p.lodz.dashboardsimulator.utils;
 
 import java.io.File;
-import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;

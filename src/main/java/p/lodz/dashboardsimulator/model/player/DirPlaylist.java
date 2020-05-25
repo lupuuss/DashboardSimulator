@@ -9,10 +9,17 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * Contains all song from given path.
+ */
 public class DirPlaylist extends Playlist {
 
     private List<File> songs;
 
+    /**
+     * Collects all files of song from given dir.
+     * @param root Dir that contains songs.
+     */
     public DirPlaylist(String root) {
 
         File dir = new File(root);
@@ -32,6 +39,10 @@ public class DirPlaylist extends Playlist {
         }
     }
 
+    /**
+     * Returns all song from the selected dir.
+     * @return All song from the selected dir.
+     */
     @Override
     List<File> getSongs() {
         return songs;

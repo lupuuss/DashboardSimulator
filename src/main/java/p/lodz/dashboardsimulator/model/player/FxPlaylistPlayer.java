@@ -10,6 +10,9 @@ import java.io.File;
 import java.util.List;
 import java.util.ListIterator;
 
+/**
+ * Implements {@link PlaylistPlayer} using MediaPlayer form JavaFx library.
+ */
 public class FxPlaylistPlayer implements PlaylistPlayer {
 
     private List<File> songs;
@@ -21,6 +24,10 @@ public class FxPlaylistPlayer implements PlaylistPlayer {
     private String currentSongName;
     private boolean playing = false;
 
+    /**
+     * Sets current playlist.
+     * @param playlist Instance of {@link Playlist} that contains list of files to play.
+     */
     @Override
     public void setPlaylist(Playlist playlist) {
         this.playlist = playlist;
@@ -28,12 +35,16 @@ public class FxPlaylistPlayer implements PlaylistPlayer {
         currentSong = songs.listIterator();
     }
 
+    /**
+     * Returns {@link Observable} that allows to watch current player state.
+     * @return {@link Observable} that allows to watch current player state.
+     */
     @Override
     public Observable<PlayerState> getPlayerState() {
         return playerStateSubject;
     }
 
-    void restartPlaylist() {
+    private void restartPlaylist() {
         currentSong = songs.listIterator();
     }
 
@@ -61,6 +72,9 @@ public class FxPlaylistPlayer implements PlaylistPlayer {
         publishState();
     }
 
+    /**
+     * Plays current song from the list.
+     */
     @Override
     public void play() {
 
@@ -83,6 +97,9 @@ public class FxPlaylistPlayer implements PlaylistPlayer {
 
     }
 
+    /**
+     * Stops the music and restarts the playlist.
+     */
     @Override
     public void stop() {
         if (currentPlayer != null) {
@@ -93,6 +110,9 @@ public class FxPlaylistPlayer implements PlaylistPlayer {
         publishState();
     }
 
+    /**
+     * Pause the music.
+     */
     @Override
     public void pause() {
         if (currentPlayer != null) {
@@ -102,12 +122,19 @@ public class FxPlaylistPlayer implements PlaylistPlayer {
         publishState();
     }
 
+    /**
+     * Skips current song. On the end of the playlist goes to the first song.
+     */
     @Override
     public void next() {
         stop();
         play();
     }
 
+
+    /**
+     * Goes to previous song. On the beginning of the playlist goes to the last song.
+     */
     @Override
     public void prev() {
         stop();
@@ -121,6 +148,10 @@ public class FxPlaylistPlayer implements PlaylistPlayer {
         currentPlayer.play();
     }
 
+    /**
+     * Returns true if song is being played.
+     * @return True if song is being played.
+     */
     @Override
     public boolean isPlaying() {
         return playing;
