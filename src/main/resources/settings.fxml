@@ -26,45 +26,45 @@
          </VBox.margin>
       </Label>
       <TextField fx:id="loginValue" focusTraversable="false" prefHeight="26.0" prefWidth="105.0" scaleShape="false" />
-      <Label alignment="CENTER" prefHeight="18.0" prefWidth="210.0" text="Hasło" textAlignment="CENTER">
+      <Label alignment="CENTER" prefHeight="18.0" prefWidth="210.0" text="Password" textAlignment="CENTER">
          <font>
             <Font size="17.0" />
          </font>
       </Label>
       <PasswordField fx:id="passwordValue" />
-      <Label alignment="CENTER" prefHeight="18.0" prefWidth="209.0" text="Nazwa hosta">
+      <Label alignment="CENTER" prefHeight="18.0" prefWidth="209.0" text="Host name">
          <font>
             <Font size="17.0" />
          </font>
       </Label>
       <TextField fx:id="hostValue" prefHeight="26.0" prefWidth="105.0" scaleShape="false" />
-      <Label alignment="CENTER" prefHeight="26.0" prefWidth="227.0" text="Nazwa bazy">
+      <Label alignment="CENTER" prefHeight="26.0" prefWidth="227.0" text="Database name">
          <font>
             <Font size="17.0" />
          </font>
       </Label>
       <TextField fx:id="baseNameValue" prefHeight="26.0" prefWidth="105.0" scaleShape="false" />
-      <Label alignment="CENTER" prefHeight="26.0" prefWidth="223.0" text="Ilość tików na sekundę">
+      <Label alignment="CENTER" prefHeight="26.0" prefWidth="223.0" text="Between engine ticks">
          <font>
             <Font size="17.0" />
          </font>
       </Label>
       <TextField fx:id="ticksPerSecValue" prefHeight="26.0" prefWidth="105.0" scaleShape="false" />
-      <Label alignment="CENTER" prefHeight="26.0" prefWidth="249.0" text="Przyśpieszenie">
+      <Label alignment="CENTER" prefHeight="26.0" prefWidth="249.0" text="Acceleration">
          <font>
             <Font size="17.0" />
          </font>
       </Label>
       <TextField fx:id="accValue" prefHeight="26.0" prefWidth="105.0" scaleShape="false" />
-      <Label alignment="CENTER" prefHeight="26.0" prefWidth="276.0" text="Maksymalna prędkość">
+      <Label alignment="CENTER" prefHeight="26.0" prefWidth="276.0" text="Maximum speed">
          <font>
             <Font size="17.0" />
          </font>
       </Label>
       <TextField fx:id="maxSpeedValue" prefHeight="26.0" prefWidth="105.0" scaleShape="false" />
-      <MenuButton alignment="CENTER" mnemonicParsing="false" prefHeight="26.0" prefWidth="202.0" text="Sposób zapisu" textAlignment="CENTER">
+      <MenuButton alignment="CENTER" mnemonicParsing="false" prefHeight="26.0" prefWidth="202.0" text="Saving method" textAlignment="CENTER">
         <items>
-            <RadioMenuItem mnemonicParsing="false" selected="true" text="Baza danych" userData="JDBC">
+            <RadioMenuItem mnemonicParsing="false" selected="true" text="Database" userData="JDBC">
                <toggleGroup>
                   <ToggleGroup fx:id="savingMethods" />
                </toggleGroup>

@@ -156,17 +156,17 @@
                <Button onMouseClicked="#notifyPresenterOdometerTwoReset" style="-fx-background-color: #000" text="R" />
             </VBox>
             <VBox prefHeight="99.0" prefWidth="200.0">
-               <Label style="-fx-text-fill: #f0f8ff;" text="Licznik przebiegu 1">
+               <Label style="-fx-text-fill: #f0f8ff;" text="Odometer 1">
                   <font>
                      <Font size="19.0" />
                   </font>
                </Label>
-               <Label style="-fx-text-fill: #f0f8ff;" text="Licznik przebiegu 2">
+               <Label style="-fx-text-fill: #f0f8ff;" text="Odometer 2">
                   <font>
                      <Font size="19.0" />
                   </font>
                </Label>
-               <Label style="-fx-text-fill: #f0f8ff;" text="Całkowity przebieg">
+               <Label style="-fx-text-fill: #f0f8ff;" text="Odometer 3">
                   <font>
                      <Font size="19.0" />
                   </font>
@@ -218,7 +218,7 @@
             </font>
          </Label>
       </VBox>
-      <VBox prefHeight="400.0" prefWidth="148.0">
+      <VBox prefHeight="400.0" prefWidth="180.0">
          <Label fx:id="maxSpeed" style="-fx-label-padding: 15; -fx-text-fill: #f0f8ff;" text="0">
             <font>
                <Font size="23.0" />

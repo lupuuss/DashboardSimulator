@@ -6,6 +6,9 @@ import p.lodz.dashboardsimulator.model.repositories.TravelDataRepository;
 import p.lodz.dashboardsimulator.model.settings.Settings;
 import p.lodz.dashboardsimulator.model.settings.SettingsManager;
 
+/**
+ * Describes logic behind {@link SettingsView}. Communicates view with {@link }.
+ */
 public class SettingsPresenter extends Presenter<SettingsView> {
 
     static class ParseException extends Exception {
@@ -26,6 +29,11 @@ public class SettingsPresenter extends Presenter<SettingsView> {
         this.settingsManager = settingsManager;
     }
 
+
+    /**
+     * Bounds view to the presenter.
+     * @param view Instance of {@link View} that is bounded to this presenter.
+     */
     @Override
     public void attach(SettingsView view) {
         super.attach(view);
@@ -42,6 +50,9 @@ public class SettingsPresenter extends Presenter<SettingsView> {
         view.setMaximumSpeed(String.valueOf(settings.getMaximumSpeed()));
     }
 
+    /**
+     * Saves validated setting from textFields passed by user.
+     */
     public void saveSettings() {
 
         Settings fromView = null;
@@ -56,6 +67,10 @@ public class SettingsPresenter extends Presenter<SettingsView> {
 
         view.showMessage("Application restart required after settings change!", View.MessageType.WARNING);
     }
+
+    /**
+     * Reads values from textFields and validates it
+     */
 
     private Settings readAndValidateSettingsFromView() throws ParseException, EmptyFieldException {
         Settings fromGui = new Settings();
@@ -98,6 +113,9 @@ public class SettingsPresenter extends Presenter<SettingsView> {
         return fromGui;
     }
 
+    /**
+     * Closes settings window is setting have been saved.
+     */
     public void closeIfSettingsSaved() {
 
         Settings fromView = null;

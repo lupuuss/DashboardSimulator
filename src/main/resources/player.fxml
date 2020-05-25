@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 
 <VBox prefHeight="111.0" prefWidth="300.0" style="-fx-background-color: #231F20;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="p.lodz.dashboardsimulator.modules.player.PlayerGuiView">
-   <Label alignment="CENTER" prefHeight="46.0" prefWidth="306.0" text="Odtwarzacz MP3 " textAlignment="CENTER" textFill="WHITE">
+   <Label alignment="CENTER" prefHeight="46.0" prefWidth="306.0" text="MP3 Player " textAlignment="CENTER" textFill="WHITE">
       <font>
          <Font size="31.0" />
       </font>
