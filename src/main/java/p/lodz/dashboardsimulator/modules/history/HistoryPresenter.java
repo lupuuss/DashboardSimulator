@@ -5,6 +5,7 @@ import p.lodz.dashboardsimulator.base.Presenter;
 import p.lodz.dashboardsimulator.base.View;
 import p.lodz.dashboardsimulator.model.repositories.SignedTravelStatistics;
 import p.lodz.dashboardsimulator.model.repositories.TravelDataRepository;
+import p.lodz.dashboardsimulator.utils.Utils;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,6 +15,11 @@ import java.util.List;
  * Describes logic behind {@link HistoryView}. Communicates view with {@link TravelDataRepository}.
  */
 public class HistoryPresenter extends Presenter<HistoryView> {
+
+    private final String speedMetric = "km/h";
+    private final String distanceMetric = "km";
+    private final String fuelConsumptionMetric = "L/100km";
+    private final int decimalPlaces = 2;
 
     private TravelDataRepository travelDataRepository;
 
@@ -89,7 +95,7 @@ public class HistoryPresenter extends Presenter<HistoryView> {
 
     /**
      * Removes travel statistics with given index form database. If sucessful, statistics are also removed from view.
-     * @param index
+     * @param index Index of the stats to be removed from the view.
      */
     public void removeStats(int index) {
 
