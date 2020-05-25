@@ -54,11 +54,11 @@ public class HistoryPresenter extends Presenter<HistoryView> {
 
         for (SignedTravelStatistics stat : currentStats) {
             view.addStatsToList(
-                    "Avg Speed: " + stat.getAvgSpeed() + "km/h"
-                    + " | Max speed: " + stat.getMaxSpeed() + "km/h"
-                    + " | Distance: " + stat.getDistance() + "km"
-                    + " | Time: " + stat.getTravelTime() + "ms"
-                    + " | Avg fuel consumption: " + stat.getAvgFuelConsumption() + "L/KM"
+                    "Avg Speed: " + Utils.round(stat.getAvgSpeed(), decimalPlaces) + " " + speedMetric
+                    + " | Max speed: " + Utils.round(stat.getMaxSpeed(), decimalPlaces) + " " + speedMetric
+                    + " | Distance: " + Utils.round(stat.getDistance(), decimalPlaces) + " " + distanceMetric
+                    + " | Time: " + Utils.formatDuration(stat.getTravelTime())
+                    + " | Avg fuel consumption: " + Utils.round(stat.getAvgFuelConsumption(), decimalPlaces) + " " + fuelConsumptionMetric
                     + " | Date: " + stat.getDate()
             );
         }
