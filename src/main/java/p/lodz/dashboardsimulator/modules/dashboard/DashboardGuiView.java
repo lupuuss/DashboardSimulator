@@ -87,11 +87,11 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
                 dashboardInjector.getTravelDataRepository()
         );
 
-        Menu fileMenu = new Menu("Plik");
+        Menu fileMenu = new Menu("File");
 
-        MenuItem saveStatsItem = new MenuItem("Zapisz statystyki");
-        MenuItem statsHistoryItem = new MenuItem("Historia statystyk");
-        MenuItem settingsItem = new MenuItem("Ustawienia");
+        MenuItem saveStatsItem = new MenuItem("Save statistics");
+        MenuItem statsHistoryItem = new MenuItem("Statistics history");
+        MenuItem settingsItem = new MenuItem("Settings");
 
         saveStatsItem.setOnAction(event -> presenter.saveCurrentStatsToDatabase());
         statsHistoryItem.setOnAction(event -> presenter.openStatsHistory());

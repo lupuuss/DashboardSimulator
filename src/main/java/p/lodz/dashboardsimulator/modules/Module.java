@@ -19,12 +19,12 @@ public enum Module {
     HISTORY(
             null,
             "/history.fxml",
-            "Historia statystyk"
+            "History statistics"
     ),
     SETTINGS(
             null,
             "/settings.fxml",
-            "Ustawienia"
+            "Settings"
     ),
     PLAYER(
       PlayerInjector::new,
