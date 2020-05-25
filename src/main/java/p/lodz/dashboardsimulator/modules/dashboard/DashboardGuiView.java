@@ -11,11 +11,8 @@ import javafx.scene.layout.VBox;
 import p.lodz.dashboardsimulator.base.Injector;
 import p.lodz.dashboardsimulator.base.JavaFxView;
 import p.lodz.dashboardsimulator.model.light.LightsMode;
-import p.lodz.dashboardsimulator.model.monitor.odometer.Mileage;
-import p.lodz.dashboardsimulator.model.monitor.statistics.TravelStatistics;
 import p.lodz.dashboardsimulator.modules.FxModulesRunner;
 import p.lodz.dashboardsimulator.modules.Module;
-import p.lodz.dashboardsimulator.utils.Utils;
 
 import java.io.IOException;
 
@@ -182,34 +179,66 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
         speedometer.setValue(speed);
     }
 
+    /**
+     * Updates mileages labels. Total mileages is set on label with id = odometer.
+     * Two resettable mileages are set on labels with ids dailyOdometerOne and dailyOdometerTwo
+     * @param total Total mileage {@link String}.
+     * @param resettable Resettable mileages {@link String}s.
+     */
     @Override
-    public void updateMileage(Mileage mileage) {
+    public void updateMileage(String total, String... resettable) {
 
-        double odometerValue = Utils.round(mileage.getTotalMileage(),2);
-        double dailyOdometerOneValue =  Utils.round(mileage.getResettableMileages().get(0), 2);
-        double dailyOdometerTwoValue = Utils.round(mileage.getResettableMileages().get(1), 2);
 
-        odometer.setText(odometerValue + " km");
-        dailyOdometerOne.setText(dailyOdometerOneValue + " km");
-        dailyOdometerTwo.setText(dailyOdometerTwoValue + " km");
+        odometer.setText(total);
+        dailyOdometerOne.setText(resettable[0]);
+        dailyOdometerTwo.setText(resettable[1]);
     }
 
+    /**
+     * Updates average speed on label with id = averageSpeed.
+     * @param avgSpeed Well formatted {@link String} that contains average speed.
+     */
     @Override
-    public void updateEngineStats(TravelStatistics travelStatistics) {
+    public void setAverageSpeed(String avgSpeed) {
 
-        int currentMaxSpeed = (int)Math.ceil(travelStatistics.getMaxSpeed());
-        int currentAvgSpeed = (int)Math.ceil(travelStatistics.getAvgSpeed());
+        this.avgSpeed.setText(avgSpeed);
 
-        double currentDistancePassed = Math.ceil(travelStatistics.getDistance()*100)/100 ;
-        double currentAvgFuelConsumption = Math.ceil(travelStatistics.getAvgFuelConsumption()*10)/10;
-        int hours = (int)travelStatistics.getTravelTime()/1000/60/60;
-        int minutes = (int)travelStatistics.getTravelTime()/1000/60%60;
+    }
 
-        maxSpeed.setText(currentMaxSpeed + " km/h");
-        avgSpeed.setText(currentAvgSpeed + "km/h");
-        travelTime.setText(hours+ ":" + minutes +" h");
-        distancePassed.setText(currentDistancePassed+ " km");
-        avgConsumption.setText(currentAvgFuelConsumption+ " l/km");
+    /**
+     * Updates maximum speed on label with id = maxSpeed.
+     * @param maximumSpeed Well formatted {@link String} that contains maximum speed.
+     */
+    @Override
+    public void setMaximumSpeed(String maximumSpeed) {
+        maxSpeed.setText(maximumSpeed);
+    }
+
+    /**
+     * Updates distance on label with id = distancePassed.
+     * @param distance Well formatted {@link String} that contains distance.
+     */
+    @Override
+    public void setDistance(String distance) {
+        distancePassed.setText(distance);
+    }
+
+    /**
+     * Updates travel time on label with id = travelTime.
+     * @param formatDuration Well formatted {@link String} that contains travel duration.
+     */
+    @Override
+    public void setTravelTime(String formatDuration) {
+        travelTime.setText(formatDuration);
+    }
+
+    /**
+     * Updates average fuel consumption on label with id = avgConsumption.
+     * @param fuelConsumption Well formatted {@link String} that contains average fuel consumption.
+     */
+    @Override
+    public void setAvgFuelConsumption(String fuelConsumption) {
+        avgConsumption.setText(fuelConsumption);
     }
 
     /**

@@ -1,8 +1,6 @@
 package p.lodz.dashboardsimulator.modules.dashboard;
 
 import p.lodz.dashboardsimulator.base.View;
-import p.lodz.dashboardsimulator.model.monitor.statistics.TravelStatistics;
-import p.lodz.dashboardsimulator.model.monitor.odometer.Mileage;
 
 /**
  * Describes interactions with view shown to the user in dashboard module.
@@ -27,18 +25,6 @@ public interface DashboardView extends View<DashboardPresenter> {
      * @param speed value of the speed in km/h.
      */
     void updateSpeed(double speed);
-
-    /**
-     * Updates current info about mileage.
-     * @param mileage instance of {@link Mileage}.
-     */
-    void updateMileage(Mileage mileage);
-
-    /**
-     * Updates current engine statistics.
-     * @param travelStatistics instance of {@link TravelStatistics}.
-     */
-    void updateEngineStats(TravelStatistics travelStatistics);
 
     void setCruiseControlState(boolean isOn);
 
@@ -98,4 +84,41 @@ public interface DashboardView extends View<DashboardPresenter> {
      * Opens new view with MP3 Player
      */
     void openMp3();
+
+    /**
+     * Updates state of mileages on view.
+     * @param total Total mileage {@link String}.
+     * @param resettable Resettable mileages {@link String}s.
+     */
+    void updateMileage(String total, String... resettable);
+
+    /**
+     * Updates average speed state on view.
+     * @param avgSpeed Well formatted {@link String} that contains average speed.
+     */
+    void setAverageSpeed(String avgSpeed);
+
+    /**
+     * Updates maximum speed state on view.
+     * @param maximumSpeed Well formatted {@link String} that contains maximum speed.
+     */
+    void setMaximumSpeed(String maximumSpeed);
+
+    /**
+     * Updates distance state on view.
+     * @param distance Well formatted {@link String} that contains distance.
+     */
+    void setDistance(String distance);
+
+    /**
+     * Updates travel time state on view.
+     * @param formatDuration Well formatted {@link String} that contains travel duration.
+     */
+    void setTravelTime(String formatDuration);
+
+    /**
+     * Updates fuel consumption state on view.
+     * @param fuelConsumption Well formatted {@link String} that contains average fuel consumption.
+     */
+    void setAvgFuelConsumption(String fuelConsumption);
 }

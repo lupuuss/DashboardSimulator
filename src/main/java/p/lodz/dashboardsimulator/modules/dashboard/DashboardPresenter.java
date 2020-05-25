@@ -14,6 +14,7 @@ import p.lodz.dashboardsimulator.model.monitor.odometer.Odometer;
 import p.lodz.dashboardsimulator.model.monitor.statistics.StatisticsMonitor;
 import p.lodz.dashboardsimulator.model.monitor.statistics.TravelStatistics;
 import p.lodz.dashboardsimulator.model.repositories.TravelDataRepository;
+import p.lodz.dashboardsimulator.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,11 @@ import java.util.List;
  * Interprets user intent and response to them.
  */
 public class DashboardPresenter extends Presenter<DashboardView> {
+
+    private final String speedMetric = "km/h";
+    private final String distanceMetric = "km";
+    private final String fuelConsumptionMetric = "L/100km";
+    private final int decimalPlaces = 2;
 
     private Engine engine;
 
@@ -152,7 +158,12 @@ public class DashboardPresenter extends Presenter<DashboardView> {
     }
 
     private void updateStatisticsOnView(TravelStatistics engineStats) {
-        view.updateEngineStats(engineStats);
+
+        view.setAverageSpeed(Utils.round(engineStats.getAvgSpeed(), decimalPlaces) + " " + speedMetric);
+        view.setMaximumSpeed(Utils.round(engineStats.getMaxSpeed(), decimalPlaces) + speedMetric);
+        view.setDistance(Utils.round(engineStats.getDistance(), decimalPlaces) + distanceMetric);
+        view.setTravelTime(Utils.formatDuration(engineStats.getTravelTime()));
+        view.setAvgFuelConsumption(Utils.round(engineStats.getAvgFuelConsumption(), 2) + " " + fuelConsumptionMetric);
     }
 
     private void updateStateOnView(EngineState engineState) {
@@ -163,7 +174,16 @@ public class DashboardPresenter extends Presenter<DashboardView> {
     }
 
     private void updateMileageOnView(Mileage mileage) {
-        view.updateMileage(mileage);
+
+        double odometerValue = Utils.round(mileage.getTotalMileage(),2);
+        double dailyOdometerOneValue =  Utils.round(mileage.getResettableMileages().get(0), 2);
+        double dailyOdometerTwoValue = Utils.round(mileage.getResettableMileages().get(1), 2);
+
+        view.updateMileage(
+                odometerValue + " " + distanceMetric,
+                dailyOdometerOneValue + " " + distanceMetric,
+                dailyOdometerTwoValue + " " + distanceMetric
+        );
     }
 
     /**

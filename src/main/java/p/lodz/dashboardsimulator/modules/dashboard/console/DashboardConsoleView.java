@@ -101,15 +101,33 @@ public class DashboardConsoleView implements DashboardView {
     }
 
     @Override
-    public synchronized void updateMileage(Mileage mileage) {
-        this.mileage = mileage;
-        reprintStatus();
+    public void updateMileage(String total, String... resettable) {
+
     }
 
     @Override
-    public synchronized void updateEngineStats(TravelStatistics travelStatistics) {
-        this.stats = travelStatistics;
-        reprintStatus();
+    public void setAverageSpeed(String avgSpeed) {
+
+    }
+
+    @Override
+    public void setMaximumSpeed(String maximumSpeed) {
+
+    }
+
+    @Override
+    public void setDistance(String distance) {
+
+    }
+
+    @Override
+    public void setTravelTime(String formatDuration) {
+
+    }
+
+    @Override
+    public void setAvgFuelConsumption(String fuelConsumption) {
+
     }
 
     @Override
