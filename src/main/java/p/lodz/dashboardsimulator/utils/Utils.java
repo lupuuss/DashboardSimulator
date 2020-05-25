@@ -3,7 +3,9 @@ package p.lodz.dashboardsimulator.utils;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Optional;
+import java.util.TimeZone;
 
 /**
  * Contains static utility methods.
@@ -20,7 +22,7 @@ public class Utils {
 
         SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
 
-        return format.format(new Date(time));
+        return format.format(new Date(time - TimeZone.getDefault().getRawOffset()));
 
     }
 

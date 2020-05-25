@@ -42,19 +42,19 @@ public interface DashboardView extends View<DashboardPresenter> {
 
     /**
      * Shows the state of parking lights.
-     * @param isOn Determines if left turn signal is on/off.
+     * @param isOn Determines if parking lights are on/off.
      */
     void setParkingLight(boolean isOn);
 
     /**
      * Shows the state of low beam lights.
-     * @param isOn Determines if left turn signal is on/off.
+     * @param isOn Determines if low beam lights are on/off.
      */
     void setLowBeamLight(boolean isOn);
 
     /**
      * Shows the state of high beam lights.
-     * @param isOn Determines if left turn signal is on/off.
+     * @param isOn Determines if high beam lights are on/off.
      */
     void setHighBeamLight(boolean isOn);
 
@@ -66,7 +66,7 @@ public interface DashboardView extends View<DashboardPresenter> {
 
     /**
      * Shows the state of front fog light.
-     * @param isOn Determines if back fog light is on/off.
+     * @param isOn Determines if front fog light is on/off.
      */
     void setFrontFogLightState(boolean isOn);
 

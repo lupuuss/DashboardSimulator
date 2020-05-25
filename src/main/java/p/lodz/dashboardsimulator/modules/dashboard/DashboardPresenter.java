@@ -303,6 +303,7 @@ public class DashboardPresenter extends Presenter<DashboardView> {
      * Notifies presenter about user intent to deactivate cruise control.
      */
     public void deactivateCruiseControl() {
+        view.setCruiseControlState(false);
         cruiseControl.dropControl();
     }
 
