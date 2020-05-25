@@ -192,27 +192,27 @@
          </HBox>
       </VBox>
       <VBox prefHeight="400.0" prefWidth="257.0">
-         <Label style="-fx-label-padding: 15; -fx-text-fill: #f0f8ff;" text="Prędkość maksymalna">
+         <Label style="-fx-label-padding: 15; -fx-text-fill: #f0f8ff;" text="Maxiumum speed">
             <font>
                <Font size="23.0" />
             </font>
          </Label>
-         <Label style="-fx-label-padding: 15; -fx-text-fill: #f0f8ff;" text="Prędkość średnia">
+         <Label style="-fx-label-padding: 15; -fx-text-fill: #f0f8ff;" text="Average speed">
             <font>
                <Font size="23.0" />
             </font>
          </Label>
-         <Label style="-fx-label-padding: 15; -fx-text-fill: #f0f8ff;" text="Czas podróży">
+         <Label style="-fx-label-padding: 15; -fx-text-fill: #f0f8ff;" text="Travel time">
             <font>
                <Font size="23.0" />
             </font>
          </Label>
-         <Label style="-fx-label-padding: 15; -fx-text-fill: #f0f8ff;" text="Przejechany dystans">
+         <Label style="-fx-label-padding: 15; -fx-text-fill: #f0f8ff;" text="Distance passed">
             <font>
                <Font size="23.0" />
             </font>
          </Label>
-         <Label style="-fx-label-padding: 15; -fx-text-fill: #f0f8ff;" text="Średnie spalanie">
+         <Label style="-fx-label-padding: 15; -fx-text-fill: #f0f8ff;" text="Fuel consumption">
             <font>
                <Font size="23.0" />
             </font>
@@ -254,18 +254,18 @@
       </Label>
       <VBox prefHeight="158.0" prefWidth="226.0">
          <HBox prefHeight="27.0" prefWidth="226.0">
-            <Label alignment="CENTER" prefHeight="46.0" prefWidth="201.0" text="Tempomat" textAlignment="CENTER" textFill="WHITE">
+            <Label alignment="CENTER" prefHeight="46.0" prefWidth="201.0" text="Cruise control" textAlignment="CENTER" textFill="WHITE">
                <font>
-                  <Font size="30.0" />
+                  <Font size="23.0" />
                </font>
             </Label>
             <CheckBox fx:id="cruiseControlCheckbox" mnemonicParsing="false" prefHeight="46.0" prefWidth="26.0" onMouseClicked="#notifyPresenterCruiseControl" />
          </HBox>
-         <TextField fx:id="cruiseControlSpeed" alignment="CENTER" prefHeight="26.0" prefWidth="214.0" promptText="podaj prędkość..." />
-         <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="230.0" text="Zatwierdź prędkość" onMouseClicked="#notifyPresenterSpeedChanged"/>
-         <TextField fx:id="cruiseControlActiveLimit" promptText="Prędkośc samochodu przed nami..." alignment="CENTER" />
+         <TextField fx:id="cruiseControlSpeed" alignment="CENTER" prefHeight="26.0" prefWidth="214.0" promptText="pass the speed..." />
+         <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="230.0" text="Save speed" onMouseClicked="#notifyPresenterSpeedChanged"/>
+         <TextField fx:id="cruiseControlActiveLimit" promptText="Car speed before us..." alignment="CENTER" />
          <ToggleButton fx:id="cruiseControlActiveButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="228.0"
-                       text="Aktywny tempomat" onMouseClicked="#notifyPresenterVehicleActive">
+                       text="Active cruise control" onMouseClicked="#notifyPresenterVehicleActive">
             <opaqueInsets>
                <Insets top="15.0" />
             </opaqueInsets>

@@ -75,7 +75,7 @@
             <Insets top="5.0" />
          </VBox.margin>
       </MenuButton>
-      <Button mnemonicParsing="false" onMouseClicked="#notifyPresenterSaveSettings" prefHeight="42.0" prefWidth="190.0" text="Zapisz">
+      <Button mnemonicParsing="false" onMouseClicked="#notifyPresenterSaveSettings" prefHeight="42.0" prefWidth="190.0" text="Save">
          <font>
             <Font size="18.0" />
          </font>
