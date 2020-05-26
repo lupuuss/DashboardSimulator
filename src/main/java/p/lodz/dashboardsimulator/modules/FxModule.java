@@ -20,7 +20,7 @@ public enum FxModule {
     HISTORY(
             null,
             "/history.fxml",
-            "History statistics",
+            "Statistics history",
             true
     ),
     SETTINGS(
