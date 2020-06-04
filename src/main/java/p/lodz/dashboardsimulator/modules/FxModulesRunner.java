@@ -50,7 +50,6 @@ public class FxModulesRunner {
             return;
         }
 
-
         FXMLLoader fxml = new FXMLLoader(getClass().getResource(fxModule.getFxmlPath()));
         Parent root = fxml.load();
 

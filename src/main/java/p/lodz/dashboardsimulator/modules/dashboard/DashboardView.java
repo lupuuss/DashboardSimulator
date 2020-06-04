@@ -26,6 +26,10 @@ public interface DashboardView extends View<DashboardPresenter> {
      */
     void updateSpeed(double speed);
 
+    /**
+     * Shows cruise control state.
+     * @param isOn Determines if cruise control is on/off.
+     */
     void setCruiseControlState(boolean isOn);
 
     /**

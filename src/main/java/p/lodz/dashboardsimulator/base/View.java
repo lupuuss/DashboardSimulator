@@ -38,6 +38,7 @@ public interface View<T extends Presenter<?>> {
     /**
      * Shows message.
      * @param message {@link String} that contains message to be shown.
+     * @param type Indicates level of concern of the message.
      */
     void showMessage(String message, MessageType type);
 

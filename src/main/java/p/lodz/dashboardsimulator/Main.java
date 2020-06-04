@@ -11,6 +11,8 @@ import p.lodz.dashboardsimulator.modules.dashboard.DashboardView;
 import p.lodz.dashboardsimulator.modules.dashboard.console.ConsoleCommandsReader;
 import p.lodz.dashboardsimulator.modules.dashboard.console.DashboardConsoleView;
 
+import java.io.IOException;
+
 public class Main extends Application {
 
     public static void main(String[] args) {
@@ -46,10 +48,14 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
 
         FxModulesRunner initializer = new FxModulesRunner(primaryStage, FxModule.DASHBOARD);
 
-        initializer.runModule(FxModule.DASHBOARD);
+        try {
+            initializer.runModule(FxModule.DASHBOARD);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

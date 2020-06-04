@@ -27,7 +27,9 @@ public interface Serializer {
 
     /**
      * Removes serialized object from the storage.
+     * @param <T> Determines the class of removed object.
      * @param key Key of the serialized object to be deleted.
+     * @param classObject Class object of removed object.
      * @throws DeserializationException If object doesn't exit.
      */
     <T> void removeSerialization(String key, Class<T> classObject) throws DeserializationException;

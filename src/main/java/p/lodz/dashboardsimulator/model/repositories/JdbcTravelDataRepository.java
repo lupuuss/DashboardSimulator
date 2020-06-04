@@ -110,12 +110,8 @@ public class JdbcTravelDataRepository implements TravelDataRepository {
     public Observable<List<SignedTravelStatistics>> getAllTravelStatistics() {
         return createConnectionConsumer((connection) -> {
 
-            try(
-                    Statement statement = connection.createStatement();
-                    ResultSet result = statement.executeQuery(
-                        "SELECT * FROM travels"
-                    )
-            ) {
+            try (Statement statement = connection.createStatement();
+                 ResultSet result = statement.executeQuery("SELECT * FROM travels")) {
 
                 List<SignedTravelStatistics> travels = new ArrayList<>();
 

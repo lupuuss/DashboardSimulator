@@ -30,6 +30,7 @@ public class BasicStatisticsMonitor extends StatisticsMonitor {
     private final Serializer serializer;
 
     private final String serializationKey = "backup";
+    private Observable<TravelStatistics> currentStats;
 
     /**
      * Empty BasicStatistcsMonitor with passed serializer. Before any action {@link BasicStatisticsMonitor#watch(Engine)} must be called.
@@ -67,39 +68,12 @@ public class BasicStatisticsMonitor extends StatisticsMonitor {
         }
 
         super.watch(engine);
-    }
 
-    /**
-     * Persists current statistics for next run.
-     */
-    @Override
-    public void closeAndSave() {
-
-        try {
-
-            serializer.serialize(serializationKey, travelStatisticsAtomicReference.get());
-            serializer.serialize(serializationKey, new AvgCounters(avgSpeedCount, avgFuelCount));
-
-        } catch (SerializationException e) {
-            System.out.println("Statistics data could not be saved!");
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Returns observable travel statistics.
-     * @return Instance of {@link Observable} that provides update on every engine update {@link TravelStatistics}.
-     */
-    @Override
-    public Observable<TravelStatistics> getCurrentStats() {
-        return engineState
+        currentStats = engineState
                 .map(state -> {
 
-                    avgSpeedCount++;
-                    avgFuelCount++;
-
-                    avgSpeed = (avgSpeed * avgSpeedCount + state.getSpeed()) / (avgSpeedCount + 1);
-                    avgFuel = (avgFuel * avgFuelCount + state.getFuelConsumption()) / (avgFuelCount + 1);
+                    avgSpeed = (avgSpeed * avgSpeedCount + state.getSpeed()) / ++avgSpeedCount;
+                    avgFuel = (avgFuel * avgFuelCount + state.getFuelConsumption()) / ++avgFuelCount;
 
                     if (state.getSpeed() != 0.0) {
 
@@ -123,6 +97,33 @@ public class BasicStatisticsMonitor extends StatisticsMonitor {
 
                     return tmp;
                 });
+    }
+
+    /**
+     * Persists current statistics for next run.
+     */
+    @Override
+    public void closeAndSave() {
+
+
+        try {
+
+            serializer.serialize(serializationKey, travelStatisticsAtomicReference.get());
+            serializer.serialize(serializationKey, new AvgCounters(avgSpeedCount, avgFuelCount));
+
+        } catch (SerializationException e) {
+            System.out.println("Statistics data could not be saved!");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Returns observable travel statistics.
+     * @return Instance of {@link Observable} that provides update on every engine update {@link TravelStatistics}.
+     */
+    @Override
+    public Observable<TravelStatistics> getCurrentStats() {
+        return currentStats;
     }
 
     /**

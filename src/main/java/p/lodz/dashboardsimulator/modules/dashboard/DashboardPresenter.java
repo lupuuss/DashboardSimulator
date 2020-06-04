@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Describes whole logic layer behind DashboardView.
  * Communicates the view with {@link Engine}, engine monitors, and all data sources.
- * Interprets user intent and response to them.
+ * Interprets user intent and response to them. Most of the responses on model changes are made using RxJava.
  */
 public class DashboardPresenter extends Presenter<DashboardView> {
 
@@ -188,7 +188,8 @@ public class DashboardPresenter extends Presenter<DashboardView> {
     }
 
     /**
-     * Sets acceleration on {@link Engine}.
+     * Sets acceleration on {@link Engine}. Changes of engine state are expected,
+     * which will trigger update of the engine state on view.
      * @param isOn Determines if user wants to turn on/off acceleration.
      */
     public void setEngineAcceleration(boolean isOn) {
@@ -196,7 +197,8 @@ public class DashboardPresenter extends Presenter<DashboardView> {
     }
 
     /**
-     * Sets brake on {@link Engine}.
+     * Sets brake on {@link Engine}. Changes of engine state are expected,
+     * which will trigger update of the engine state on view.
      * @param isOn Determines if user wants to turn on/off brakes.
      */
     public void setEngineBrake(boolean isOn) {
@@ -204,7 +206,8 @@ public class DashboardPresenter extends Presenter<DashboardView> {
     }
 
     /**
-     * Resets {@link Odometer} resettable mileage with given index.
+     * Resets {@link Odometer} resettable mileage with given index. In response {@link Odometer} will publish the update,
+     * and view will be updated.
      * @param n Number of mileage to reset.
      */
     public void resetMileage(int n) {
@@ -212,7 +215,7 @@ public class DashboardPresenter extends Presenter<DashboardView> {
     }
 
     /**
-     * Changes lights mode in {@link LightsController}.
+     * Changes lights mode in {@link LightsController}. Update of the state of main lights is expected on the view.
      * @param mode Determines mode of light.
      */
     public void changeLightMode(LightsMode mode) {
@@ -230,21 +233,21 @@ public class DashboardPresenter extends Presenter<DashboardView> {
     }
 
     /**
-     * Triggers left turn in {@link LightsController}.
+     * Triggers left turn in {@link LightsController}. Update of the state of left trigger is expected on the view.
      */
     public void triggerLeftTurnSignal() {
         lightsController.triggerLeftTurnSignal();
     }
 
     /**
-     * Triggers left turn in {@link LightsController}.
+     * Triggers left turn in {@link LightsController}. Update of the state of right trigger is expected on the view.
      */
     public void triggerRightTurnSignal() {
         lightsController.triggerRightTurnSignal();
     }
 
     /**
-     * Switches back fog lights state left in {@link LightsController}.
+     * Switches back fog lights state left in {@link LightsController}. Update of the state of fog back lights is expected on the view.
      */
     public void toggleFogBackLight() {
         lightsController.setFogBackLights(
@@ -253,7 +256,7 @@ public class DashboardPresenter extends Presenter<DashboardView> {
     }
 
     /**
-     * Switches front fog lights state left in {@link LightsController}.
+     * Switches front fog lights state left in {@link LightsController}. Update of the state of fog front lights is expected on the view.
      */
     public void toggleFogFrontLight() {
         lightsController.setFogFrontLights(
@@ -275,7 +278,7 @@ public class DashboardPresenter extends Presenter<DashboardView> {
     }
 
     /**
-     * Parses passed speed. If speed is valid activates cruise control in {@link ActiveCruiseControl}.
+     * If speed is valid activates cruise control in {@link ActiveCruiseControl}.
      * If passed speed is invalid, shows message to the user.
      * @param speedInput Speed limit input in km/h from user (might be invalid).
      */
@@ -294,6 +297,7 @@ public class DashboardPresenter extends Presenter<DashboardView> {
 
     /**
      * Updates cruise control speed if passed speed is valid.
+     * @param speed {@link String} (might be invalid/not a number) that contains new speed of cruise control in km/h.
      */
     public void updateCruiseControlSpeed(String speed) {
 
@@ -310,7 +314,7 @@ public class DashboardPresenter extends Presenter<DashboardView> {
     }
 
     /**
-     * Notifies presenter about user intent to deactivate cruise control.
+     * Deactivates cruise control and updates its state on the view.
      */
     public void deactivateCruiseControl() {
         view.setCruiseControlState(false);

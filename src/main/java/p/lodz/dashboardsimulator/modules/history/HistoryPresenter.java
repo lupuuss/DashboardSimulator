@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Describes logic behind {@link HistoryView}. Communicates view with {@link TravelDataRepository}.
+ * Describes logic behind {@link HistoryView}. Communicates view with {@link TravelDataRepository} using RxJava.
  */
 public class HistoryPresenter extends Presenter<HistoryView> {
 

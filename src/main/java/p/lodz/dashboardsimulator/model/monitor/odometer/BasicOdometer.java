@@ -23,6 +23,7 @@ public class BasicOdometer extends Odometer {
     private Serializer serializer;
 
     private final String serializationKey = "backup";
+    private Observable<Mileage> mileage;
 
     /**
      * Empty BasicOdometer with passed serializer. Before any action {@link BasicOdometer#watch(Engine)} must be called.
@@ -67,6 +68,19 @@ public class BasicOdometer extends Odometer {
         }
 
         super.watch(engine);
+
+        mileage = engineState.map(state -> {
+
+            double dist = (state.getSpeed() / (60 * 60 * 1000)) * state.getBetweenTicks();
+
+            double total = totalMileage.addAndGet(dist);
+            List<Double> resettable = resettableMileage
+                    .stream()
+                    .map(value -> value.addAndGet(dist))
+                    .collect(Collectors.toList());
+
+            return new Mileage(total, resettable);
+        });
     }
 
     /**
@@ -103,18 +117,7 @@ public class BasicOdometer extends Odometer {
      */
     @Override
     public Observable<Mileage> getMileage() {
-        return engineState.map(state -> {
-
-            double dist = (state.getSpeed() / (60 * 60 * 1000)) * state.getBetweenTicks();
-
-            double total = totalMileage.addAndGet(dist);
-            List<Double> resettable = resettableMileage
-                    .stream()
-                    .map(value -> value.addAndGet(dist))
-                    .collect(Collectors.toList());
-
-            return new Mileage(total, resettable);
-        });
+        return mileage;
     }
 
     /**
