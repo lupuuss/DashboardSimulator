@@ -41,7 +41,7 @@ public class SerializedTravelDataRepository implements TravelDataRepository {
         }
 
         if (!existingDataIds.isEmpty()) {
-            nextId = existingDataIds.get(existingDataIds.size() - 1);
+            nextId = existingDataIds.get(existingDataIds.size() - 1) + 1;
         }
 
     }
@@ -67,7 +67,7 @@ public class SerializedTravelDataRepository implements TravelDataRepository {
     private boolean removeId(int id) {
         try {
 
-            existingDataIds.remove(id);
+            existingDataIds.remove(Integer.valueOf(id));
             serializer.serialize(
                     idsSerializationKey,
                     existingDataIds.stream().mapToInt(Integer::intValue).toArray()

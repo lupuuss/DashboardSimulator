@@ -81,6 +81,10 @@ public enum FxModule {
         return title;
     }
 
+    /**
+     * Determines if module can have more than one instance.
+     * @return True if module can have more than one instance.
+     */
     public boolean isSingle() {
         return single;
     }
