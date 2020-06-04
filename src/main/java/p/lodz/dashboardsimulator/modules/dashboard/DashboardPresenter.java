@@ -42,6 +42,7 @@ public class DashboardPresenter extends Presenter<DashboardView> {
     private Vehicle vehicle = new Vehicle();
 
     private List<Disposable> subscriptions = new ArrayList<>();
+    private LightsMode lightsMode = LightsMode.OFF;
 
     /**
      * Initializes presenter with passed implementation of used interfaces.
@@ -215,6 +216,15 @@ public class DashboardPresenter extends Presenter<DashboardView> {
      * @param mode Determines mode of light.
      */
     public void changeLightMode(LightsMode mode) {
+
+        if (mode == LightsMode.PARKING && this.lightsMode == mode) {
+            lightsController.setMainLightMode(LightsMode.OFF);
+            this.lightsMode = LightsMode.OFF;
+            return;
+        }
+
+
+        this.lightsMode = mode;
 
         lightsController.setMainLightMode(mode);
     }

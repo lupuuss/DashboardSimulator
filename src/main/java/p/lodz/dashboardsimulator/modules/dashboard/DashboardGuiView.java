@@ -328,7 +328,6 @@ public class DashboardGuiView extends JavaFxView<DashboardPresenter> implements 
      */
     @Override
     public void openStatsHistory() {
-
         try {
             runner.runModule(FxModule.HISTORY);
         } catch (IOException e) {
